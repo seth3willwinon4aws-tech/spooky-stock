@@ -153,6 +153,8 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .toast.big { border-left-color: var(--gold); font-weight: 600; }
 .toast.bad { border-left-color: var(--bad); }
 .toast.out { opacity: 0; transform: translateX(20px); }
+.toast.clickable { pointer-events: auto; cursor: pointer; }
+.toast.clickable::after { content: '  (tap to view)'; opacity: 0.6; font-weight: 400; }
 
 .controls { margin: 0; text-align: center; font-size: 0.8rem; opacity: 0.6; }
 
@@ -472,6 +474,113 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .hbtn.off { opacity: 0.5; }
 .card .pr .was { color: #9a8a9a; font-size: 0.8rem; font-weight: 500; }
 
+/* ---------- journal tabs ---------- */
+.jtabs { display: flex; gap: 6px; margin: -2px 0 10px; flex-wrap: wrap; }
+.panel .jtabs button { padding: 6px 12px; font-size: 0.85rem; }
+.panel .jtabs button.on { background: var(--pumpkin); border-color: var(--pumpkin); color: #2a1210; }
+.jscroll { max-height: 58vh; overflow-y: auto; padding-right: 4px; }
+.jscroll .journal { max-height: none; overflow: visible; }
+.jhead { margin: 10px 0 6px; color: var(--pumpkin); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+.jentry h4 small { font-weight: 500; opacity: 0.65; font-size: 0.75rem; margin-left: 4px; }
+.jstatus { margin-top: 4px !important; font-size: 0.78rem !important; color: var(--good); font-weight: 600; }
+.jtable-wrap { overflow-x: auto; }
+.jtable { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.jtable th { text-align: left; font-size: 0.72rem; opacity: 0.7; padding: 4px 6px; }
+.jtable td { padding: 4px 6px; border-top: 1px solid #ffffff12; white-space: nowrap; }
+.jtable tr.marked td { background: #ffd16612; }
+.jtable .up { color: var(--good); }
+.jtable .down { color: var(--bad); }
+.panel .jtable .star { background: none; border: none; padding: 0 2px; font-size: 1rem; }
+.panel .jtable .mini { padding: 2px 8px; font-size: 0.72rem; border-radius: 6px; }
+.up-section { margin: 18px 0 2px; }
+.card.friend { border-color: #6a3f7a; box-shadow: 3px 3px 0 #6a3f7a; }
+.card .from { font-size: 0.72rem; color: #6a3f7a; font-weight: 700; }
+
+/* ---------- halloween title screen ---------- */
+#title.overlay { background: #07020f; overflow-y: auto; }
+#titlebg { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+#title .title-panel {
+  z-index: 1;
+  background: rgba(16, 8, 24, 0.74);
+  border: 2px solid #ff8a1f55;
+  box-shadow: 0 0 40px #ff8a1f33, inset 0 0 30px #00000088;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.title-pumpkin { font-size: 3.6rem; line-height: 1; filter: drop-shadow(0 0 18px #ff8a1f); animation: pumpkinglow 2.6s ease-in-out infinite; }
+@keyframes pumpkinglow { 50% { filter: drop-shadow(0 0 30px #ffb020); transform: scale(1.06) rotate(-3deg); } }
+.panel h1.title-logo {
+  font-size: 4.6rem;
+  color: #ff8a1f;
+  margin: 2px 0 4px;
+  text-shadow: 0 0 12px #ff5a00aa, 0 4px 0 #3a0f00, 0 0 40px #ff8a1f55;
+  animation: flicker 5s infinite;
+  position: relative;
+}
+@keyframes flicker { 0%, 92%, 96%, 100% { opacity: 1; } 94% { opacity: 0.55; } 95% { opacity: 0.9; } }
+#title .sub { color: #ffd9a0; letter-spacing: 1px; }
+#title .blurb { color: #e8d8f0; }
+#title .slot { background: rgba(0, 0, 0, 0.35); border-color: #6a3f7a; }
+#title .slot-head b { color: #ffb35c; }
+@media (prefers-reduced-motion: reduce) { .title-pumpkin, .panel h1.title-logo { animation: none; } }
+@media (max-width: 560px) { .panel h1.title-logo { font-size: 3.2rem; } }
+@media (max-height: 520px) {
+  #title .title-panel { padding: 10px 16px; }
+  .title-pumpkin { font-size: 2rem; }
+  .panel h1.title-logo { font-size: 2.6rem; margin: 0; }
+  #title .blurb { display: none; }
+  #title .sub { font-size: 0.9rem; margin-bottom: 6px; }
+  #title .slot-info { min-height: 0; }
+}
+
+/* ---------- stats, trophies, report card ---------- */
+.sumtabs { justify-content: center; margin: 4px 0 10px; }
+.stats-panel { max-width: 600px; text-align: left; }
+.stats-panel h2 { text-align: center; }
+.stats-panel .primary { margin-top: 14px; width: 100%; }
+.stat-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.stat-tile { background: #0003; border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; }
+.stat-tile small { font-size: 0.7rem; opacity: 0.7; }
+.stat-tile b { font-size: 1.1rem; color: var(--gold); }
+.bar-row { display: grid; grid-template-columns: minmax(110px, 40%) 1fr auto; align-items: center; gap: 8px; font-size: 0.82rem; margin: 3px 0; }
+.bar-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar { display: block; height: 9px; background: #0005; border-radius: 5px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--pumpkin); border-radius: 5px; }
+.chart { width: 100%; height: 110px; background: #0003; border-radius: 10px; margin-top: 4px; }
+.chart-cap { margin: 2px 0 0; font-size: 0.72rem; opacity: 0.6; text-align: center; }
+.trophies { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 6px; }
+.trophy { background: #0003; border-radius: 10px; padding: 8px; text-align: center; opacity: 0.45; display: flex; flex-direction: column; gap: 2px; }
+.trophy.got { opacity: 1; border: 1px solid var(--gold); background: #ffd16614; }
+.t-icon { font-size: 1.6rem; }
+.trophy b { font-size: 0.8rem; }
+.trophy small { font-size: 0.68rem; opacity: 0.75; line-height: 1.3; }
+.report-panel { max-width: 540px; padding-top: 14px; }
+.report-panel .big-emoji { font-size: 2rem; }
+.report-panel h2 { margin: 0 0 4px; font-size: 1.9rem; }
+.overall { display: flex; flex-direction: column; align-items: center; margin: 4px 0 10px; }
+.overall span { font-family: Creepster, cursive; font-size: 3.6rem; line-height: 1; }
+.overall small { opacity: 0.8; }
+.report { display: flex; flex-direction: column; gap: 4px; text-align: left; }
+.rep-row { display: grid; grid-template-columns: 30px 1fr 34px; align-items: center; gap: 8px; background: #0003; border-radius: 10px; padding: 3px 10px; }
+.rep-icon { font-size: 1.4rem; }
+.rep-mid { display: flex; flex-direction: column; gap: 2px; }
+.rep-mid small { font-size: 0.72rem; opacity: 0.7; }
+.rep-grade { font-family: Creepster, cursive; font-size: 1.8rem; text-align: center; }
+.grade-S { color: #ffd166; text-shadow: 0 0 12px #ffd16699; }
+.grade-A { color: #7ee7a0; }
+.grade-B { color: #7ec8ff; }
+.grade-C { color: #ffb020; }
+.grade-D { color: #ff5a5a; }
+.report-panel .primary { width: 100%; margin-top: 6px; }
+@media (max-width: 560px) { .stat-tiles { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- year 2 perks ---------- */
+.perk-panel { max-width: 600px; }
+.perks { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; margin-top: 8px; }
+.panel .perk { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 12px 8px; text-align: center; }
+.perk .pk-icon { font-size: 2rem; }
+.perk small { font-size: 0.72rem; font-weight: 500; opacity: 0.8; }
+
 /* ---------- tutorial ---------- */
 #tut {
   position: fixed;
@@ -569,6 +678,7 @@ body.tut-on #prompt { bottom: auto; top: 44px; }
   text-align: left;
   padding: 8px 10px;
 }
+.panel .crop.wanted { border-color: var(--gold); box-shadow: 0 0 10px #ffd16655; }
 .crop .cem { grid-row: 1 / 3; font-size: 1.9rem; line-height: 1; align-self: center; }
 .crop .cnm { font-size: 0.85rem; }
 .crop small { font-size: 0.7rem; opacity: 0.75; font-weight: 500; white-space: pre; }
@@ -611,7 +721,7 @@ body.touch button { touch-action: manipulation; }
 .pad-btns {
   display: grid;
   grid-template-columns: 52px 72px;
-  grid-template-rows: 52px 52px;
+  grid-template-rows: 52px 52px 52px;
   gap: 8px;
   align-items: center;
   justify-items: center;
@@ -627,12 +737,13 @@ body.touch button { touch-action: manipulation; }
   touch-action: none;
   padding: 0;
 }
-#tb-place { grid-column: 1; grid-row: 1; }
-#tb-pack { grid-column: 1; grid-row: 2; }
+#tb-journal { grid-column: 1; grid-row: 1; }
+#tb-place { grid-column: 1; grid-row: 2; }
+#tb-pack { grid-column: 1; grid-row: 3; }
 #tb-drop { grid-column: 2; grid-row: 1; }
 #tb-act {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 2 / span 2;
   width: 72px;
   height: 72px;
   font-size: 2rem;
@@ -748,6 +859,7 @@ body.touch button { touch-action: manipulation; }
     <div id="pad">
       <div id="joy"><div id="joy-knob"></div></div>
       <div class="pad-btns">
+        <button id="tb-journal" aria-label="Journal">📖</button>
         <button id="tb-place" aria-label="Place fixture">🔨</button>
         <button id="tb-pack" aria-label="Pack up empty fixture">🧹</button>
         <button id="tb-drop" aria-label="Drop box">📦</button>
@@ -777,7 +889,8 @@ body.touch button { touch-action: manipulation; }
 // ============================================================
 
 const TILE = 40, COLS = 44, ROWS = 15;
-const VIEW_COLS = 24;   // how many columns fit on screen (the map scrolls sideways)
+const VIEW_COLS = 24;
+const LEFT = 20;        // extra columns west of the main store (x goes from -LEFT to COLS-1)   // how many columns fit on screen (the map scrolls sideways)
 
 // Fixture = the thing you stock items onto
 const FIXTURE_TYPES = {
@@ -1011,10 +1124,35 @@ const UPGRADES = [
   { id: 'guard',     emoji: '💂', name: 'Security Guard',     cost: 700,  lvl: 2, wage: 35, repeat: true, max: 2, desc: 'Stands by the door and stops shoplifters who run past. Wage $35/day each.' },
   { id: 'janitor',   emoji: '🧹', name: 'Janitor',            cost: 450,  lvl: 1, wage: 25, repeat: true, max: 2, desc: 'Cleans up spills, wrappers and egged windows. Wage $25/day each.' },
   { id: 'candybowl', emoji: '🥣', name: 'Candy Bowl by the Door', cost: 300, lvl: 1, desc: 'Trick-or-treaters help themselves (uses candy from your bins).' },
+  // unlocked by helping people around town
+  { id: 'cone',          emoji: '🚧', name: 'Lucky Cone',         cost: 0,    lvl: 1, unlockBy: 'limex', free: true, desc: 'Limex\'s traffic cone. +10% customers and twice as many furries.' },
+  { id: 'batsignal',     emoji: '🦇', name: 'Bat Signal',         cost: 1500, lvl: 1, unlockBy: 'fangsworth', desc: '+25% customers after 6 PM.' },
+  { id: 'mothlamp',      emoji: '🦋', name: 'Moth Lamp',          cost: 1200, lvl: 1, unlockBy: 'mothman', desc: 'People pay up to 30% more for lighting.' },
+  { id: 'bigfeet',       emoji: '🥾', name: 'Big Boots',          cost: 800,  lvl: 1, unlockBy: 'steve', desc: 'You move 25% faster.' },
+  { id: 'friendlyghost', emoji: '🫥', name: 'Friendly Ghost',     cost: 1000, lvl: 1, unlockBy: 'wisp', desc: 'Half as many messes.' },
+  { id: 'moonsale',      emoji: '🌕', name: 'Moonlight Sale',     cost: 1300, lvl: 1, unlockBy: 'wolfgang', desc: 'After 8 PM, every sale earns 20% extra.' },
+  { id: 'tractorbeam',   emoji: '🧲', name: 'Tractor Beam',       cost: 1100, lvl: 1, unlockBy: 'zorp', desc: 'Shoppers walk 25% faster.' },
+  { id: 'midnightsnacks', emoji: '🍩', name: 'Midnight Snacks',   cost: 900,  lvl: 1, unlockBy: 'baker', desc: 'Candy is 30% more popular.' },
+  { id: 'sunshine',      emoji: '☀️', name: 'Sunshine Sign',      cost: 1000, lvl: 1, unlockBy: 'sunny', desc: 'Daily challenges pay 50% more.' },
+  { id: 'safetycert',    emoji: '🧯', name: 'Safety Certificate', cost: 1100, lvl: 1, unlockBy: 'blaze', desc: 'Passed inspections pay double, and fines are halved.' },
+  { id: 'teacherspet',   emoji: '🍎', name: 'Teacher\'s Pet',     cost: 900,  lvl: 1, unlockBy: 'crowley', desc: 'Kids buy 50% more stuff.' },
+  { id: 'jemscandle',    emoji: '🕯️', name: 'Jem\'s Candle',      cost: 2000, lvl: 1, unlockBy: 'stranger', desc: 'You lose half as much reputation from anything.' },
+  { id: 'keytocity',     emoji: '🗝️', name: 'Key to the City',    cost: 2500, lvl: 1, unlockBy: 'mayor', desc: 'Rent is 25% cheaper.' },
+  { id: 'contestbanner', emoji: '🏆', name: 'Costume Contest Banner', cost: 900, lvl: 1, unlockBy: 'timmy', desc: 'Costumes are 30% more popular.' },
+  { id: 'witchward',     emoji: '🔮', name: 'Witch\'s Ward',      cost: 1500, lvl: 1, unlockBy: 'hazel', desc: 'Disguised monsters glow all the time.' },
+  { id: 'grannyrecipe',  emoji: '🍪', name: 'Granny\'s Recipe',   cost: 900,  lvl: 1, unlockBy: 'granny', desc: 'Grandmas tip 50% more.' },
+  { id: 'packpass',      emoji: '🐾', name: 'Pack Pass',          cost: 1000, lvl: 1, unlockBy: 'ziggy', desc: 'Furries tip 10% on every purchase.' },
+  { id: 'goldencan',     emoji: '🪣', name: 'Golden Watering Can', cost: 1400, lvl: 1, unlockBy: 'farmer', desc: 'Crops yield 50% more.' },
+  { id: 'partyspeaker',  emoji: '🔊', name: 'Party Speaker',      cost: 1200, lvl: 1, unlockBy: 'dj', desc: 'Party supplies are 30% more popular and rush hours pay +30%.' },
+  { id: 'ghostdetector', emoji: '📡', name: 'Ghost Detector',     cost: 1600, lvl: 1, unlockBy: 'prof', desc: 'Marks shoplifters with 🔍 and makes monsters glow.' },
+  { id: 'policeradio',   emoji: '📻', name: 'Police Radio',       cost: 1200, lvl: 1, unlockBy: 'detective', desc: 'Officers arrive faster and monster bounties pay $350.' },
   // rooms
   { id: 'room_green', emoji: '🌱', name: 'Build the Greenhouse', cost: 3500, lvl: 1, room: true, desc: 'A glass room with 16 garden beds. Grow pumpkins, hay, sunflowers, black roses and more. Rent +$100/day.' },
   { id: 'room_party', emoji: '🎉', name: 'Build the Party Hall', cost: 5000, lvl: 2, room: true, desc: 'A big new room with 28 fixture spots for party supplies, makeup and more. Rent +$100/day.' },
   { id: 'room_show',  emoji: '🕯️', name: 'Build the Showroom',  cost: 8000, lvl: 3, room: true, req: 'room_party', desc: 'A spooky velvet room behind the Party Hall with 12 spots, perfect for animatronics. Rent +$100/day.' },
+  { id: 'room_cafe',  emoji: '☕', name: 'Build the Witch\'s Brew Café', cost: 4500, lvl: 2, room: true, desc: 'A cozy café west of the main store. Guests sit down and order drinks: brew them at the coffee machine and serve them. Upgrade it from the computer\'s Café tab. Rent +$100/day.' },
+  { id: 'room_studio', emoji: '🎭', name: 'Build the Costume Studio', cost: 6000, lvl: 3, room: true, req: 'room_crypt', desc: 'A dressing-room studio behind the Crypt with 14 fixture spots. Costumes are 20% more popular. Rent +$100/day.' },
+  { id: 'room_crypt', emoji: '⚰️', name: 'Build the Crypt',     cost: 7000, lvl: 3, room: true, desc: 'A creepy stone crypt west of the main store with 24 fixture spots. People come just to see it: +10% customers. Rent +$100/day.' },
   { id: 'sprinklers', emoji: '💧', name: 'Greenhouse Sprinklers', cost: 900, lvl: 1, req: 'room_green', desc: 'Crops grow 50% faster.' },
   { id: 'gardener',  emoji: '🧑‍🌾', name: 'Gardener',        cost: 600,  lvl: 1, wage: 30, repeat: true, max: 2, req: 'room_green', desc: 'Harvests ripe crops and replants the same seed. Wage $30/day each.' },
   { id: 'exp1',      emoji: '🧱', name: 'Store Expansion I',  cost: 1600, lvl: 1, expansion: 1, desc: 'Unlocks the back-left aisle (12 fixture spots). Rent +$75/day.' },
@@ -1038,6 +1176,12 @@ const SLOT_BLOCKS = [
   // Showroom
   { zone: 6, x0: 36, x1: 41, rows: [8], up: 'room_show' },
   { zone: 6, x0: 36, x1: 41, rows: [10], up: 'room_show' },
+  // The Crypt (west)
+  { zone: 7, x0: -17, x1: -12, rows: [2, 3], up: 'room_crypt' },
+  { zone: 7, x0: -10, x1: -5, rows: [2, 3], up: 'room_crypt' },
+  // Costume Studio (west)
+  { zone: 9, x0: -18, x1: -12, rows: [8], up: 'room_studio' },
+  { zone: 9, x0: -18, x1: -12, rows: [10], up: 'room_studio' },
 ];
 
 // extra rooms east of the main store. area = [x0, y0, x1, y1] (inclusive)
@@ -1045,9 +1189,52 @@ const ROOMS = [
   { id: 'party', up: 'room_party', name: 'Party Hall', door: [23, 3], area: [24, 1, 42, 5] },
   { id: 'green', up: 'room_green', name: 'Greenhouse', door: [23, 8], area: [24, 7, 33, 11] },
   { id: 'show',  up: 'room_show',  name: 'Showroom',   door: [39, 6], area: [35, 7, 42, 11] },
+  { id: 'crypt', up: 'room_crypt', name: 'The Crypt',  door: [0, 3],  area: [-19, 1, -1, 5] },
+  { id: 'cafe',  up: 'room_cafe',  name: 'Witch\'s Brew Café', door: [0, 9], area: [-9, 7, -1, 11] },
+  { id: 'studio', up: 'room_studio', name: 'Costume Studio', door: [-15, 6], area: [-19, 7, -11, 11] },
 ];
 
 // greenhouse garden beds
+// café tables + counter (solid)
+// café: tables (guests sit on the tile to the right), counter + coffee machine
+const CAFE_TABLES = [[-8, 8], [-6, 8], [-8, 10], [-6, 10], [-4, 10], [-4, 8]];
+const CAFE_COUNTER = [[-3, 7], [-2, 7]];
+const CAFE_MACHINE = [-2, 7];
+const CAFE_HOME = [-2, 8];     // where the barista stands
+
+// SpookyMart computers: one per section (main, east wing, west wing)
+const COMPUTERS = [
+  { id: 'main', desk: [[21, 1], [22, 1]] },
+  { id: 'east', desk: [[41, 1], [42, 1]], needs: ['room_party'] },
+  { id: 'west', desk: [[-9, 7], [-8, 7]], needs: ['room_cafe', 'room_crypt', 'room_studio'] },
+];
+
+const CAFE_MENU = [
+  { id: 'coffee', name: 'Regular Coffee',      emoji: '☕', price: 3.99 },
+  { id: 'greentea', name: 'Green Tea',         emoji: '🍵', price: 3.49 },
+  { id: 'cocoa',  name: 'Hot Cocoa',           emoji: '🥛', price: 4.49 },
+  { id: 'cider',  name: 'Apple Cider',         emoji: '🧃', price: 4.99 },
+  { id: 'psl',    name: 'Pumpkin Spice Latte', emoji: '🧋', price: 5.99 },
+  { id: 'fruitboba', name: 'Fruit Boba',        emoji: '🍹', price: 4.99 },
+  { id: 'midnight', name: 'Midnight Latte',     emoji: '🌑', price: 5.49 },
+  { id: 'pupcup', name: 'Pup Cup',              emoji: '🍦', price: 1.99 },
+  { id: 'brew',   name: 'Witch\'s Brew',       emoji: '🧪', price: 7.99 },
+];
+const CAFE_UPGRADES = [
+  { id: 'table',   emoji: '🪑', name: 'Extra Table',       cost: 400,  max: 4, desc: 'Seat one more guest (you start with 2 tables, up to 6).' },
+  { id: 'cocoa',   emoji: '🥛', name: 'Hot Cocoa',         cost: 300,  menu: true, desc: 'Add Hot Cocoa to the menu ($4.49).' },
+  { id: 'cider',   emoji: '🧃', name: 'Apple Cider',       cost: 400,  menu: true, desc: 'Add Apple Cider to the menu ($4.99).' },
+  { id: 'psl',     emoji: '🧋', name: 'Pumpkin Spice Latte', cost: 500, menu: true, desc: 'Add PSLs to the menu ($5.99). Guests love these.' },
+  { id: 'fruitboba', emoji: '🍹', name: 'Fruit Boba',      cost: 400,  menu: true, desc: 'Add Fruit Boba to the menu ($4.99). Kids love it.' },
+  { id: 'midnight', emoji: '🌑', name: 'Midnight Latte',   cost: 600,  menu: true, desc: 'Black charcoal latte ($5.49). The only thing goth teens will drink.' },
+  { id: 'pupcup',  emoji: '🍦', name: 'Pup Cup',           cost: 200,  menu: true, desc: 'A little cup of whipped cream ($1.99). For the dog.' },
+  { id: 'brew',    emoji: '🧪', name: 'Witch\'s Brew',     cost: 900,  menu: true, desc: 'Hazel\'s secret recipe ($7.99).' },
+  { id: 'pro',     emoji: '⚙️', name: 'Espresso Pro',      cost: 700,  desc: 'Brew drinks in 1 second instead of 2.' },
+  { id: 'deluxe',  emoji: '✨', name: 'Deluxe Machine',    cost: 1500, req: 'pro', desc: 'Brew drinks in half a second.' },
+  { id: 'pastry',  emoji: '🥐', name: 'Pastry Case',       cost: 600,  desc: 'Every guest also buys a $3.49 pastry.' },
+  { id: 'cozy',    emoji: '🛋️', name: 'Cozy Cushions',     cost: 500,  desc: 'Guests wait 60% longer for their drink.' },
+  { id: 'barista', emoji: '👨‍🍳', name: 'Hire a Barista',   cost: 500,  wage: 30, desc: 'Makes and serves drinks for you. Wage $30/day.' },
+];
 const PLOTS = [];
 for (const y of [8, 10]) for (let x = 25; x <= 32; x++) PLOTS.push([x, y]);
 
@@ -1113,6 +1300,15 @@ const CUSTOMER_TYPES = {
   rushed:  { weight: 7, faces: ['😤'], patience: 0.5, speed: 1.4 },
   vip:     { weight: 5, minDay: 1, extra: 1, qtyMul: 2, tol: 1.3, patience: 1.5 },
   monster: { weight: 6, minDay: 1, nightMul: 3, faces: MONSTER_FACES },
+  // hours = [from, to] in minutes, group = [min, max] people who arrive together
+  tourist:    { weight: 6, faces: ['🤠'], cats: { small: 3, candy: 2, party: 1, pumpkin: 1 }, repBonus: 0.5 },
+  couple:     { weight: 5, faces: ['💑'], cats: { costume: 4, party: 2, makeup: 1 }, qtyMul: 2 },
+  collector:  { weight: 3, minDay: 5, faces: ['🤓'], cats: { big: 4, light: 3 }, extra: 1, tol: 0.7, tip: 0.15, tipMin: 150 },
+  complainer: { weight: 4, minDay: 2, faces: ['😠'], patience: 0.7 },
+  nightowl:   { weight: 7, hours: [20 * 60, 24 * 60], faces: ['🥱'], cats: { candy: 3, light: 2, small: 1 }, patience: 2.5, tip: 0.05 },
+  jogger:     { weight: 7, hours: [8 * 60, 11 * 60], faces: ['😅'], cats: { candy: 3, party: 1 }, speed: 1.6, patience: 0.8 },
+  goth:       { weight: 4, faces: ['😒', '🙄'], cats: { makeup: 3, small: 2, costume: 1 }, tol: 0.85, group: [2, 3] },
+  dogwalker:  { weight: 4, faces: ['🐕'], cats: { pets: 5, candy: 1 }, qtyMul: 1.5 },
   // shoplifters sneak out without paying. Catch them before they reach the street!
   thief:   { weight: 5, minDay: 1, faces: ['😏', '🤨', '😶'], cats: { small: 3, makeup: 2, costume: 2, candy: 1, light: 1 }, speed: 1.05 },
 };
@@ -1120,7 +1316,7 @@ const CUSTOMER_TYPES = {
 // quest givers. goal types: sell (cat), serve, vip, catch, tips, dayRevenue, variety (cat), deliver (item)
 const QUESTLINES = [
   {
-    id: 'mayor', name: 'Mayor Grimsby', title: 'Town Mayor', face: '🤵', pos: [9, 2], unlock: { day: 0 },
+    id: 'mayor', unlocksUpgrade: 'keytocity', name: 'Mayor Grimsby', title: 'Town Mayor', face: '🤵', pos: [9, 2], unlock: { day: 0 },
     intro: 'The town Halloween festival is this month, and your shop is going to supply it.',
     outro: 'The festival will be the best one yet, thanks to you. The town owes you one!',
     steps: [
@@ -1132,7 +1328,7 @@ const QUESTLINES = [
     ],
   },
   {
-    id: 'timmy', name: 'Timmy', title: 'Neighborhood Kid', face: '👦🏽', pos: [9, 5], unlock: { day: 1 },
+    id: 'timmy', unlocksUpgrade: 'contestbanner', name: 'Timmy', title: 'Neighborhood Kid', face: '👦🏽', pos: [9, 5], unlock: { day: 1 },
     intro: 'I\'m gonna win the costume contest this year! But I need your help.',
     outro: 'I WON!! Best costume in the whole town! You\'re the coolest shopkeeper ever!',
     steps: [
@@ -1143,7 +1339,7 @@ const QUESTLINES = [
     ],
   },
   {
-    id: 'hazel', name: 'Hazel', title: 'A Very Real Witch', face: '🧙‍♀️', pos: [21, 5], unlock: { day: 2 },
+    id: 'hazel', unlocksUpgrade: 'witchward', name: 'Hazel', title: 'A Very Real Witch', face: '🧙‍♀️', pos: [21, 5], unlock: { day: 2 },
     intro: 'Heh heh. Don\'t mind the green skin, dearie. And don\'t mind that I\'m staring. I\'m the one who lit your candle, you know. Now, I need supplies for this year\'s brew.',
     outro: 'The brew is done. The veil will hold this year. Here, take this, and keep your flame dry, little Jack.',
     steps: [
@@ -1155,7 +1351,7 @@ const QUESTLINES = [
     ],
   },
   {
-    id: 'granny', name: 'Granny Rose', title: 'Retired Candy Maker', face: '👵🏼', pos: [1, 6], unlock: { day: 3 },
+    id: 'granny', unlocksUpgrade: 'grannyrecipe', name: 'Granny Rose', title: 'Retired Candy Maker', face: '👵🏼', pos: [1, 6], unlock: { day: 3 },
     intro: 'Hello, sweetie. I ran the candy shop in this very building for 40 years… and I looked after the last one like you. Oh, don\'t look so surprised, dear. I know a real pumpkin when I see one. Let\'s see if you have what it takes.',
     outro: 'You\'re a better Jack than the last one, sweetie. Their house is still dark, down the street. Don\'t you ever let your light go out. Here, my secret recipe money. Spend it wisely.',
     steps: [
@@ -1166,7 +1362,7 @@ const QUESTLINES = [
     ],
   },
   {
-    id: 'ziggy', name: 'Ziggy', title: 'Furry Con Organizer', face: '🦊', pos: [13, 2], unlock: { day: 2 },
+    id: 'ziggy', unlocksUpgrade: 'packpass', name: 'Ziggy', title: 'Furry Con Organizer', face: '🦊', pos: [13, 2], unlock: { day: 2 },
     intro: 'Heyyy! 🐾 I\'m running the Howl-o-ween Furry Con this year, and I need a shop that\'s friendly to my crew.',
     outro: 'The con was a HUGE success! And hey… people stare at me for how I look, too. You never once asked me to take it off. You\'re an honorary member of the pack! 🐾💖',
     steps: [
@@ -1178,7 +1374,7 @@ const QUESTLINES = [
     ],
   },
   {
-    id: 'farmer', name: 'Farmer Joe', title: 'Pumpkin Farmer', face: '👨‍🌾', pos: [24, 9], unlock: { up: 'room_green' },
+    id: 'farmer', unlocksUpgrade: 'goldencan', name: 'Farmer Joe', title: 'Pumpkin Farmer', face: '👨‍🌾', pos: [24, 9], unlock: { up: 'room_green' },
     intro: 'Howdy! Heard you built yourself a greenhouse. Funny thing, the biggest pumpkin I ever grew went missing from my patch last month. Anyhow, let\'s see if you\'ve got a green thumb.',
     outro: 'Best harvest this town\'s seen in years. You\'re a real farmer now, partner.',
     steps: [
@@ -1190,7 +1386,7 @@ const QUESTLINES = [
     ],
   },
   {
-    id: 'dj', name: 'DJ Spooks', title: 'Party DJ', face: '🧑‍🎤', pos: [25, 4], unlock: { up: 'room_party' },
+    id: 'dj', unlocksUpgrade: 'partyspeaker', name: 'DJ Spooks', title: 'Party DJ', face: '🧑‍🎤', pos: [25, 4], unlock: { up: 'room_party' },
     intro: 'Yo! I\'m throwing the biggest Halloween party in town, and your Party Hall is exactly the vibe.',
     outro: 'Best. Party. EVER. Swing by my place on Halloween night, the dance floor\'s open!',
     steps: [
@@ -1202,7 +1398,7 @@ const QUESTLINES = [
     ],
   },
   {
-    id: 'prof', name: 'Professor Hollow', title: 'Paranormal Scientist', face: '🧑‍🔬', pos: [16, 2], unlock: { day: 5 },
+    id: 'prof', unlocksUpgrade: 'ghostdetector', name: 'Professor Hollow', title: 'Paranormal Scientist', face: '🧑‍🔬', pos: [16, 2], unlock: { day: 5 },
     intro: 'Fascinating! Your shop has the highest paranormal readings in town. I need your help with my research.',
     outro: 'My research is complete! Hollowmere is 73% less haunted. The other 27%… is all coming from Blackwood Manor. I\'ll need more funding. Next year. Visit my lab on Halloween night.',
     steps: [
@@ -1214,7 +1410,118 @@ const QUESTLINES = [
     ],
   },
   {
-    id: 'detective', name: 'Detective Morrow', title: 'Monster Task Force', face: '🕵️', pos: [18, 13], unlock: { copVisits: 1 },
+    id: 'limex', name: 'Limex', title: 'A rare lime fox', face: '🦊', pos: [14, 6], unlock: { secret: true, minDay: 3 }, unlocksUpgrade: 'cone',
+    intro: 'oh hey!! didn\'t think anyone would spot me in here 👀 i\'m Limex. i kinda… made this place? anyway, i need a hand.',
+    outro: 'you\'re awesome fr. here, take my lucky traffic cone 🚧 it\'s in your upgrades now. furries are gonna flock to your shop. see ya next october 🦊',
+    steps: [
+      { text: 'my crew needs ears for the con. bring me a box with at least 5 Cat Ears & Tail Kits in it.', short: 'Bring 5 cat ears', goal: { type: 'deliverUnits', item: 'catears', n: 5 }, reward: { money: 500, xp: 300 } },
+      { text: 'people keep being mean to furries in here 😤 protect 5 of them for me (press E on the bullies).', short: 'Protect furries', goal: { type: 'standups', n: 5 }, reward: { money: 1500, xp: 1000, rep: 10 } },
+    ],
+  },
+  {
+    id: 'fangsworth', unlocksUpgrade: 'batsignal', name: 'Count Fangsworth', title: 'Definitely not a vampire', face: '🧛‍♂️', pos: [6, 5], unlock: { secret: true, night: true, minDay: 6 },
+    intro: 'Good evening. I am Count Fangsworth. Do not be alarmed by the fangs, they are… decorative. I only shop after dark.',
+    outro: 'Splendid. Take this Bat Signal. My children will guide the night crowd to your door. It is in your upgrades.',
+    steps: [
+      { text: 'I require… refreshments. Bring me a box with at least 10 Fake Blood Bottles. It is for a party. Obviously.', short: 'Bring 10 fake blood', goal: { type: 'deliverUnits', item: 'fakeblood', n: 10 }, reward: { money: 400, xp: 300 } },
+      { text: 'I enjoy watching the living go about their shopping. Serve 25 more customers.', short: 'Serve customers', goal: { type: 'serve', n: 25 }, reward: { money: 800, xp: 600, rep: 5 } },
+    ],
+  },
+  {
+    id: 'mothman', unlocksUpgrade: 'mothlamp', name: 'Mothman', title: 'Drawn to the light', face: '🦋', pos: [18, 5], unlock: { secret: true, night: true, minDay: 9 },
+    intro: '…the light… your shop has… the BEST light…',
+    outro: '…so bright… take my lamp… it is in your upgrades… people pay more… for light…',
+    steps: [
+      { text: '…more… lights… have 3 different lighting items out at once…', short: 'Stock different lights', goal: { type: 'variety', cat: 'light', n: 3 }, reward: { money: 300, xp: 250 } },
+      { text: '…share the light… sell 20 lighting items…', short: 'Sell lighting', goal: { type: 'sell', cat: 'light', n: 20 }, reward: { money: 700, xp: 500, rep: 5 } },
+    ],
+  },
+  {
+    id: 'steve', unlocksUpgrade: 'bigfeet', name: 'Sasquatch Steve', title: 'Please no photos', face: '🦍', pos: [3, 6], unlock: { secret: true, minDay: 4 },
+    intro: 'Oh! Hi. I\'m Steve. Please don\'t take a picture. People keep taking pictures.',
+    outro: 'Thanks, friend. Here, my old running boots. They\'re, uh, big. Check your upgrades.',
+    steps: [
+      { text: 'I need a disguise. Bring me a box of Masquerade Masks.', short: 'Deliver masks', goal: { type: 'deliver', item: 'masquerade' }, reward: { money: 300, xp: 250 } },
+      { text: 'Furries never stare at me. Serve 10 of them so this place feels safe.', short: 'Serve furries', goal: { type: 'servedType', who: 'furry', n: 10 }, reward: { money: 900, xp: 600, rep: 5 } },
+    ],
+  },
+  {
+    id: 'wisp', unlocksUpgrade: 'friendlyghost', name: 'Wisp', title: 'A shy little ghost', face: '🫥', pos: [11, 3], unlock: { secret: true, minDay: 7 },
+    intro: '…you can see me? nobody ever sees me…',
+    outro: 'i\'m gonna stay and haunt your shop. in a good way. i\'ll keep the floors tidy. it\'s in your upgrades.',
+    steps: [
+      { text: 'messy floors make me sad. clean up 8 messes.', short: 'Clean messes', goal: { type: 'cleaned', n: 8 }, reward: { money: 300, xp: 250 } },
+      { text: 'happy people make me feel real. serve 4 valued customers.', short: 'Serve valued customers', goal: { type: 'vip', n: 4 }, reward: { money: 700, xp: 500, rep: 5 } },
+    ],
+  },
+  {
+    id: 'wolfgang', unlocksUpgrade: 'moonsale', name: 'Wolfgang', title: 'Werewolf (not a furry, he swears)', face: '🐺', pos: [7, 6], unlock: { day: 5, night: true },
+    intro: 'Grr— I mean, good evening! Name\'s Wolfgang. I only come out at night for… medical reasons. Don\'t ask about the hair.',
+    outro: 'You\'re a good pup. Here, my Moonlight Sale sign. Night owls will pay extra. Check your upgrades. AWOOOO!',
+    steps: [
+      { text: 'I keep ruining my clothes. Bring me a box of Dog Skeleton Suits, they stretch.', short: 'Deliver dog skeleton suits', goal: { type: 'deliver', item: 'dogskeleton' }, reward: { money: 350, xp: 250 } },
+      { text: 'The furries are basically my cousins. Protect 3 of them from bullies.', short: 'Protect furries', goal: { type: 'standups', n: 3 }, reward: { money: 800, xp: 600, rep: 5 } },
+    ],
+  },
+  {
+    id: 'zorp', unlocksUpgrade: 'tractorbeam', name: 'Zorp', title: 'Visitor from very far away', face: '👽', pos: [20, 6], unlock: { day: 10, night: true },
+    intro: 'GREETINGS, EARTH SHOPKEEPER. ZORP IS… IN COSTUME. YES. A HUMAN COSTUME OF AN ALIEN. VERY CLEVER.',
+    outro: 'ZORP IS PLEASED. ZORP GIFTS YOU A SMALL TRACTOR BEAM. YOUR SHOPPERS WILL MOVE… FASTER. IT IS IN YOUR UPGRADES.',
+    steps: [
+      { text: 'ZORP\'S SHIP IS… MISSING. BRING ZORP A BOX OF ALIEN CRASH SITE INFLATABLES. FOR NOSTALGIA.', short: 'Deliver alien inflatables', goal: { type: 'deliver', item: 'alien' }, reward: { money: 400, xp: 300 } },
+      { text: 'SOME MONSTERS OWE ZORP MONEY. HELP THE POLICE IDENTIFY 2 OF THEM.', short: 'Identify monsters', goal: { type: 'catch', n: 2 }, reward: { money: 900, xp: 700, rep: 5 } },
+    ],
+  },
+  {
+    id: 'baker', unlocksUpgrade: 'midnightsnacks', name: 'Nell', title: 'The Midnight Baker', face: '🧑‍🍳', pos: [17, 6], unlock: { day: 7, night: true },
+    intro: 'Oh, hello! I bake all night and sleep all day. The ovens are warmer after dark, you know.',
+    outro: 'Try one of my midnight snacks! I\'ll leave a tray by your candy. People won\'t be able to resist. It\'s in your upgrades.',
+    steps: [
+      { text: 'I\'m out of decorations for my cupcakes. Bring me a box of Spider Cupcake Kits.', short: 'Deliver cupcake kits', goal: { type: 'deliver', item: 'cupcakes' }, reward: { money: 300, xp: 250 } },
+      { text: 'Sweets make the night go round. Sell 30 candy items.', short: 'Sell candy', goal: { type: 'sell', cat: 'candy', n: 30 }, reward: { money: 700, xp: 500, rep: 4 } },
+    ],
+  },
+  {
+    id: 'sunny', unlocksUpgrade: 'sunshine', name: 'Sunny Dee', title: 'Hates Halloween (daytime only)', face: '😎', pos: [7, 1], unlock: { day: 5, daytime: true },
+    intro: 'Ugh, Halloween. I\'m a summer girl. I only go out while the sun\'s up. Convince me this spooky stuff is fun.',
+    outro: 'Okay, FINE. It\'s kind of fun. Take my Sunshine sign, it makes your daily goals pay way more. Check your upgrades.',
+    steps: [
+      { text: 'Show me some variety. Have 6 different small decorations out at once.', short: 'Stock different small decor', goal: { type: 'variety', cat: 'small', n: 6 }, reward: { money: 350, xp: 250 } },
+      { text: 'Prove people love this. Make $2,500 in sales in a single day.', short: 'Sales in one day', goal: { type: 'dayRevenue', n: 2500 }, reward: { money: 800, xp: 600, rep: 4 } },
+    ],
+  },
+  {
+    id: 'blaze', unlocksUpgrade: 'safetycert', name: 'Chief Blaze', title: 'Fire Chief (daytime only)', face: '🧑‍🚒', pos: [22, 3], unlock: { day: 9, daytime: true },
+    intro: 'Afternoon! Chief Blaze, Hollowmere Fire Department. Just doing my daytime safety rounds. All those candles make me nervous.',
+    outro: 'Safest shop in town. Here\'s your Safety Certificate. Inspectors will love it. It\'s in your upgrades.',
+    steps: [
+      { text: 'LED candles are safer than real ones. Sell 15 lighting items.', short: 'Sell lighting', goal: { type: 'sell', cat: 'light', n: 15 }, reward: { money: 350, xp: 250 } },
+      { text: 'A clean shop is a safe shop. Pass a health inspection (they visit later in the month).', short: 'Pass an inspection', goal: { type: 'inspections', n: 1 }, reward: { money: 900, xp: 700, rep: 5 } },
+    ],
+  },
+  {
+    id: 'crowley', unlocksUpgrade: 'teacherspet', name: 'Ms. Crowley', title: 'Teacher (mornings only)', face: '👩‍🏫', pos: [4, 1], unlock: { day: 4, morning: true },
+    intro: 'Good morning! I only have a free period before noon, so let\'s be quick. My class is planning a Halloween party.',
+    outro: 'An A+ for you! My students will tell their parents about your shop. Kids will spend way more now. Check your upgrades.',
+    steps: [
+      { text: 'Every student needs an invitation. Bring me a box of Party Invitations.', short: 'Deliver invitations', goal: { type: 'deliver', item: 'invites' }, reward: { money: 300, xp: 250 } },
+      { text: 'Make sure the children are well looked after. Serve 15 kids.', short: 'Serve kids', goal: { type: 'servedType', who: 'kid', n: 15 }, reward: { money: 800, xp: 600, rep: 4 } },
+    ],
+  },
+  {
+    id: 'stranger', unlocksUpgrade: 'jemscandle', name: 'The Stranger', title: 'A hooded figure', face: '👤', pos: [12, 5], unlock: { day: 13, night: true },
+    intro: '…so you\'re the new Jack. Don\'t be scared. I only come out after dark now. I used to do what you do.',
+    outro: 'My name was Jem. I was the Jack before you. Thank you… I think I can rest now. On Halloween night, walk past my house. The light will be on.',
+    steps: [
+      { text: 'Prove the town still cares. Get your reputation to 70.', short: 'Reach reputation', goal: { type: 'rep', n: 70 }, reward: { money: 400, xp: 300 } },
+      { text: 'My light went out when my shelves went empty. Have 10 stocked fixtures at the same time.', short: 'Stocked fixtures', goal: { type: 'stockedFixtures', n: 10 }, reward: { money: 500, xp: 400 } },
+      { text: 'Something under Blackwood Manor is waking up. Bring me a box of Light-Up Crystal Balls. I need to see it.', short: 'Deliver crystal balls', goal: { type: 'deliver', item: 'crystal' }, reward: { money: 600, xp: 500 } },
+      { text: 'The monsters are its messengers. Help the police identify 3 more of them.', short: 'Identify monsters', goal: { type: 'catch', n: 3 }, reward: { money: 700, xp: 600 } },
+      { text: 'The veil is weakest on Halloween. Make the town as happy as it\'s ever been: $5,000 in sales in a single day.', short: 'Sales in one day', goal: { type: 'dayRevenue', n: 5000 }, reward: { money: 3000, xp: 2000, rep: 15 } },
+    ],
+  },
+  {
+    id: 'detective', unlocksUpgrade: 'policeradio', name: 'Detective Morrow', title: 'Monster Task Force', face: '🕵️', pos: [18, 13], unlock: { copVisits: 1 },
     intro: 'Every October the veil around Hollowmere wears thin, and real monsters slip through disguised as trick-or-treaters. Watch for customers with an eerie green glow, then tell my officers what they looked like.',
     outro: 'The town is safe thanks to you. Consider yourself an honorary monster hunter.',
     steps: [
@@ -1288,9 +1595,139 @@ const LORE = [
     text: 'The veil tears first at Blackwood Manor every year. The ghost that screams at visitors isn\'t evil. It\'s trying to warn them away.' },
   { id: 'twentyseven', icon: '🧑‍🔬', title: 'The Other 27%', hint: 'Finish Professor Hollow\'s research',
     text: 'Professor Hollow\'s readings show the town is 73% less haunted thanks to you. The remaining 27% is coming from somewhere under Blackwood Manor. Something down there is patient.' },
+  { id: 'limex', icon: '🦊', title: 'The Lime Fox', hint: 'Help a very rare visitor',
+    text: 'A lime-green fox who shows up in Hollowmere once in a blue moon. Rumor says they built the whole town, cone hat and all. Nobody knows where the cone came from, and they won\'t say.' },
+  { id: 'year2', icon: '🔁', title: 'Another October', hint: 'Start a second year',
+    text: 'A Jack who stays lit gets another October. The veil remembers you, and every year it pushes back a little harder.' },
+  { id: 'stranger', icon: '👤', title: 'The Stranger', hint: 'Look around the store after dark, mid-October',
+    text: 'A hooded figure who only appears after dark and knows far too much about being a Jack. They never step into the light.' },
+  { id: 'jem', icon: '🕯️', title: 'Jem', hint: 'Help the Stranger',
+    text: 'The Stranger was Jem, the Jack before you. Their candle went out years ago, but a little of them stayed behind to make sure the next Jack didn\'t make the same mistakes.' },
+  { id: 'hollowking', icon: '👑', title: 'The Hollow King', hint: 'Learn what is under Blackwood Manor',
+    text: 'Deep under Blackwood Manor, something old feeds on the town\'s fear. The monsters that sneak into your shop are its messengers. Every October it gets a little closer to the veil. Jem called it the Hollow King.' },
+  { id: 'rekindled', icon: '🔥', title: 'Rekindled', hint: 'Visit the Dark House after helping Jem',
+    text: 'On Halloween night, the Dark House had its lights on for the first time in years. Somebody was home.' },
   { id: 'dawn', icon: '🌅', title: 'Dawn', hint: 'Finish Halloween night',
     text: 'A Jack\'s candle normally goes out at dawn on November 1st, and it sleeps until next October. But when the town loves its Jack enough, the light stays on.' },
 ];
+
+// perks you pick when starting a new year (they stack)
+const PERKS = [
+  { id: 'bulk',    icon: '🏷️', name: 'Bulk Buyer',      desc: 'SpookyMart wholesale is 15% cheaper, forever.' },
+  { id: 'famous',  icon: '📣', name: 'Local Legend',    desc: '+20% customers every day.' },
+  { id: 'staff',   icon: '👷', name: 'Loyal Crew',      desc: 'Start each year with a stocker and a cashier already hired.' },
+  { id: 'rooms',   icon: '🌱', name: 'Green Thumb',     desc: 'Start each year with the Greenhouse already built.' },
+  { id: 'savings', icon: '💰', name: 'Rainy Day Fund',  desc: 'Start each year with an extra $5,000.' },
+];
+
+// everyone you can meet, for the People tab of the journal
+const SHOPPER_INFO = [
+  { id: 'normal',    face: '🧑', name: 'Townsfolk',          desc: 'Regular Hollowmere shoppers. Some wear costumes, some don\'t.' },
+  { id: 'kid',       face: '🧒', name: 'Kids',               desc: 'Love candy and costumes. Half of them show up with no money.' },
+  { id: 'grandma',   face: '👵', name: 'Grandmas',           desc: 'Slow, patient, and they tip.' },
+  { id: 'vip',       face: '⭐', name: 'Valued Customers',   desc: 'Named regulars who buy a lot. Don\'t keep them waiting.' },
+  { id: 'rich',      face: '🤑', name: 'Big Spenders',       desc: 'Go straight for the big decorations.' },
+  { id: 'rushed',    face: '😤', name: 'People in a Hurry',  desc: 'Fast walkers with very little patience.' },
+  { id: 'furry',     face: '🐾', name: 'Furries',            desc: 'The kindest shoppers in town. They pay for broke kids.' },
+  { id: 'tourist',   face: '🤠', name: 'Tourists',           desc: 'From out of town. Buy souvenirs, take photos, and spread the word (+rep).' },
+  { id: 'couple',    face: '💑', name: 'Couples',            desc: 'Buy matching costumes, so they buy two of everything.' },
+  { id: 'collector', face: '🤓', name: 'Collectors',         desc: 'Only want big decor and lights, hate high prices, tip 15% on big hauls.' },
+  { id: 'complainer', face: '😠', name: 'Complainers',       desc: 'Want a discount if checkout is slow. Scan them fast!' },
+  { id: 'nightowl',  face: '🥱', name: 'Night Owls',         desc: 'Only after 8 PM. Super patient and they tip a little.' },
+  { id: 'jogger',    face: '😅', name: 'Morning Joggers',    desc: 'Only before 11 AM. In and out, fast.' },
+  { id: 'goth',      face: '😒', name: 'Goth Teens',         desc: 'Show up in groups, love makeup, picky about prices.' },
+  { id: 'dogwalker', face: '🐕', name: 'A Dog',              desc: 'Somehow shopping. Buys lots of pet costumes. Good boy.' },
+  { id: 'cafe',      face: '☕', name: 'Café Guests',        desc: 'Almost every kind of shopper might sit down for a drink, and each has favorites. Kids only want cocoa or boba, goth teens only drink Midnight Lattes, dogs want a Pup Cup.' },
+  { id: 'thief',     face: '😏', name: 'Shoplifters',        desc: 'Sneak out without paying. Stop them before they reach the street.' },
+  { id: 'monster',   face: '👻', name: 'Disguised Monsters', desc: 'Real monsters in "costumes". They glow faintly green.' },
+  { id: 'police',    face: '👮', name: 'Officer Pratt',      desc: 'Asks about monsters that left your shop.' },
+  { id: 'tot',       face: '🎃', name: 'Trick-or-Treaters',  desc: 'Knock after 6 PM late in October. Have candy ready.' },
+  { id: 'inspector', face: '🧐', name: 'Health Inspector',   desc: 'Checks floors, shelves and prices.' },
+  { id: 'celeb',     face: '🤩', name: 'Influencers',        desc: 'Want 3 specific items. Make them happy and you go viral.' },
+  { id: 'planner',   face: '💁', name: 'Party Planner Pam',  desc: 'Needs bulk orders delivered to the door by 6 PM.' },
+];
+
+// story moments that pop up at the start of certain days
+const STORY_BEATS = [
+  { day: 7,  icon: '📜', title: 'A note under the door', text: '"The last one lasted forty years. Let\'s see how long you last. — J."' },
+  { day: 13, icon: '🕯️', title: 'A flicker', text: 'Your candle flickered this morning for no reason at all. Hazel would say that means someone is watching. Keep an eye out after dark.' },
+  { day: 19, icon: '🌫️', title: 'The veil flickers', text: 'For one second last night, every window in Hollowmere went dark at once. Tonight the monsters will be bolder. Watch for the green glow.', event: 'moon' },
+  { day: 24, icon: '🎃', title: 'Knock knock', text: 'The trick-or-treaters start tonight. The town\'s joy is at its peak… and something under Blackwood Manor can feel it.' },
+  { day: 29, icon: '🌕', title: 'The night before', text: 'Tomorrow is Halloween. The veil will be paper-thin. Whatever happens, keep them smiling, Jack.' },
+];
+
+// achievements: check(S) runs on your whole save (lifetime stats)
+const ACHIEVEMENTS = [
+  { id: 'firstsale',  icon: '🛒', name: 'First Sale',          desc: 'Serve your first customer.',              check: s => s.stats.served >= 1 },
+  { id: 'serve100',   icon: '🧾', name: 'Regular Business',    desc: 'Serve 100 customers.',                    check: s => s.stats.served >= 100 },
+  { id: 'serve500',   icon: '🏬', name: 'Busy Bee',            desc: 'Serve 500 customers.',                    check: s => s.stats.served >= 500 },
+  { id: 'serve2000',  icon: '👑', name: 'Retail Royalty',      desc: 'Serve 2,000 customers.',                  check: s => s.stats.served >= 2000 },
+  { id: 'day1k',      icon: '💵', name: 'Good Day',            desc: 'Make $1,000 in sales in one day.',        check: s => (s.stats.bestDay || 0) >= 1000 },
+  { id: 'day5k',      icon: '💰', name: 'Great Day',           desc: 'Make $5,000 in sales in one day.',        check: s => (s.stats.bestDay || 0) >= 5000 },
+  { id: 'day15k',     icon: '🤑', name: 'Legendary Day',       desc: 'Make $15,000 in sales in one day.',       check: s => (s.stats.bestDay || 0) >= 15000 },
+  { id: 'bank25k',    icon: '🐷', name: 'Piggy Bank',          desc: 'Have $25,000 at once.',                   check: s => (s.stats.peakMoney || 0) >= 25000 },
+  { id: 'bank250k',   icon: '💎', name: 'Tycoon',              desc: 'Have $250,000 at once.',                  check: s => (s.stats.peakMoney || 0) >= 250000 },
+  { id: 'streak10',   icon: '🔥', name: 'On Fire',             desc: 'Reach a checkout streak of 10.',          check: s => (s.stats.maxStreak || 0) >= 10 },
+  { id: 'streak25',   icon: '⚡', name: 'Speed Demon',         desc: 'Reach a checkout streak of 25.',          check: s => (s.stats.maxStreak || 0) >= 25 },
+  { id: 'thief1',     icon: '🛑', name: 'Gotcha',              desc: 'Catch a shoplifter.',                     check: s => (s.stats.thievesCaught || 0) >= 1 },
+  { id: 'thief25',    icon: '🚔', name: 'Neighborhood Watch',  desc: 'Catch 25 shoplifters.',                   check: s => (s.stats.thievesCaught || 0) >= 25 },
+  { id: 'monster1',   icon: '👮', name: 'Monster Spotter',     desc: 'Identify a disguised monster.',           check: s => s.stats.catches >= 1 },
+  { id: 'monster15',  icon: '🧛', name: 'Monster Hunter',      desc: 'Identify 15 monsters.',                   check: s => s.stats.catches >= 15 },
+  { id: 'ally1',      icon: '🐾', name: 'Good Ally',           desc: 'Stand up for a furry.',                   check: s => (s.stats.standUpsTotal || 0) >= 1 },
+  { id: 'ally20',     icon: '💖', name: 'Pack Protector',      desc: 'Stand up for furries 20 times.',          check: s => (s.stats.standUpsTotal || 0) >= 20 },
+  { id: 'clean50',    icon: '🧹', name: 'Squeaky Clean',       desc: 'Clean up 50 messes.',                     check: s => (s.stats.cleaned || 0) >= 50 },
+  { id: 'inspect1',   icon: '🧐', name: 'Gold Star',           desc: 'Pass a health inspection.',               check: s => (s.stats.inspectionsPassed || 0) >= 1 },
+  { id: 'viral',      icon: '📱', name: 'Gone Viral',          desc: 'Make an influencer happy.',               check: s => (s.stats.viral || 0) >= 1 },
+  { id: 'bulk',       icon: '📦', name: 'Special Delivery',    desc: 'Complete a bulk order for Pam.',          check: s => (s.stats.bulkOrders || 0) >= 1 },
+  { id: 'treats50',   icon: '🍬', name: 'Candy Giver',         desc: 'Give candy to 50 trick-or-treaters.',     check: s => (s.stats.treats || 0) >= 50 },
+  { id: 'harvest25',  icon: '🌱', name: 'Green Thumb',         desc: 'Harvest 25 crops.',                       check: s => (s.stats.harvested || 0) >= 25 },
+  { id: 'rooms',      icon: '🏗️', name: 'Big Builder',         desc: 'Build every extra room.',                 check: s => ROOMS.every(r => s.upgrades[r.up]) },
+  { id: 'staff10',    icon: '👥', name: 'Full Staff',          desc: 'Have 10 staff hired at the same time.',   check: s => ['stocker', 'cashier', 'greeter', 'gardener', 'guard', 'janitor'].reduce((n, k) => n + (+s.upgrades[k] || 0), 0) + (s.upgrades.manager ? 1 : 0) >= 10 },
+  { id: 'lore10',     icon: '📖', name: 'Bookworm',            desc: 'Find 10 journal pages.',                  check: s => Object.keys(s.lore || {}).length >= 10 },
+  { id: 'loreall',    icon: '📚', name: 'Lorekeeper',          desc: 'Find every journal page.',                check: s => LORE.every(l => (s.lore || {})[l.id]) },
+  { id: 'friends5',   icon: '🤝', name: 'Friend of Hollowmere', desc: 'Finish 5 townsfolk questlines.',         check: s => QUESTLINES.filter(L => !(L.unlock && L.unlock.secret) && (s.npcUnlocks || {})[L.id]).length >= 5 },
+  { id: 'secret1',    icon: '✨', name: 'Lucky Encounter',     desc: 'Meet a secret visitor.',                  check: s => QUESTLINES.some(L => L.unlock && L.unlock.secret && (s.met || {})[L.id]) },
+  { id: 'limex',      icon: '🦊', name: 'Found Limex',         desc: 'Finish Limex\'s tasks.',                  check: s => !!(s.npcUnlocks || {}).limex },
+  { id: 'secretall',  icon: '🌟', name: 'All the Secrets',     desc: 'Finish every secret visitor\'s tasks.',   check: s => QUESTLINES.filter(L => L.unlock && L.unlock.secret).every(L => (s.npcUnlocks || {})[L.id]) },
+  { id: 'jem',        icon: '🕯️', name: 'Rekindled',           desc: 'Help Jem find peace.',                    check: s => !!(s.npcUnlocks || {}).stranger },
+  { id: 'firstbrew',  icon: '🫘', name: 'First Brew',          desc: 'Serve your first café drink.',            check: s => (s.stats.cafeServed || 0) >= 1 },
+  { id: 'cafe250',    icon: '🏆', name: 'Café Legend',         desc: 'Serve 250 café drinks.',                  check: s => (s.stats.cafeServed || 0) >= 250 },
+  { id: 'kidsfav',    icon: '🍹', name: 'Kids\' Favorite',     desc: 'Serve 10 kids in the café.',              check: s => ((s.stats.cafeType || {}).kid || 0) >= 10 },
+  { id: 'darkroast',  icon: '🌑', name: 'Darkest Roast',       desc: 'Serve a goth teen their Midnight Latte.', check: s => ((s.stats.cafeType || {}).goth || 0) >= 1 },
+  { id: 'goodboy',    icon: '🍦', name: 'Good Boy',            desc: 'Serve a dog its Pup Cup.',                check: s => ((s.stats.cafeType || {}).dogwalker || 0) >= 1 },
+  { id: 'monstermash', icon: '🧟', name: 'Monster Mash',       desc: 'Serve a disguised monster in the café.',  check: s => ((s.stats.cafeType || {}).monster || 0) >= 1 },
+  { id: 'fullmenu',   icon: '📜', name: 'Full Menu',           desc: 'Unlock every café drink.',                check: s => !!s.cafe && CAFE_MENU.every(m => s.cafe.have[m.id]) },
+  { id: 'packed',     icon: '🪑', name: 'Packed House',        desc: 'Have all 6 café tables.',                 check: s => !!s.cafe && s.cafe.tables >= 6 },
+  { id: 'perfect25',  icon: '🎯', name: 'Perfect Pour',        desc: 'Serve 25 drinks in a row with no wrong drinks or walkouts.', check: s => (s.stats.cafeBestStreak || 0) >= 25 },
+  { id: 'barista',    icon: '☕', name: 'Barista',             desc: 'Serve 50 café drinks.',                   check: s => (s.stats.cafeServed || 0) >= 50 },
+  { id: 'walk',       icon: '🎃', name: 'Trick or Treat',      desc: 'Finish a Halloween night walk.',          check: s => (s.stats.nightsWalked || 0) >= 1 },
+  { id: 'alldoors',   icon: '🏠', name: 'Every Door',          desc: 'Knock on every house on Halloween night.', check: s => !!s.stats.allDoors },
+  { id: 'year2',      icon: '🔁', name: 'Another October',     desc: 'Start a second year.',                    check: s => (s.year || 1) >= 2 },
+  { id: 'srank',      icon: '🏆', name: 'S Rank',              desc: 'Get an S on the Halloween report card.',  check: s => !!s.stats.gotS },
+];
+
+// report card categories (score 0-100 each)
+const GRADES = [[90, 'S'], [75, 'A'], [60, 'B'], [45, 'C'], [0, 'D']];
+
+// who orders what in the café. strict = won't come in unless one of their drinks is on the menu
+const CAFE_PREFS = {
+  normal:     { drinks: null },
+  kid:        { drinks: ['cocoa', 'fruitboba'], strict: true, lines: ['Hot cocoa please!!', 'Can I have boba?!', 'Cocoa! With marshmallows!'] },
+  goth:       { drinks: ['midnight'], strict: true, group: [2, 3], lines: ['…midnight latte. Black.', 'Whatever is darkest.', 'The black one.'] },
+  grandma:    { drinks: ['cocoa', 'greentea'], tip: 0.2, patience: 1.8, lines: ['A nice warm cocoa, dear.', 'Green tea, please, sweetie.'] },
+  furry:      { drinks: ['psl', 'fruitboba'], lines: ['PSL please! 🐾', 'Ooh, boba! :3'] },
+  nightowl:   { drinks: ['coffee'], patience: 2, lines: ['Coffee. Big one. *yawn*', 'Keep the coffee coming…'] },
+  jogger:     { drinks: ['greentea'], patience: 0.5, lines: ['Green tea, quick! 🏃', 'Tea to go!'] },
+  monster:    { drinks: ['brew'], lines: ['Witch\'s Brew… heh.', 'Something… bubbly.'] },
+  tourist:    { drinks: ['psl', 'cider'], lines: ['What\'s the local specialty?', 'A PSL for the photo! 📸'] },
+  couple:     { drinks: ['psl', 'cocoa'], lines: ['Two straws please 💕', 'Something sweet for us!'] },
+  collector:  { drinks: ['greentea', 'coffee'], lines: ['A refined green tea.', 'Black coffee. Properly brewed.'] },
+  complainer: { drinks: ['coffee'], patience: 0.7, discount: true, lines: ['Just a coffee. Try not to mess it up.', 'Plain coffee. How hard can it be?'] },
+  vip:        { drinks: ['brew', 'psl'], tip: 0.25, lines: ['My usual, please.', 'Something special today.'] },
+  rich:       { drinks: 'priciest', tip: 0.1, lines: ['Your most expensive drink.', 'The best you\'ve got.'] },
+  rushed:     { drinks: ['coffee'], patience: 0.5, lines: ['Coffee, FAST.', 'I\'m late, just coffee!'] },
+  dogwalker:  { drinks: ['pupcup'], strict: true, lines: ['Woof! 🍦', '*sits politely*'] },
+};
 
 </script>
 <script>
@@ -1362,6 +1799,7 @@ function rollMarket() {
   return m;
 }
 
+function newCafe() { return { tables: 2, have: { coffee: true, greentea: true } }; }
 function newStats() {
   return { soldCat: {}, soldItem: {}, served: 0, vip: 0, catches: 0, tips: 0, copVisits: 0, furryHelps: 0,
     servedType: {}, harvested: 0, thievesCaught: 0, cleaned: 0, treats: 0, standUpsTotal: 0 };
@@ -1381,7 +1819,8 @@ function newState() {
     pendingFixtures: [],
     upgrades: {}, expansions: 0,
     season: { revenue: 0, profit: 0, served: 0, bestDay: 0 },
-    stats: newStats(), quests: {}, plots: {}, lore: {},
+    stats: newStats(), quests: {}, plots: {}, lore: {}, secrets: {}, npcUnlocks: {}, met: {}, marks: {},
+    achievements: {}, history: [], cafe: newCafe(),
     freeplay: false, seasonOver: false,
   };
   return s;
@@ -1393,10 +1832,11 @@ function newRuntime() {
     customers: [], deliveries: [], vans: [], popups: [], copQueue: [], talk: null,
     player: { x: 12 * T + T / 2, y: 10 * T + T / 2, carry: null, face: { x: 0, y: -1 }, walk: 0 },
     today: { revenue: 0, spent: 0, served: 0, walkouts: 0, bonus: 0, caught: 0, vips: 0, furryHelps: 0, brokeKids: 0,
+      soldItem: {}, servedType: {}, inspectPass: 0, inspectFail: 0,
       soldCat: {}, cleaned: 0, thievesCaught: 0, thievesEscaped: 0, treats: 0, tricks: 0, standUps: 0, bestStreak: 0 },
     overlay: null, placing: null, useTimer: 0, spawnTimer: 2, cashierTimers: REGISTERS.map(() => 0),
     queues: REGISTERS.map(() => []), stockers: [], claimed: new Set(), managerTimer: 6,
-    gardeners: [], plotClaims: new Set(), camX: 0,
+    gardeners: [], plotClaims: new Set(), camX: 0, brew: 0, baristas: [],
     janitors: [], guards: [], messes: [], event: null, challenge: null, streak: 0, busDone: false, rain: [],
     cart: {}, shopTab: 'stock', shopCat: 'all', priceItem: null,
     mouse: { x: -1, y: -1 }, tick: 0, target: null, info: null, fixMap: new Map(),
@@ -1426,7 +1866,7 @@ function slotInfo(key) {
   if (!raw) return null;
   try {
     const s = JSON.parse(raw);
-    const day = s.day <= 30 ? `Oct ${s.day + 1}` : `Freeplay day ${s.day - 30}`;
+    const day = (s.day <= 30 ? `Oct ${s.day + 1}` : `Freeplay day ${s.day - 30}`) + ((s.year || 1) > 1 ? ` (Y${s.year})` : '');
     const when = s.savedAt ? new Date(s.savedAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) : '';
     return { day, money: s.money, lvl: levelOf(s.xp || 0), when, over: s.seasonOver };
   } catch (e) { return { day: '?', money: 0, lvl: 1, when: '' }; }
@@ -1450,6 +1890,7 @@ function save() {
     deliveries: G.deliveries.map(d => ({ boxes: d.boxes, t: d.t }))
       .concat(G.vans.filter(v => !v.dropped).map(v => ({ boxes: v.boxes, t: 0 }))),
     cart: G.cart, today: G.today, event: G.event, challenge: G.challenge, busDone: G.busDone,
+    visit: G.visit && !G.visit.started ? G.visit : null,
   };
   try { localStorage.setItem(saveKey(), JSON.stringify(snap)); return true; } catch (e) { return false; }
 }
@@ -1474,9 +1915,12 @@ function loadGame(sandbox = !!(S && S.sandbox)) {
     G.cart = run.cart || {};
     G.today = Object.assign(G.today, run.today || {});
     G.today.soldCat = G.today.soldCat || {};
+    G.today.soldItem = G.today.soldItem || {};
+    G.today.servedType = G.today.servedType || {};
     G.event = run.event || null;
     G.challenge = run.challenge || null;
     G.busDone = !!run.busDone;
+    G.visit = run.visit || null;
   }
   showOverlay(null);
   if (S.seasonOver) { showSeason(); return; }
@@ -1493,6 +1937,25 @@ function load(key = saveKey(false)) {
     if (!s.quests) s.quests = {};
     if (!s.plots) s.plots = {};
     if (!s.lore) s.lore = {};
+    s.secrets = s.secrets || {};
+    s.npcUnlocks = s.npcUnlocks || {};
+    s.met = s.met || {};
+    s.marks = s.marks || {};
+    s.achievements = s.achievements || {};
+    s.history = s.history || [];
+    if (s.cafe) s.cafe.have.greentea = true;
+    if (!s.cafe) {
+      s.cafe = newCafe();
+      // the old café had fixture spots; move anything placed there back into storage
+      s.fixtures = s.fixtures.filter(f => {
+        if (f.x < 0 && f.y >= 7) { s.pendingFixtures.push(f.type); return false; }
+        return true;
+      });
+    }
+    ['wolfgang', 'zorp', 'baker', 'sunny', 'blaze', 'crowley'].forEach(id => { delete s.secrets[id]; });
+    if (s.limexSeen != null && s.secrets.limex == null) s.secrets.limex = s.limexSeen;
+    if ((s.perks || []).includes('limex')) { s.npcUnlocks.limex = true; s.upgrades.cone = true; s.perks = s.perks.filter(p => p !== 'limex'); }
+    for (const id in (s.quests || {})) if (s.quests[id] && s.quests[id].done) { s.npcUnlocks[id] = true; s.met[id] = true; }
     if (!s.v || s.v < 2) {
       // prices were rebalanced to real-world numbers
       ITEMS.forEach(i => { s.prices[i.id] = i.price; });
@@ -1520,12 +1983,16 @@ function capOf(type) { return Math.round(FIXTURE_TYPES[type].cap * (S.upgrades.b
 function regActive(r) { return !REGISTERS[r].req || !!S.upgrades[REGISTERS[r].req]; }
 function regStaffed(r) { return regActive(r) && r < cnt('cashier'); }
 
+const yearLvl = () => Math.max(0, (S.year || 1) - 1);
+const hasPerk = id => (S.perks || []).includes(id);
+function loseRep(x) { S.rep = Math.max(0, S.rep - x * (S.upgrades && S.upgrades.jemscandle ? 0.5 : 1)); }
+const up = id => !!S.upgrades[id];
 function demand() {
-  if (S.day > 30) return 1.1;
+  if (S.day > 30) return 1.1 * (1 + 0.15 * yearLvl());
   const t = S.day / 30;
   let d = 0.7 + 1.6 * t * t;
   if (S.day === 30) d *= 1.8;
-  return d;
+  return d * (1 + 0.15 * yearLvl());
 }
 const cnt = id => +S.upgrades[id] || 0;
 function upMax(u) {
@@ -1533,9 +2000,13 @@ function upMax(u) {
   return u.max || 1;
 }
 function ev(id) { return G && G.event && G.event.id === id; }
-function wholesaleMul() { return ev('sale') ? 0.75 : 1; }
+function wholesaleMul() { return (ev('sale') ? 0.75 : 1) * (hasPerk('bulk') ? 0.85 : 1); }
 function appeal() {
-  let a = 1 - Math.min(0.3, (G ? G.messes.length : 0) * 0.03);
+  let a = (G && G.viralUntil > G.time ? 1.5 : 1) - Math.min(0.3, (G ? G.messes.length : 0) * 0.03);
+  if (hasPerk('famous')) a += 0.2;
+  if (up('cone')) a += 0.1;
+  if (up('room_crypt')) a += 0.1;
+  if (up('batsignal') && G && G.time >= 18 * 60) a += 0.25;
   if (ev('rain')) a *= 0.7;
   if (ev('news')) a *= 1.4;
   UPGRADES.forEach(u => {
@@ -1545,30 +2016,41 @@ function appeal() {
   });
   return a;
 }
-function dateLabel() { if (G && G.scene === 'night') return 'Halloween Night 🎃'; return S.day <= 30 ? `Oct ${S.day + 1}` : `Freeplay day ${S.day - 30}`; }
+function dateLabel() {
+  if (G && G.scene === 'night') return 'Halloween Night 🎃';
+  const base = S.day <= 30 ? `Oct ${S.day + 1}` : `Freeplay day ${S.day - 30}`;
+  return (S.year || 1) > 1 ? `${base}, Year ${S.year}` : base;
+}
 
 // ------------------------------------------------------------
 //  MAP
 // ------------------------------------------------------------
 // 0 floor, 1 wall, 2 outside, 3 counter, 4 desk, 5 door
+const WCOLS = COLS + LEFT;   // total columns including the west wing
 const BASE = [];
 for (let y = 0; y < ROWS; y++) {
   const row = [];
-  for (let x = 0; x < COLS; x++) {
+  for (let x = -LEFT; x < COLS; x++) {
     if (y >= 13) row.push(2);
-    else if (y === 0 || x === 0 || x === 23 || x === COLS - 1) row.push(1);
+    else if (y === 0 || x === 0 || x === 23 || x === COLS - 1 || x === -LEFT) row.push(1);
     else if (y === 12) row.push(x === 11 || x === 12 ? 5 : 1);
-    else if (x > 23 && y === 6) row.push(1);
+    else if ((x > 23 || x < 0) && y === 6) row.push(1);
     else if (x === 34 && y > 6) row.push(1);
     else row.push(0);
   }
   BASE.push(row);
 }
-// 4 desk, 10+ counters, 20+ room doors, 30 garden beds
-BASE[1][21] = 4; BASE[1][22] = 4;
-REGISTERS.forEach((R, r) => R.counter.forEach(([x, y]) => { BASE[y][x] = 10 + r; }));
-ROOMS.forEach((Rm, i) => { BASE[Rm.door[1]][Rm.door[0]] = 20 + i; });
-PLOTS.forEach(([x, y]) => { BASE[y][x] = 30; });
+const baseAt = (x, y) => BASE[y][x + LEFT];
+const setBase = (x, y, v) => { BASE[y][x + LEFT] = v; };
+// 4 desk, 10+ counters, 20+ room doors, 30 garden beds, 31 café furniture
+setBase(21, 1, 4); setBase(22, 1, 4);
+REGISTERS.forEach((R, r) => R.counter.forEach(([x, y]) => setBase(x, y, 10 + r)));
+ROOMS.forEach((Rm, i) => setBase(Rm.door[0], Rm.door[1], 20 + i));
+PLOTS.forEach(([x, y]) => setBase(x, y, 30));
+CAFE_TABLES.forEach(([x, y]) => setBase(x, y, 31));
+CAFE_COUNTER.forEach(([x, y]) => setBase(x, y, 32));
+COMPUTERS.forEach(c => c.desk.forEach(([x, y]) => setBase(x, y, 4)));
+for (let y = 7; y <= 12; y++) setBase(-10, y, 1);   // wall between café and studio
 
 function roomOpen(i) { return !!S.upgrades[ROOMS[i].up]; }
 
@@ -1578,9 +2060,11 @@ function rebuildFixMap() {
 }
 function isSolid(tx, ty) {
   if (G && G.scene === 'night') return tx < 0 || ty < 8 || tx >= NCOLS || ty >= ROWS;
-  if (tx < 0 || ty < 0 || tx >= COLS || ty >= ROWS) return true;
-  const b = BASE[ty][tx];
+  if (tx < -LEFT || ty < 0 || tx >= COLS || ty >= ROWS) return true;
+  const b = baseAt(tx, ty);
   if (b === 1 || b === 4 || b === 30) return true;
+  if (b === 31) return cafeOpen() && CAFE_TABLES.findIndex(([x, y]) => x === tx && y === ty) < S.cafe.tables;
+  if (b === 32) return true;
   if (b >= 20 && b < 30) return !roomOpen(b - 20);
   if (b >= 10 && b < 20) return regActive(b - 10);
   return G.fixMap.has(tx + ',' + ty);
@@ -1592,25 +2076,28 @@ function slotBlock(tx, ty) {
 function blockOpen(b) { return b.up ? !!S.upgrades[b.up] : b.zone <= S.expansions; }
 
 function bfs(sx, sy, goalFn) {
-  const N = COLS * ROWS;
+  const WC = G.scene === 'night' ? NCOLS : WCOLS;
+  const off = G.scene === 'night' ? 0 : LEFT;
+  const N = WC * ROWS;
   const prev = new Int32Array(N).fill(-2);
-  const start = sy * COLS + sx;
+  const start = sy * WC + (sx + off);
+  if (sx + off < 0 || sx + off >= WC) return null;
   const q = [start]; prev[start] = -1;
   let head = 0;
   while (head < q.length) {
     const k = q[head++];
-    const x = k % COLS, y = (k / COLS) | 0;
+    const x = k % WC - off, y = (k / WC) | 0;
     if (goalFn(x, y)) {
       const path = [];
       let cur = k;
       while (cur !== start) { path.push(cur); cur = prev[cur]; }
       path.reverse();
-      return path.map(p => ({ x: p % COLS, y: (p / COLS) | 0 }));
+      return path.map(p => ({ x: p % WC - off, y: (p / WC) | 0 }));
     }
     for (const [dx, dy] of DIRS) {
       const nx = x + dx, ny = y + dy;
-      if (nx < 0 || ny < 0 || nx >= COLS || ny >= ROWS) continue;
-      const nk = ny * COLS + nx;
+      if (nx + off < 0 || ny < 0 || nx + off >= WC || ny >= ROWS) continue;
+      const nk = ny * WC + (nx + off);
       if (prev[nk] !== -2 || isSolid(nx, ny)) continue;
       prev[nk] = k;
       q.push(nk);
@@ -1785,10 +2272,11 @@ const Music = (() => {
 // ------------------------------------------------------------
 //  UI HELPERS
 // ------------------------------------------------------------
-function toast(msg, kind = '') {
+function toast(msg, kind = '', onClick) {
   const d = document.createElement('div');
-  d.className = 'toast ' + kind;
+  d.className = 'toast ' + kind + (onClick ? ' clickable' : '');
   d.textContent = msg;
+  if (onClick) d.addEventListener('click', () => { d.remove(); onClick(); });
   $('toasts').appendChild(d);
   setTimeout(() => d.classList.add('out'), 3000);
   setTimeout(() => d.remove(), 3500);
@@ -1822,7 +2310,7 @@ function addXP(n) {
 // ------------------------------------------------------------
 function collides(x, y) {
   const r = 12;
-  if (CHEAT.noclip) return x < r || y < r || x > worldW() - r || y > H - r;
+  if (CHEAT.noclip) return x < worldMin() + r || y < r || x > worldW() - r || y > H - r;
   return [[x - r, y - r], [x + r, y - r], [x - r, y + r], [x + r, y + r]]
     .some(([px, py]) => isSolid(Math.floor(px / T), Math.floor(py / T)));
 }
@@ -1840,7 +2328,7 @@ function movePlayer(dt) {
     p.walk += dt;
     if (G.tut) G.tut.moved += Math.hypot(dx, dy) * 175 * dt;
   }
-  const sp = 175 * (S.upgrades.shoes ? 1.3 : 1) * CHEAT.speed * dt;
+  const sp = 175 * (S.upgrades.shoes ? 1.3 : 1) * (up('bigfeet') ? 1.25 : 1) * CHEAT.speed * dt;
   if (!collides(p.x + dx * sp, p.y)) p.x += dx * sp;
   if (!collides(p.x, p.y + dy * sp)) p.y += dy * sp;
 }
@@ -1854,19 +2342,28 @@ function getTarget() {
     list.push({ ...obj, cx, cy, score: d - dot * 18 });
   };
   REGISTERS.forEach((R, r) => { if (regActive(r)) consider(R.machine * T + T / 2, 10 * T + T / 2, 62, { kind: 'register', r }); });
-  consider(22 * T, 1 * T + T / 2, 64, { kind: 'computer' });
+  COMPUTERS.forEach(cp => {
+    if (cp.needs && !cp.needs.some(u => S.upgrades[u])) return;
+    const [[x1, y1], [x2]] = cp.desk;
+    consider((x1 + x2 + 1) / 2 * T, y1 * T + T / 2, 64, { kind: 'computer', cp });
+  });
+  if (cafeOpen()) {
+    consider(CAFE_MACHINE[0] * T + T / 2, CAFE_MACHINE[1] * T + T / 2, 60, { kind: 'machine' });
+    G.customers.forEach(c => { if (c.cafe && c.state === 'waitingDrink') consider(c.x, c.y, 56, { kind: 'cafeGuest', c, score2: -3 }); });
+  }
   if (roomOpen(1)) PLOTS.forEach(([x, y]) => consider(x * T + T / 2, y * T + T / 2, 56, { kind: 'plot', x, y }));
   activeQuestNPCs().forEach(L => consider(L.pos[0] * T + T / 2, L.pos[1] * T + T / 2, 52, { kind: 'quest', L }));
   G.customers.forEach(c => {
     if (c.type === 'police' && c.state === 'copWait') consider(c.x, c.y, 52, { kind: 'cop', c });
     if (c.fleeing) consider(c.x, c.y, 60, { kind: 'thief', c, score2: -5 });
     if (c.type === 'tot' && c.state === 'totWait') consider(c.x, c.y, 56, { kind: 'tot', c });
+    if (c.type === 'planner' && c.state === 'waiting') consider(c.x, c.y, 56, { kind: 'planner', c });
     if (c.bullying > 0 && c.state !== 'leave') consider(c.x, c.y, 64, { kind: 'bully', c });
   });
   G.messes.forEach(m => consider(m.x, m.y, 40, { kind: 'mess', m }));
   consider(10 * T + T / 2, 12 * T + T / 2, 50, { kind: 'sign' });
   S.fixtures.forEach(f => consider(f.x * T + T / 2, f.y * T + T / 2, 58, { kind: 'fixture', f }));
-  if (!p.carry) S.boxes.forEach((b, i) => consider(b.x, b.y, 40, { kind: 'box', b, score2: -i }));
+  if (!p.carry && !p.cup) S.boxes.forEach((b, i) => consider(b.x, b.y, 40, { kind: 'box', b, score2: -i }));
   list.sort((a, b) => (a.score - b.score) || ((a.score2 || 0) - (b.score2 || 0)));
   return list[0] || null;
 }
@@ -1874,13 +2371,31 @@ function getTarget() {
 function targetInfo(t) {
   const p = G.player;
   switch (t.kind) {
-    case 'computer': return { text: 'Use computer (order stock)', once: () => openShop() };
+    case 'computer': return { text: `Use the ${t.cp.id === 'main' ? '' : t.cp.id + ' wing '}computer (SpookyMart)`, once: () => openShop() };
+    case 'machine': {
+      if (p.carry) return { text: 'Put the box down first (Q) to use the coffee machine', none: true, bad: true };
+      if (p.cup) return { text: `You're holding ${cafeItem(p.cup.drink).emoji} ${cafeItem(p.cup.drink).name}. Serve it (or pour it out with ${isTouch ? '📦' : 'Q'})`, none: true };
+      if (!G.brewChoice) return { text: '☕ Choose a drink to brew', once: openDrinkPicker };
+      const it = cafeItem(G.brewChoice);
+      return { text: `Hold to brew ${it.emoji} ${it.name} (${Math.round(G.brew * 100)}%)   [F] change drink`, repeat: brewTick, interval: 0.05 };
+    }
+    case 'cafeGuest': {
+      const it = cafeItem(t.c.order);
+      if (!p.cup) return { text: `Guest wants ${it.emoji} ${it.name}. Brew it at the machine`, none: true };
+      if (p.cup.drink !== t.c.order) return { text: `They ordered ${it.emoji} ${it.name}. You have ${cafeItem(p.cup.drink).emoji} ${cafeItem(p.cup.drink).name}`, once: () => wrongDrink(t.c), bad: true };
+      return { text: `Serve ${it.emoji} ${it.name} ($${fmt(it.price)})`, once: () => serveGuest(t.c, 'player') };
+    }
     case 'quest': return { text: `Talk to ${t.L.name}`, once: () => openQuest(t.L.id) };
     case 'cop': return { text: 'Talk to the officer', once: () => openCop(t.c) };
     case 'thief': return { text: '🛑 Stop the shoplifter!', once: () => catchThief(t.c, 'player') };
     case 'tot': {
       const f = candyFixture();
       return { text: f ? `Give a trick-or-treater some ${ITEM[f.item].name}` : 'Trick-or-treater (you have no candy in bins!)', once: () => giveTreat(t.c) };
+    }
+    case 'planner': {
+      const v = G.visit, it = ITEM[v.item];
+      if (G.player.carry && G.player.carry.item === v.item) return { text: `Hand Pam a box of ${it.name} (${v.got}/${v.need})`, once: () => plannerDeliver(t.c) };
+      return { text: `Pam needs ${v.need - v.got} more box${v.need - v.got > 1 ? 'es' : ''} of ${it.emoji} ${it.name} by ${fmtTime(v.deadline)}`, none: true };
     }
     case 'bully': return { text: '💪 Tell them to leave the furry alone', once: () => standUp(t.c) };
     case 'mess': return { text: `Hold to clean up ${t.m.kind.name} (${Math.floor(t.m.clean * 100)}%)`, repeat: () => cleanStep(t.m, 0.12), interval: 0.1 };
@@ -1948,6 +2463,7 @@ function pickUp(b) {
 }
 function dropBox() {
   const p = G.player;
+  if (p.cup) { p.cup = null; toast('☕ Poured the drink out'); return; }
   if (!p.carry) return;
   S.boxes.push({ x: p.x, y: p.y + 6, item: p.carry.item, qty: p.carry.qty });
   p.carry = null;
@@ -1973,6 +2489,7 @@ function toggleOpen() {
 }
 function packUpFixture() {
   const t = G.target;
+  if (t && t.kind === 'machine' && !G.player.cup && !G.player.carry) { openDrinkPicker(); return; }
   if (!t || t.kind !== 'fixture' || t.f.stock > 0 || G.player.carry) return;
   S.fixtures.splice(S.fixtures.indexOf(t.f), 1);
   S.pendingFixtures.push(t.f.type);
@@ -2022,6 +2539,10 @@ const exactly = (tx, ty) => (x, y) => x === tx && y === ty;
 
 function catBoost(cat) {
   let m = 1;
+  if (up('contestbanner') && cat === 'costume') m *= 1.3;
+  if (up('room_studio') && cat === 'costume') m *= 1.2;
+  if (up('midnightsnacks') && cat === 'candy') m *= 1.3;
+  if (up('partyspeaker') && cat === 'party') m *= 1.3;
   if (ev('fest') && cat === 'pumpkin') m *= 4;
   if (ev('con') && cat === 'pets') m *= 3;
   if (ev('con') && cat === 'makeup') m *= 2;
@@ -2034,16 +2555,18 @@ function catBoost(cat) {
 
 function pickType() {
   const night = G.time >= 18 * 60;
-  const entries = Object.entries(CUSTOMER_TYPES).filter(([, t]) => !(t.minDay > S.day));
+  const entries = Object.entries(CUSTOMER_TYPES).filter(([, t]) => !(t.minDay > S.day) && (!t.hours || (G.time >= t.hours[0] && G.time < t.hours[1])));
   const w = ([k, t]) => t.weight * (night && t.nightMul ? t.nightMul : 1)
-    * (ev('moon') && k === 'monster' ? 4 : 1) * (ev('crime') && k === 'thief' ? 4 : 1) * (ev('con') && k === 'furry' ? 5 : 1);
+    * (ev('moon') && k === 'monster' ? 4 : 1) * (ev('crime') && k === 'thief' ? 4 : 1) * (ev('con') && k === 'furry' ? 5 : 1)
+    * ((k === 'monster' || k === 'thief') ? 1 + 0.4 * yearLvl() : 1) * (k === 'furry' && up('cone') ? 2 : 1);
   let r = Math.random() * entries.reduce((s, e) => s + w(e), 0);
   for (const e of entries) { r -= w(e); if (r <= 0) return e[0]; }
   return 'normal';
 }
 
 function spawnCustomer(forceType) {
-  const type = forceType || pickType();
+  const member = forceType && forceType.endsWith('_member');
+  const type = member ? forceType.slice(0, -7) : (forceType || pickType());
   const ct = CUSTOMER_TYPES[type];
   const lvl = levelOf(S.xp);
   const cats = Object.keys(CATEGORIES).filter(k => ITEMS.some(i => i.cat === k && i.lvl <= lvl));
@@ -2064,7 +2587,8 @@ function spawnCustomer(forceType) {
   const side = Math.random() < 0.5 ? 0 : 26;
   const c = {
     x: side * T + T / 2, y: 14 * T + T / 2, exitX: side, type, name,
-    face, speed: rand(75, 100) * (ct.speed || 1), tol: ct.tol || 1, qtyMul: ct.qtyMul || 1, patMul: ct.patience || 1,
+    face, speed: rand(75, 100) * (ct.speed || 1) * (up('tractorbeam') ? 1.25 : 1), tol: ct.tol || 1,
+    qtyMul: (ct.qtyMul || 1) * (type === 'kid' && up('teacherspet') ? 1.5 : 1), patMul: ct.patience || 1,
     wants, basket: [], scanned: 0, state: 'think', wait: 0.1, path: [],
     bubble: '', bubbleT: 0, patience: 0, maxPatience: 1, qi: -1, bob: Math.random() * 6,
   };
@@ -2072,12 +2596,24 @@ function spawnCustomer(forceType) {
   if (type === 'rushed') say(c, 'In a hurry!', 2);
   if (type === 'kid') c.broke = Math.random() < 0.5;
   if (type === 'furry') say(c, pick(['Hiii! 🐾', 'Awoo!', 'Happy Howl-oween!', ':3']), 2);
+  if (type === 'tourist') say(c, pick(['So THIS is Hollowmere! 📸', 'Howdy! Just visiting', 'Gotta get souvenirs!']), 2.2);
+  if (type === 'couple') say(c, pick(['Matching costumes! 💕', 'Date night 💑']), 2);
+  if (type === 'complainer') say(c, pick(['I hope the service is better this year.', 'Ugh. Fine.']), 2.2);
+  if (type === 'nightowl') say(c, pick(['*yawn* night shift snacks…', 'Is it still open? Oh good.']), 2.2);
+  if (type === 'jogger') say(c, pick(['Quick stop! 🏃', '*panting*']), 1.8);
+  if (type === 'goth') say(c, pick(['This place is… okay I guess.', 'Whatever.', '*sigh*']), 2);
+  if (type === 'dogwalker') say(c, pick(['Woof! 🐾', '*tail wagging*', 'Bork.']), 2);
   G.customers.push(c);
+  if (ct.group && !member) {
+    const extra = randi(ct.group[0], ct.group[1]) - 1;
+    for (let i = 0; i < extra; i++) setTimeout(() => { if (G.open) spawnCustomer(type + '_member'); }, 350 * (i + 1));
+  }
 }
 
 function say(c, text, t = 2.2) { c.bubble = text; c.bubbleT = t; }
 
 function nextWant(c) {
+  if (c.type === 'celeb') { celebNext(c); return; }
   if (!c.wants.length) {
     if (c.type === 'thief' && c.basket.length) { startEscape(c); return; }
     if (c.basket.length) joinQueue(c); else leave(c);
@@ -2089,7 +2625,7 @@ function nextWant(c) {
     c.wants.shift();
     const hadIt = S.fixtures.some(f => f.item && ITEM[f.item].cat === cat);
     say(c, hadIt ? `${CATEGORIES[cat].name} sold out? 😞` : `No ${CATEGORIES[cat].name.toLowerCase()}? 😕`);
-    S.rep = Math.max(0, S.rep - (hadIt ? 0.6 : 0.3));
+    loseRep((hadIt ? 0.6 : 0.3));
     c.state = 'think'; c.wait = 1.2;
     return;
   }
@@ -2100,14 +2636,15 @@ function nextWant(c) {
 }
 
 function tryBuy(c) {
+  if (c.type === 'celeb') { celebBuy(c); return; }
   const f = c.target;
   const cat = c.wants.shift();
   c.state = 'think'; c.wait = 0.5;
   if (!f || !S.fixtures.includes(f) || !f.item || f.stock <= 0) { say(c, 'Aw, someone took the last one'); return; }
-  if (Math.random() < (c.type === 'kid' ? 0.12 : 0.035)) addMess(c.x, c.y);
+  if (Math.random() < (c.type === 'kid' ? 0.12 : 0.035) * (up('friendlyghost') ? 0.5 : 1)) addMess(c.x, c.y);
   const it = ITEM[f.item];
-  const price = S.prices[it.id], ratio = price / S.market[it.id] / (ev('trend') && G.event.item === it.id ? 1.6 : 1);
-  const chance = ratio <= 1 ? 1 : Math.max(0, 1 - (ratio - 1) * 2.2 / (c.tol || 1));
+  const price = S.prices[it.id], ratio = price / S.market[it.id] / (ev('trend') && G.event.item === it.id ? 1.6 : 1) / (up('mothlamp') && it.cat === 'light' ? 1.3 : 1);
+  const chance = ratio <= 1 ? 1 : Math.max(0, 1 - (ratio - 1) * 2.2 * (1 + 0.2 * yearLvl()) / (c.tol || 1));
   if (Math.random() < chance) {
     const [a, b] = CATEGORIES[cat].qty;
     let qty = randi(a, b);
@@ -2119,10 +2656,16 @@ function tryBuy(c) {
     else if (c.type === 'grandma') say(c, pick(['Oh how lovely!', 'For the grandkids 💕', 'Such nice things, dear']));
     else if (c.type === 'kid') say(c, pick(['COOL!!', 'Mom said I could!', 'Best. Halloween. Ever.']));
     else if (c.type === 'furry') say(c, pick(['So cute! 🐾', 'Perfect for the con!', 'Eee, love it!', 'Adding to my den ✨', 'OwO']));
+    else if (c.type === 'tourist') say(c, pick(['📸 *click*', 'For my album!', 'The folks back home will love this']));
+    else if (c.type === 'couple') say(c, pick(['One for you, one for me 💕', 'We\'ll match!']));
+    else if (c.type === 'collector') say(c, pick(['A fine specimen.', 'For the collection.', '*adjusts glasses*']));
+    else if (c.type === 'complainer') say(c, pick(['I guess this will do.', 'Is this really the price?']));
+    else if (c.type === 'goth') say(c, pick(['…this is actually cool.', 'Dark. I like it.']));
+    else if (c.type === 'dogwalker') say(c, pick(['*happy bork*', '🐾🐾🐾', '*sniff sniff*']));
     else say(c, ratio < 0.9 ? pick(['What a deal! 🤑', 'So cheap! 😍']) : pick(['Spooky! 👻', 'Perfect 🎃', 'Ooh nice', 'Love it 🦇', `${it.emoji}!`]));
   } else {
     say(c, ratio > 1.45 ? 'WAY too expensive 😤' : 'Bit pricey… 😬');
-    S.rep = Math.max(0, S.rep - 0.4);
+    loseRep(0.4);
   }
 }
 
@@ -2137,7 +2680,7 @@ function joinQueue(c) {
   if (best < 0) {
     say(c, 'Line is way too long 😤');
     returnItems(c);
-    S.rep = Math.max(0, S.rep - 2);
+    loseRep(2);
     G.today.walkouts++;
     leave(c);
     return;
@@ -2161,7 +2704,7 @@ function updateQueue(r) {
 function leave(c) {
   if (c.type === 'monster' && !c.reported) {
     c.reported = true;
-    G.copQueue.push({ face: c.face, t: rand(12, 30) });
+    G.copQueue.push({ face: c.face, t: up('policeradio') ? rand(5, 12) : rand(12, 30) });
   }
   c.state = 'leave';
   c.qi = -1;
@@ -2244,17 +2787,35 @@ function bullyTick(dt) {
 }
 
 function completeSale(c) {
-  const total = c.basket.reduce((s, b) => s + b.price, 0);
+  let total = c.basket.reduce((s, b) => s + b.price, 0);
+  if (c.type === 'complainer') {
+    const took = G.tick - (c.checkoutAt || G.tick);
+    if (took > 3) {
+      total = Math.round(total * 0.85 * 100) / 100;
+      setTimeout(() => say(c, 'That took forever. I want 15% off!', 2.5), 50);
+    } else setTimeout(() => say(c, 'Hmph. Fast service. Fine.', 2.2), 50);
+  }
   S.money += total;
+  if (up('moonsale') && G.time >= 20 * 60) {
+    const mb = Math.round(total * 0.2);
+    if (mb > 0) { S.money += mb; G.today.bonus += mb; }
+  }
+  if (G.rushUntil > G.time) {
+    const rb = Math.round(total * (up('partyspeaker') ? 0.3 : 0.15));
+    if (rb > 0) { S.money += rb; G.today.bonus += rb; }
+  }
+  if (c.type === 'celeb') setTimeout(() => celebDone(c, c.found >= 2), 400);
   G.today.revenue += total;
   G.today.served++;
   S.stats.served++;
   S.stats.servedType[c.type] = (S.stats.servedType[c.type] || 0) + 1;
+  G.today.servedType[c.type] = (G.today.servedType[c.type] || 0) + 1;
   c.basket.forEach(b => {
     const cat = ITEM[b.id].cat;
     G.today.soldCat[cat] = (G.today.soldCat[cat] || 0) + 1;
     S.stats.soldCat[cat] = (S.stats.soldCat[cat] || 0) + 1;
     S.stats.soldItem[b.id] = (S.stats.soldItem[b.id] || 0) + 1;
+    G.today.soldItem[b.id] = (G.today.soldItem[b.id] || 0) + 1;
   });
   addXP(total);
   const mxp = REGISTERS[c.reg].machine * T + T / 2;
@@ -2264,6 +2825,7 @@ function completeSale(c) {
     if (took <= 2.5 + c.basket.length * 0.4) {
       G.streak++;
       G.today.bestStreak = Math.max(G.today.bestStreak, G.streak);
+      S.stats.maxStreak = Math.max(S.stats.maxStreak || 0, G.streak);
       if (G.streak >= 3) {
         const bonus = Math.min(40, G.streak * 2);
         S.money += bonus; G.today.bonus += bonus;
@@ -2272,10 +2834,25 @@ function completeSale(c) {
       }
     } else G.streak = 0;
   }
+  const ctp = CUSTOMER_TYPES[c.type];
+  if (ctp && typeof ctp.tip === 'number' && total >= (ctp.tipMin || 0)) {
+    const tp = Math.max(1, Math.round(total * ctp.tip));
+    S.money += tp; G.today.bonus += tp; S.stats.tips += tp;
+    setTimeout(() => popup(mxp, 9 * T, `💵 +$${tp} tip`, '#ffd166'), 350);
+  }
+  if (ctp && ctp.repBonus) {
+    S.rep = Math.min(100, S.rep + ctp.repBonus);
+    setTimeout(() => popup(mxp, 8.6 * T, '📸 word of mouth', '#9ad7ff'), 500);
+  }
   if (c.type === 'grandma') {
-    const tip = Math.max(2, Math.round(total * rand(0.1, 0.25)));
+    const tip = Math.max(2, Math.round(total * rand(0.1, 0.25) * (up('grannyrecipe') ? 1.5 : 1)));
     S.money += tip; G.today.bonus += tip; S.stats.tips += tip;
     setTimeout(() => popup(mxp, 9 * T, `💕 +$${tip} tip`, '#ff9ecb'), 350);
+  }
+  if (c.type === 'furry' && up('packpass')) {
+    const ft = Math.max(1, Math.round(total * 0.1));
+    S.money += ft; G.today.bonus += ft; S.stats.tips += ft;
+    setTimeout(() => popup(mxp, 9 * T, `🐾 +$${ft} tip`, '#ff9ecb'), 350);
   }
   if (c.type === 'vip') {
     S.stats.vip++; G.today.vips++;
@@ -2308,6 +2885,7 @@ function followPath(c, dt) {
 
 function updateCustomer(c, dt) {
   c.moving = false;
+  if (!c.seen && S.met) { c.seen = true; if (!S.met[c.type]) S.met[c.type] = true; }
   if (c.bubbleT > 0) c.bubbleT -= dt;
   switch (c.state) {
     case 'think': c.wait -= dt; if (c.wait <= 0) nextWant(c); break;
@@ -2343,6 +2921,39 @@ function updateCustomer(c, dt) {
       if (c.wait <= 0) { say(c, 'TRICK! 😈', 2.5); trick(c); }
       break;
     case 'done': break;
+    case 'toSeat': if (followPath(c, dt)) { c.state = 'waitingDrink'; c.orderedAt = G.tick; const pl = (CAFE_PREFS[c.type] || {}).lines; say(c, pl ? pick(pl) : `${cafeItem(c.order).emoji} ${cafeItem(c.order).name}, please!`, 2.5); } break;
+    case 'waitingDrink':
+      c.patience -= dt;
+      if (c.bubbleT <= 0 && Math.random() < 0.01) say(c, `${cafeItem(c.order).emoji}?`, 1.5);
+      if (c.patience <= 0) {
+        say(c, 'Too slow… 😒', 2.2);
+        loseRep(1);
+        S.stats.cafeStreak = 0;
+        G.today.walkouts++;
+        c.claimed = false;
+        c.seat = null;
+        leave(c);
+      }
+      break;
+    case 'sipping':
+      c.wait -= dt;
+      if (c.wait <= 0) { c.seat = null; say(c, pick(['Delicious!', 'Best café in town ☕', 'See you tomorrow!']), 2); leave(c); }
+      break;
+    case 'visitIn':
+      if (followPath(c, dt)) {
+        if (c.type === 'inspector') { c.state = 'inspecting'; c.wait = 7; say(c, '*writing notes* 📋', 3); }
+        else { c.state = 'waiting'; }
+      }
+      break;
+    case 'inspecting':
+      c.wait -= dt;
+      if (c.bubbleT <= 0) say(c, pick(['Hmm…', '*checks shelves*', '*sniffs*', '📋✏️']), 1.5);
+      if (c.wait <= 0 && !G.overlay) finishInspection(c);
+      break;
+    case 'waiting':
+      if (c.bubbleT <= 0) say(c, `📦 Waiting on my ${ITEM[G.visit.item].name}!`, 2.2);
+      if (G.time >= G.visit.deadline) plannerGiveUp(c);
+      break;
   }
   if (c.bullying > 0) c.bullying -= dt;
 }
@@ -2352,7 +2963,8 @@ function drainPatience(c, dt) {
   if (c.patience <= 0) {
     say(c, 'Forget this! 😡');
     returnItems(c);
-    S.rep = Math.max(0, S.rep - (c.type === 'vip' ? 8 : 3));
+    loseRep((c.type === 'vip' ? 8 : c.type === 'complainer' ? 5 : 3));
+    if (c.type === 'celeb') celebDone(c, false);
     G.today.walkouts++;
     G.streak = 0;
     removeFromQueue(c);
@@ -2384,7 +2996,7 @@ function stockerDropTop(s) {
 // finds the closest unclaimed box that has somewhere to go, and paths to it
 function stockerClaimBox(s, maxDist = Infinity) {
   const jobs = S.boxes
-    .filter(b => !G.claimed.has(b) && !(b.retryAt > G.tick) && findFixtureFor(b.item) && Math.hypot(b.x - s.x, b.y - s.y) <= maxDist)
+    .filter(b => !G.claimed.has(b) && !(b.retryAt > G.tick) && !(G.visit && G.visit.type === 'planner' && !G.visit.finished && b.item === G.visit.item) && findFixtureFor(b.item) && Math.hypot(b.x - s.x, b.y - s.y) <= maxDist)
     .sort((a, b) => Math.hypot(a.x - s.x, a.y - s.y) - Math.hypot(b.x - s.x, b.y - s.y));
   for (const b of jobs) {
     if (pathTo(s, nearTile(Math.floor(b.x / T), Math.floor(b.y / T)))) {
@@ -2539,12 +3151,22 @@ function updateCops(dt) {
 }
 
 const QL = Object.fromEntries(QUESTLINES.map(L => [L.id, L]));
-const ABS_GOALS = ['dayRevenue', 'variety', 'dayServed', 'rep'];
+const ABS_GOALS = ['dayRevenue', 'variety', 'dayServed', 'rep', 'stockedFixtures'];
 function qState(id) { return S.quests[id] || (S.quests[id] = { step: 0, base: 0, started: false, done: false }); }
+function timeWindowOk(u) {
+  if (u.night) return G.time >= 18 * 60;
+  if (u.daytime) return G.time < 18 * 60;
+  if (u.morning) return G.time < 12 * 60;
+  return true;
+}
+function timeWindowLabel(u) {
+  return !u ? '' : u.night ? '🌙 Night only' : u.daytime ? '☀️ Daytime only' : u.morning ? '🌅 Mornings only' : '';
+}
 function questUnlocked(L) {
   if (S.sandbox) return false;
   const u = L.unlock || {};
-  return (u.day || 0) <= S.day && (!u.copVisits || S.stats.copVisits >= u.copVisits) && (!u.up || !!S.upgrades[u.up]);
+  if (u.secret) return S.secrets && S.secrets[L.id] != null && G.scene !== 'night' && timeWindowOk(u);
+  return (u.day || 0) <= S.day && (!u.copVisits || S.stats.copVisits >= u.copVisits) && (!u.up || !!S.upgrades[u.up]) && G.scene !== 'night' && timeWindowOk(u);
 }
 function activeQuestNPCs() { return QUESTLINES.filter(L => questUnlocked(L) && !qState(L.id).done); }
 function goalValue(goal) {
@@ -2559,6 +3181,8 @@ function goalValue(goal) {
     case 'dayServed': return G.today.served;
     case 'rep': return S.rep;
     case 'servedType': return (st.servedType || {})[goal.who] || 0;
+    case 'inspections': return st.inspectionsPassed || 0;
+    case 'stockedFixtures': return S.fixtures.filter(f => f.stock > 0).length;
     case 'harvest': return st.harvested || 0;
     case 'thieves': return st.thievesCaught || 0;
     case 'cleaned': return st.cleaned || 0;
@@ -2568,10 +3192,11 @@ function goalValue(goal) {
     default: return 0;
   }
 }
-function stepNeed(goal) { return goal.type === 'deliver' ? 1 : goal.n; }
+function stepNeed(goal) { return goal.type === 'deliver' || goal.type === 'deliverUnits' ? 1 : goal.n; }
 function stepProgress(L, q) {
   const goal = L.steps[q.step].goal;
   if (goal.type === 'deliver') return G.player.carry && G.player.carry.item === goal.item ? 1 : 0;
+  if (goal.type === 'deliverUnits') return G.player.carry && G.player.carry.item === goal.item && G.player.carry.qty >= goal.n ? 1 : 0;
   const v = goalValue(goal);
   return ABS_GOALS.includes(goal.type) ? v : v - q.base;
 }
@@ -2582,6 +3207,7 @@ function questReady(L) {
 
 function openQuest(id) {
   const L = QL[id], q = qState(id);
+  S.met[id] = true;
   if (!q.started) { q.started = true; q.base = goalValue(L.steps[q.step].goal); G.talk = { kind: 'quest', id, first: true }; }
   else G.talk = { kind: 'quest', id };
   sfx('click');
@@ -2619,6 +3245,29 @@ function renderTalk() {
   const head = (face, name, title) => `
     <div class="talk-head"><span class="talk-face">${face}</span><div><h3>${name}</h3><small>${title}</small></div></div>`;
   let html = '';
+  if (t.kind === 'drinks') {
+    $('talk').innerHTML = `<div class="panel talk-panel">${renderDrinkPicker()}</div>`;
+    return;
+  }
+  if (t.kind === 'beat') {
+    const b = t.beat;
+    $('talk').innerHTML = `<div class="panel talk-panel story-panel">
+      <div class="story-icon">${b.icon}</div>
+      <h2>${b.title}</h2>
+      <p class="story-text">${b.text}</p>
+      <div class="btnrow"><button class="primary" data-act="talkdone">Continue</button></div>
+    </div>`;
+    return;
+  }
+  if (t.kind === 'inspect') {
+    $('talk').innerHTML = `<div class="panel talk-panel">
+      <div class="talk-head"><span class="talk-face">🧐</span><div><h3>Health Inspector</h3><small>Surprise inspection</small></div></div>
+      <div class="quest-box">${t.checks.map(([label, ok]) => `<p class="quest-prog">${ok ? '✅' : '❌'} ${label}</p>`).join('')}</div>
+      <p class="${t.pass ? 'talk-good' : 'talk-bad'}">${t.pass ? `"Spotless. Gold star!"   +$${up('safetycert') ? 1200 : 600}, +5 reputation` : `"This won't do."   −$${up('safetycert') ? 150 : 300} fine, −4 reputation`}</p>
+      <div class="btnrow"><button class="primary" data-act="talkdone">OK</button></div>
+    </div>`;
+    return;
+  }
   if (t.kind === 'story' || t.kind === 'journal') {
     $('talk').innerHTML = `<div class="panel talk-panel ${t.kind}-panel">${renderLoreTalk(t)}</div>`;
     return;
@@ -2647,7 +3296,7 @@ function renderTalk() {
     html = head('👮', 'Officer Pratt', 'Town Police');
     if (t.result === 'right') {
       html += `<p class="talk-text">"That's the one! We'll grab them before they scare anyone. Here's the reward."</p>
-        <p class="talk-good">+$200 bounty, +3 reputation</p>`;
+        <p class="talk-good">+$${t.bounty || 200} bounty, +3 reputation</p>`;
     } else if (t.result === 'wrong') {
       html += `<p class="talk-text">"Hmm, that doesn't match our description. That was probably just someone in a costume."</p>
         <p class="talk-bad">−1 reputation</p>`;
@@ -2673,7 +3322,11 @@ function renderTalk() {
         <div class="quest-step">Task ${q.step + 1} of ${L.steps.length}</div>
         <p class="talk-text">"${st.text}"</p>`;
       const p = stepProgress(L, q), need = stepNeed(goal);
-      if (goal.type === 'deliver') {
+      if (goal.type === 'deliverUnits') {
+        const it = ITEM[goal.item];
+        const c = G.player.carry;
+        html += `<p class="quest-prog">${p ? '✔ You have enough!' : c && c.item === goal.item ? `That box only has ${c.qty}. Need ${goal.n}.` : `Carry a box with at least ${goal.n} ${it.emoji} ${it.name} over here.`}</p>`;
+      } else if (goal.type === 'deliver') {
         const it = ITEM[goal.item];
         const locked = it.lvl > levelOf(S.xp);
         html += `<p class="quest-prog">${p ? '✔ You have it!' : `Carry a box of ${it.emoji} ${it.name} over here.`}${locked ? ` <span class="talk-bad">(unlocks at level ${it.lvl})</span>` : ''}</p>`;
@@ -2695,10 +3348,14 @@ function turnInQuest() {
   if (!questReady(L)) return;
   const st = L.steps[q.step];
   if (st.goal.type === 'deliver') G.player.carry = null;
+  if (st.goal.type === 'deliverUnits') {
+    G.player.carry.qty -= st.goal.n;
+    if (G.player.carry.qty <= 0) G.player.carry = null;
+  }
   giveReward(st.reward);
   sfx('level');
   q.step++;
-  if (q.step >= L.steps.length) q.done = true;
+  if (q.step >= L.steps.length) { q.done = true; unlockNpcUpgrade(L); }
   else q.base = goalValue(L.steps[q.step].goal);
   G.talk = { kind: 'quest', id: L.id, msg: `✔ Task complete! ${rewardText(st.reward)}` };
   renderTalk();
@@ -2709,13 +3366,15 @@ function accuse(face) {
   if (t.result) return;
   if (face === t.c.suspect) {
     t.result = 'right';
-    S.money += 200; G.today.bonus += 200;
+    const bounty = up('policeradio') ? 350 : 200;
+    t.bounty = bounty;
+    S.money += bounty; G.today.bonus += bounty;
     S.rep = Math.min(100, S.rep + 3);
     S.stats.catches++; G.today.caught++;
     sfx('level');
   } else {
     t.result = 'wrong';
-    S.rep = Math.max(0, S.rep - 1);
+    loseRep(1);
     sfx('bad');
   }
   renderTalk();
@@ -2726,6 +3385,7 @@ function drawQuestNPC(L) {
   drawStaff(x, y, L.face);
   const q = qState(L.id);
   const mark = !q.started ? '❗' : questReady(L) ? '⭐' : '💬';
+  if (L.unlock && L.unlock.secret && Math.sin(G.tick * 3 + L.pos[0]) > 0.3) emoji('✨', x + 13, y - 12, 11);
   emoji(mark, x, y - 26 + Math.sin(G.tick * 4) * 2, mark === '💬' ? 12 : 16);
 }
 
@@ -2740,10 +3400,12 @@ function updateQuestTracker(dt) {
   const rows = QUESTLINES.filter(L => questUnlocked(L) && qState(L.id).started && !qState(L.id).done).map(L => {
     const q = qState(L.id), st = L.steps[q.step], need = stepNeed(st.goal);
     const p = Math.max(0, Math.min(stepProgress(L, q), need));
-    const txt = questReady(L) ? `<b>Talk to ${L.name}</b>` : st.goal.type === 'deliver' ? st.short : `${st.short} ${Math.floor(p)}/${need}`;
+    const txt = questReady(L) ? `<b>Talk to ${L.name}</b>` : (st.goal.type === 'deliver' || st.goal.type === 'deliverUnits') ? st.short : `${st.short} ${Math.floor(p)}/${need}`;
     return `<div class="qrow">${L.face} ${txt}</div>`;
   });
   const el = $('quests');
+  const vRow = visitRow();
+  if (vRow) rows.unshift(`<div class="qrow">${vRow}</div>`);
   rows.unshift(...chRow);
   const html = rows.join('');
   if (el.dataset.html !== html) { el.dataset.html = html; el.innerHTML = html; }
@@ -2778,7 +3440,7 @@ function catchThief(c, by) {
 function thiefEscaped(c) {
   const value = c.basket.reduce((s, b) => s + b.price, 0);
   c.basket = [];
-  S.rep = Math.max(0, S.rep - 1.5);
+  loseRep(1.5);
   G.today.thievesEscaped++;
   toast(`💸 A shoplifter got away with $${fmt(value)} of stock!`, 'bad');
 }
@@ -2809,7 +3471,7 @@ function messTick(dt) {
     const near = G.customers.find(c => !c.remove && c.bubbleT <= 0 && c.type !== 'tot' && Math.hypot(c.x - m.x, c.y - m.y) < 36);
     if (near && Math.random() < 0.5) {
       say(near, pick(['Ew, gross 🤢', 'Is anyone cleaning this?', 'Sticky floor…', 'Yuck!']), 2);
-      S.rep = Math.max(0, S.rep - 0.3);
+      loseRep(0.3);
       m.grossCd = 8;
     }
   }
@@ -2857,7 +3519,7 @@ function giveTreat(c) {
 function trick(c) {
   c.state = 'done';
   G.today.tricks++;
-  S.rep = Math.max(0, S.rep - 1);
+  loseRep(1);
   for (let i = 0; i < 2; i++) addMess(c.x + rand(-40, 40), 13 * T + T / 2 + rand(-4, 20), TRICK_MESSES);
   addMess(rand(10, 13) * T, 11 * T + T / 2, TRICK_MESSES);
   sfx('bad');
@@ -2905,6 +3567,7 @@ function challengeTick() {
   const ch = G.challenge;
   if (!ch || ch.done || challengeValue(ch) < ch.n) return;
   ch.done = true;
+  if (up('sunshine')) ch.reward = Math.round(ch.reward * 1.5);
   S.money += ch.reward;
   G.today.bonus += ch.reward;
   sfx('level');
@@ -2972,6 +3635,7 @@ function rainTick(dt) {
 // ------------------------------------------------------------
 let N = { candy: 0, visited: new Set(), houses: [] };
 function worldW() { return (G && G.scene === 'night' ? NCOLS : COLS) * T; }
+function worldMin() { return G && G.scene === 'night' ? 0 : -LEFT * T; }
 
 const NEIGHBOR_FACES = ['👩', '👨', '🧔', '👩‍🦰', '👨‍🦳', '👱‍♀️', '🧑‍🦱', '👵', '👴'];
 const HOUSE_DEFS = [
@@ -3013,7 +3677,10 @@ function buildNight() {
   const pool = decorPool();
   const extra = Math.min(4, Math.floor(decorSoldCount() / 25));
   let x = 6;
-  const houses = HOUSE_DEFS.map((h, i) => {
+  const jemDone = S.quests && S.quests.stranger && S.quests.stranger.done;
+  const defs = HOUSE_DEFS.map(h => h.special === 'dark' && jemDone
+    ? { name: 'Jem\'s House', special: 'jem', color: '#6a4a5a', roof: '#2a1a24', face: '👤', glow: '#ffcf7a' } : h);
+  const houses = defs.map((h, i) => {
     const w = h.w || 6;
     const house = { ...h, x, w, door: (x + w / 2) * T, face: h.face || pick(NEIGHBOR_FACES), decor: [] };
     if (h.special !== 'dark') {
@@ -3269,6 +3936,9 @@ function houseResult(h) {
   const shopLine = shopItem ? ` We got our ${shopItem.emoji} ${shopItem.name} from your shop, by the way!` : '';
   const q = id => S.quests && S.quests[id] && S.quests[id].done;
   switch (h.special) {
+    case 'jem':
+      unlockLore('rekindled');
+      return { text: 'The door opens before you knock. Jem is standing in a warm, candle-lit hallway, smiling for the first time. ‘The light\'s back on. Thank you, Jack. Something is still waiting under Blackwood… but that\'s a story for next year.’', candy: 10, money: 1000, rep: 5 };
     case 'dark':
       unlockLore('darkhouse');
       return { text: 'You knock. No answer. Taped to the door is an old, faded note: ‘To the next Jack. Keep them smiling. When the town stopped caring, my light went out. Don\'t let yours. — J.’', candy: 0 };
@@ -3366,6 +4036,7 @@ function nightUpdate(dt) {
   G.popups.forEach(p => { p.t -= dt; p.y -= 30 * dt; });
   G.popups = G.popups.filter(p => p.t > 0);
   if (N.scare > 0) N.scare -= dt;
+  achievementTick(dt);
   N.kids.forEach(k => {
     if (k.bubbleT > 0) k.bubbleT -= dt;
     if (k.pause > 0) { k.pause -= dt; return; }
@@ -3504,6 +4175,9 @@ function endNight() {
     return;
   }
   S.season.candy = N.candy;
+  S.stats.nightsWalked = (S.stats.nightsWalked || 0) + 1;
+  if (N.visited.size >= N.houses.length) S.stats.allDoors = true;
+  checkAchievements();
   unlockLore('dawn');
   S.season.houses = `${N.visited.size}/${N.houses.length}`;
   G = newRuntime();
@@ -3526,6 +4200,20 @@ function setEvent(id) {
   G.event = e;
   G.busDone = false;
   return `${e.icon} Event set: ${e.name}`;
+}
+function forceVisit(type) {
+  if (!inStore()) return 'Only works in the store';
+  const d = S.day;
+  S.day = Math.max(S.day, 8);
+  let tries = 0;
+  do { planVisit(); tries++; } while ((!G.visit || G.visit.type !== type) && tries < 200);
+  S.day = d;
+  if (!G.visit) return 'Couldn\'t set that up (need more fixtures?)';
+  G.visit.at = Math.min(G.time, CLOSE_MIN - 60);
+  if (G.visit.deadline) G.visit.deadline = Math.min(CLOSE_MIN - 1, Math.max(G.visit.deadline, G.time + 240));
+  if (!G.open && G.time < CLOSE_MIN) G.open = true;
+  toast(visitAnnounce(G.visit), 'big');
+  return 'Visit incoming';
 }
 function cheatSpawn(type, n = 1) {
   if (!inStore()) return 'Only works in the store';
@@ -3626,6 +4314,10 @@ const CHEATS = [
   { code: 'SUPPLIERSALE', group: 'Events', desc: '25% off wholesale', run: () => setEvent('sale') },
   { code: 'SCHOOLBUS', group: 'Events', desc: 'Kids at noon', run: () => setEvent('bus') },
   { code: 'TRENDING', group: 'Events', desc: 'A random item trends', run: () => setEvent('trend') },
+  { code: 'INSPECTOR', group: 'Events', desc: 'Health inspector now', run: () => forceVisit('inspector') },
+  { code: 'INFLUENCER', group: 'Events', desc: 'Influencer now', run: () => forceVisit('celeb') },
+  { code: 'BULKORDER', group: 'Events', desc: 'Party planner order', run: () => forceVisit('planner') },
+  { code: 'RUSHHOUR', group: 'Events', desc: 'Rush hour now', run: () => forceVisit('rush') },
   { code: 'NOEVENT', group: 'Events', desc: 'Clear today\'s event', run: () => { G.event = null; return 'Event cleared'; } },
   // fun
   { code: 'NOCLIP', group: 'Fun', desc: 'Walk through walls (toggle)', run: () => { CHEAT.noclip = !CHEAT.noclip; return `👻 Noclip ${CHEAT.noclip ? 'ON' : 'OFF'}`; } },
@@ -3714,6 +4406,457 @@ function runCheat(raw) {
   openCheats(msg);
   const i = $('cheat-input');
   if (i) i.value = '';
+}
+
+// ------------------------------------------------------------
+//  SPECIAL VISITS (mid and late season)
+// ------------------------------------------------------------
+const CELEB_NAMES = ['@SpookyQueen', '@GhoulGirl', '@PumpkinPrince', '@HauntedHaul', '@CreepyCozy'];
+const RUSH_MIN = 75;
+
+function planVisit() {
+  G.visit = null;
+  if (S.day < 8 || S.day >= 30 || G.scene === 'night') return;
+  const chance = S.day >= 18 ? 0.95 : 0.7;
+  if (Math.random() > chance) return;
+  const lvl = levelOf(S.xp);
+  const types = ['inspector', 'celeb', 'planner', 'rush'];
+  const type = pick(types);
+  const v = { type, at: Math.round(rand(10, 16)) * 60, started: false, finished: false };
+  if (type === 'celeb') {
+    const owned = new Set(S.fixtures.map(f => f.type));
+    const pool = shuffle(ITEMS.filter(i => !i.grown && i.lvl <= lvl && owned.has(CATEGORIES[i.cat].fixture)));
+    v.items = pool.slice(0, 3).map(i => i.id);
+    v.name = pick(CELEB_NAMES);
+    if (v.items.length < 3) return;
+  }
+  if (type === 'planner') {
+    const pool = ITEMS.filter(i => !i.grown && i.lvl <= lvl && i.cost * i.box <= 450);
+    const it = pick(pool);
+    v.item = it.id;
+    v.need = it.cat === 'big' ? 1 : 2;
+    v.got = 0;
+    v.at = 11 * 60;
+    v.deadline = 18 * 60;
+    v.reward = Math.round(v.need * it.box * S.market[it.id] * 1.6);
+  }
+  G.visit = v;
+}
+
+function visitAnnounce(v) {
+  const t = fmtTime(v.at);
+  if (v.type === 'inspector') return `🧐 Heads up: a health inspector is dropping by around ${t}. Clean up, keep shelves stocked, and don't overcharge!`;
+  if (v.type === 'celeb') return `🌟 Influencer ${v.name} is visiting around ${t} and wants: ${v.items.map(id => ITEM[id].emoji + ' ' + ITEM[id].name).join(', ')}. Have them in stock!`;
+  if (v.type === 'planner') return `📞 Party planner Pam called: she needs ${v.need} box${v.need > 1 ? 'es' : ''} of ${ITEM[v.item].emoji} ${ITEM[v.item].name} by ${fmtTime(v.deadline)}. She'll wait outside the door. Pays $${v.reward}!`;
+  return `⚡ The radio says a big rush is coming around ${t}. Get ready!`;
+}
+
+function visitRow() {
+  const v = G.visit;
+  if (!v || v.finished) return '';
+  if (v.type === 'rush' && v.started && G.time >= G.rushUntil) return '';
+  if (v.type === 'inspector') return `🧐 Inspector ${v.started ? 'is here!' : `~${fmtTime(v.at)}`}`;
+  if (v.type === 'celeb') return `🌟 ${v.name} wants ${v.items.map(id => ITEM[id].emoji).join(' ')} ${v.started ? '(shopping now!)' : `~${fmtTime(v.at)}`}`;
+  if (v.type === 'planner') return `📦 Pam: ${v.got}/${v.need} ${ITEM[v.item].emoji} by ${fmtTime(v.deadline)}`;
+  return v.started ? `⚡ RUSH HOUR until ${fmtTime(G.rushUntil)} (+15% pay)` : `⚡ Rush ~${fmtTime(v.at)}`;
+}
+
+function visitor(type, face, tx, ty, extra = {}) {
+  const side = Math.random() < 0.5 ? 0 : 26;
+  const c = {
+    x: side * T + T / 2, y: 14 * T + T / 2, exitX: side, type, face, speed: 95,
+    wants: [], basket: [], scanned: 0, state: 'visitIn', path: [], bubble: '', bubbleT: 0,
+    patience: 1, maxPatience: 1, qi: -1, bob: Math.random() * 6, ...extra,
+  };
+  G.customers.push(c);
+  if (tx != null) pathTo(c, exactly(tx, ty));
+  return c;
+}
+
+function visitTick() {
+  const v = G.visit;
+  if (!v || v.started || G.scene === 'night') return;
+  if (G.time >= CLOSE_MIN) { v.finished = true; return; }
+  if (G.time < v.at || (!G.open && v.type !== 'planner')) return;
+  v.started = true;
+  if (v.type === 'rush') {
+    G.rushUntil = G.time + RUSH_MIN;
+    toast('⚡ RUSH HOUR! Tons of customers, and they\'re paying 15% extra!', 'big');
+    sfx('level');
+    for (let i = 0; i < 6; i++) setTimeout(() => { if (G.open) spawnCustomer(); }, i * 400);
+    G.today.visitResult = ['⚡ Rush hour', 'Survived!', 'good'];
+  } else if (v.type === 'inspector') {
+    visitor('inspector', '🧐', 12, 7);
+    toast('🧐 The health inspector just walked in!', 'big');
+  } else if (v.type === 'celeb') {
+    const c = visitor('celeb', '🤩', null, null, { state: 'think', wait: 0.3, wants: [...v.items], found: 0, missed: 0, patMul: 2.5, tol: 3, name: v.name });
+    say(c, `${v.name} is here! 📸`, 3);
+    toast(`🌟 ${v.name} just walked in!`, 'big');
+  } else if (v.type === 'planner') {
+    visitor('planner', '💁', 13, 13);
+    toast('💁 Party planner Pam is waiting outside the door for her order.');
+  }
+}
+
+function finishInspection(c) {
+  const messes = G.messes.length;
+  const empties = S.fixtures.filter(f => f.item && f.stock === 0).length;
+  const pricey = S.fixtures.filter(f => f.item && f.stock > 0 && S.prices[f.item] > S.market[f.item] * 1.35).length;
+  const checks = [
+    [`Floor is clean (${messes} mess${messes === 1 ? '' : 'es'})`, messes <= 1],
+    [`Shelves are stocked (${empties} empty)`, empties <= 1],
+    [`Fair prices (${pricey} overpriced)`, pricey === 0],
+  ];
+  const pass = checks.every(x => x[1]);
+  if (pass) S.stats.inspectionsPassed = (S.stats.inspectionsPassed || 0) + 1;
+  if (pass) G.today.inspectPass++; else G.today.inspectFail++;
+  const payMul = up('safetycert') ? 2 : 1, fineMul = up('safetycert') ? 0.5 : 1;
+  if (pass) { S.money += 600 * payMul; G.today.bonus += 600 * payMul; S.rep = Math.min(100, S.rep + 5); sfx('level'); }
+  else { S.money -= 300 * fineMul; G.today.spent += 300 * fineMul; loseRep(4); sfx('bad'); }
+  G.today.visitResult = ['🧐 Health inspection', pass ? 'Passed ⭐' : 'Failed', pass ? 'good' : 'bad'];
+  G.visit.finished = true;
+  say(c, pass ? 'Gold star! ⭐' : 'Tsk tsk… 📋', 2.5);
+  leave(c);
+  G.talk = { kind: 'inspect', checks, pass };
+  showOverlay('talk');
+  renderTalk();
+}
+
+function celebNext(c) {
+  if (!c.wants.length) {
+    if (c.basket.length) joinQueue(c);
+    else { celebDone(c, false); leave(c); }
+    return;
+  }
+  const id = c.wants[0];
+  const fs = S.fixtures.filter(f => f.item === id && f.stock > 0);
+  if (!fs.length) {
+    c.wants.shift();
+    c.missed++;
+    say(c, `No ${ITEM[id].name}?? 😒`, 2.2);
+    c.state = 'think'; c.wait = 1.2;
+    return;
+  }
+  const f = fs[0];
+  c.target = f;
+  if (!pathTo(c, adjTo(f.x, f.y))) { c.wants.shift(); c.missed++; c.state = 'think'; c.wait = 0.3; return; }
+  c.state = 'walk';
+}
+function celebBuy(c) {
+  const f = c.target, id = c.wants.shift();
+  c.state = 'think'; c.wait = 0.5;
+  if (!f || !S.fixtures.includes(f) || f.item !== id || f.stock <= 0) { c.missed++; say(c, 'Aw, it sold out 😒'); return; }
+  const qty = Math.min(3, f.stock);
+  for (let i = 0; i < qty; i++) c.basket.push({ id, price: S.prices[id], fix: f });
+  f.stock -= qty;
+  c.found++;
+  say(c, pick(['OMG obsessed 🤩', 'Filming this! 📸', 'My followers need this', 'SO cute!!']), 2.2);
+}
+function celebDone(c, success) {
+  const v = G.visit;
+  if (!v || v.finished) return;
+  v.finished = true;
+  if (success) {
+    G.viralUntil = G.time + 240;
+    S.stats.viral = (S.stats.viral || 0) + 1;
+    S.rep = Math.min(100, S.rep + 5);
+    G.today.visitResult = [`🌟 ${c.name}'s visit`, 'Went viral! 📱', 'good'];
+    toast(`📱 ${c.name} posted about your shop! +50% customers for the next few hours.`, 'big');
+    sfx('level');
+  } else {
+    loseRep(2);
+    G.today.visitResult = [`🌟 ${c.name}'s visit`, 'Unimpressed 😒', 'bad'];
+    toast(`😒 ${c.name} didn't find what they wanted.`, 'bad');
+  }
+}
+
+function plannerDeliver(c) {
+  const v = G.visit;
+  if (!G.player.carry || G.player.carry.item !== v.item) return;
+  G.player.carry = null;
+  v.got++;
+  sfx('pickup');
+  if (v.got < v.need) { say(c, 'One more to go!', 2); return; }
+  S.money += v.reward; G.today.bonus += v.reward;
+  S.rep = Math.min(100, S.rep + 3);
+  v.finished = true;
+  G.today.visitResult = ['📦 Pam\'s bulk order', `Delivered +$${v.reward}`, 'good'];
+  S.stats.bulkOrders = (S.stats.bulkOrders || 0) + 1;
+  say(c, 'You\'re a lifesaver! 💖', 2.5);
+  popup(c.x, c.y - 30, `+$${v.reward}`, '#7ee7a0');
+  sfx('cash');
+  leave(c);
+}
+function plannerGiveUp(c) {
+  const v = G.visit;
+  v.finished = true;
+  loseRep(2);
+  G.today.visitResult = ['📦 Pam\'s bulk order', 'Missed', 'bad'];
+  say(c, 'Ugh, I\'ll go somewhere else.', 2.5);
+  toast('📦 Pam left without her order.', 'bad');
+  leave(c);
+}
+
+// ------------------------------------------------------------
+//  WITCH'S BREW CAFÉ
+// ------------------------------------------------------------
+function cafeOpen() { return !!(S && S.upgrades && S.upgrades.room_cafe); }
+function cafeItem(id) { return CAFE_MENU.find(m => m.id === id) || CAFE_MENU[0]; }
+function brewTime() { return S.cafe.have.deluxe ? 0.5 : S.cafe.have.pro ? 1 : 2; }
+function seatOf(i) { const [x, y] = CAFE_TABLES[i]; return [x + 1, y]; }
+function freeSeat() {
+  for (let i = 0; i < S.cafe.tables; i++) {
+    const [sx, sy] = seatOf(i);
+    if (!G.customers.some(c => c.seat && c.seat[0] === sx && c.seat[1] === sy)) return [sx, sy];
+  }
+  return null;
+}
+function cafeDrinkFor(type) {
+  const menu = CAFE_MENU.filter(m => S.cafe.have[m.id]);
+  const pref = CAFE_PREFS[type];
+  if (!pref) return null;
+  if (pref.drinks === 'priciest') return menu.slice().sort((x, y) => y.price - x.price)[0].id;
+  if (!pref.drinks) return pick(menu.concat(menu.slice(-1))).id;
+  const ok = pref.drinks.filter(id => S.cafe.have[id]);
+  if (ok.length) return pick(ok);
+  if (pref.strict) return null;
+  return pick(menu).id;
+}
+function spawnCafeGuest(forceType) {
+  const seat = freeSeat();
+  if (!seat) return;
+  let type = forceType || pickType();
+  let order = CAFE_PREFS[type] ? cafeDrinkFor(type) : null;
+  if (!order) { type = 'normal'; order = cafeDrinkFor('normal'); }
+  const ct = CUSTOMER_TYPES[type] || {};
+  const pref = CAFE_PREFS[type] || {};
+  let face = ct.faces ? pick(ct.faces) : (Math.random() < 0.25 ? pick(COSTUME_FACES) : pick(CUSTOMER_FACES));
+  let name = null;
+  if (type === 'vip') [name, face] = pick(VIP_NAMES);
+  const pat = 45 * (S.cafe.have.cozy ? 1.6 : 1) * (pref.patience || 1);
+  const side = Math.random() < 0.5 ? 0 : 26;
+  const c = {
+    x: side * T + T / 2, y: 14 * T + T / 2, exitX: side, type, name, cafe: true, face, speed: rand(80, 100) * (ct.speed || 1),
+    wants: [], basket: [], scanned: 0, state: 'toSeat', path: [], bubble: '', bubbleT: 0,
+    patience: pat, maxPatience: pat, qi: -1, bob: Math.random() * 6, seat, order, claimed: false,
+    broke: type === 'kid' && Math.random() < 0.5,
+  };
+  G.customers.push(c);
+  if (S.met) S.met.cafe = true;
+  if (!pathTo(c, exactly(seat[0], seat[1]))) { c.seat = null; c.remove = true; return; }
+  if (pref.group && !forceType) {
+    const extra = randi(pref.group[0], pref.group[1]) - 1;
+    for (let i = 0; i < extra; i++) setTimeout(() => { if (G.open && freeSeat()) spawnCafeGuest(type); }, 400 * (i + 1));
+  }
+}
+function nextCafeOrder() {
+  return G.customers.filter(c => c.cafe && c.state === 'waitingDrink' && !c.claimed)
+    .sort((a, b) => a.orderedAt - b.orderedAt)[0] || null;
+}
+function brewTick() {
+  if (!G.brewChoice) return;
+  G.brew += 0.05 / brewTime();
+  if (Math.random() < 0.5) burst(CAFE_MACHINE[0] * T + T / 2, CAFE_MACHINE[1] * T + 6, 1, 'puff');
+  if (G.brew >= 1) {
+    G.brew = 0;
+    G.player.cup = { drink: G.brewChoice };
+    G.brewChoice = null;
+    sfx('pickup');
+  }
+}
+function releaseCup() { }
+function wrongDrink(c) {
+  S.stats.cafeStreak = 0;
+  say(c, pick(['That\'s not what I ordered!', 'Um… I wanted something else.', 'Wrong drink 😕']), 2.2);
+  sfx('bad');
+}
+function openDrinkPicker() {
+  G.talk = { kind: 'drinks' };
+  sfx('click');
+  showOverlay('talk');
+  renderTalk();
+}
+function renderDrinkPicker() {
+  const waiting = id => G.customers.filter(c => c.cafe && c.state === 'waitingDrink' && c.order === id).length;
+  const menu = CAFE_MENU.filter(m => S.cafe.have[m.id]);
+  return `
+    <div class="talk-head"><span class="talk-face">☕</span><div><h3>Coffee Machine</h3><small>What are you making?</small></div></div>
+    <div class="crops">${menu.map(m => {
+      const w = waiting(m.id);
+      return `<button class="crop ${w ? 'wanted' : ''}" data-act="pickdrink" data-id="${m.id}">
+        <span class="cem">${m.emoji}</span><span class="cnm">${m.name}</span>
+        <small>$${fmt(m.price)}${w ? `   👤 ${w} waiting` : ''}</small></button>`;
+    }).join('')}</div>
+    <p class="talk-hint">Match the drink over each guest's head. Then hold ${isTouch ? '✋' : 'E'} at the machine to brew it.</p>
+    <div class="btnrow"><button data-act="talkdone">Cancel</button></div>`;
+}
+function serveGuest(c, by) {
+  const it = cafeItem(c.order);
+  if (by === 'player') G.player.cup = null;
+  c.claimed = true;
+  const pref = CAFE_PREFS[c.type] || {};
+  const pastry = S.cafe.have.pastry && c.type !== 'dogwalker' ? 3.49 : 0;
+  let total = it.price + pastry;
+  let line = pick(['Mmm! ☕', 'Perfect.', 'Just what I needed', 'So cozy 🍂']);
+  if (c.type === 'kid' && c.broke) {
+    const f = G.customers.find(o => o.type === 'furry' && !o.remove && o.state !== 'leave' && o.y < 12 * T);
+    if (f) {
+      say(f, pick(['I got the kid\'s cocoa! 💖', 'That one\'s on me 🐾']), 3);
+      S.stats.furryHelps++; G.today.furryHelps++;
+      line = 'THANK YOU!! 🥹';
+    } else {
+      total = 0;
+      line = 'I… don\'t have any money 😢';
+      S.rep = Math.min(100, S.rep + 0.5);
+      setTimeout(() => toast('🧒 A kid couldn\'t pay, so the drink was on the house (+rep)'), 300);
+    }
+  }
+  if (pref.discount && G.tick - (c.orderedAt || G.tick) > 15) {
+    total = Math.round(total * 0.85 * 100) / 100;
+    line = 'That took forever. I\'m paying less.';
+  }
+  const tip = pref.tip && total ? Math.max(1, Math.round(total * pref.tip)) : 0;
+  S.money += total + tip;
+  G.today.revenue += total;
+  if (tip) { G.today.bonus += tip; S.stats.tips += tip; }
+  G.today.served++;
+  S.stats.cafeServed = (S.stats.cafeServed || 0) + 1;
+  S.stats.servedType.cafe = (S.stats.servedType.cafe || 0) + 1;
+  G.today.servedType.cafe = (G.today.servedType.cafe || 0) + 1;
+  S.stats.servedType[c.type] = (S.stats.servedType[c.type] || 0) + 1;
+  S.stats.cafeType = S.stats.cafeType || {};
+  S.stats.cafeType[c.type] = (S.stats.cafeType[c.type] || 0) + 1;
+  S.stats.cafeStreak = (S.stats.cafeStreak || 0) + 1;
+  S.stats.cafeBestStreak = Math.max(S.stats.cafeBestStreak || 0, S.stats.cafeStreak);
+  S.rep = Math.min(100, S.rep + (c.type === 'vip' ? 1.5 : 0.3));
+  if (total) addXP(total);
+  popup(c.x, c.y - 28, total ? `${it.emoji} +$${fmt(total)}${tip ? ` +$${tip} tip` : ''}` : `${it.emoji} on the house`, '#e8c9a0');
+  sfx(total ? 'cash' : 'pickup');
+  if (c.type === 'monster') line = pick(['Delicious… mwahaha.', '*slurps ominously*']);
+  else if (c.type === 'dogwalker') line = pick(['*happy slurping*', 'WOOF! 🐾']);
+  else if (c.type === 'kid' && !c.broke) line = pick(['YUMMY!!', 'Best. Cocoa. Ever.', 'Mom, look! 🍹']);
+  else if (c.type === 'furry') line = pick(['Tastes like autumn! 🐾', 'OwO so good']);
+  else if (c.type === 'goth') line = pick(['…acceptable.', 'Dark. Like my soul.']);
+  else if (c.type === 'grandma') line = 'Lovely, dear. Here\'s a little extra 💕';
+  say(c, line, 2.4);
+  c.state = 'sipping';
+  c.wait = rand(3, 5);
+}
+
+function baristaTick(dt) {
+  const want = cafeOpen() && S.cafe.have.barista ? 1 : 0;
+  while (G.baristas.length > want) { const b = G.baristas.pop(); if (b.guest) b.guest.claimed = false; }
+  while (G.baristas.length < want) {
+    G.baristas.push({ x: CAFE_HOME[0] * T + T / 2, y: CAFE_HOME[1] * T + T / 2, path: [], state: 'idle', wait: 0.5, speed: 150, face: '👨‍🍳' });
+  }
+  G.baristas.forEach(b => {
+    b.moving = false;
+    const gone = b.guest && (b.guest.remove || b.guest.state !== 'waitingDrink');
+    if (b.state === 'idle') {
+      b.wait -= dt;
+      if (b.wait > 0) return;
+      b.wait = 0.3;
+      const g2 = nextCafeOrder();
+      if (g2) { b.guest = g2; g2.claimed = true; b.state = 'brew'; b.timer = brewTime() + 0.4; }
+    } else if (b.state === 'brew') {
+      if (gone) { b.state = 'idle'; b.guest = null; return; }
+      b.timer -= dt;
+      if (Math.random() < 0.3) burst(CAFE_MACHINE[0] * T + T / 2, CAFE_MACHINE[1] * T + 6, 1, 'puff');
+      if (b.timer <= 0) {
+        b.state = pathTo(b, nearTile(b.guest.seat[0], b.guest.seat[1])) ? 'deliver' : 'idle';
+      }
+    } else if (b.state === 'deliver') {
+      if (gone) { b.state = 'return'; b.guest = null; pathTo(b, exactly(...CAFE_HOME)); return; }
+      if (followPath(b, dt)) {
+        serveGuest(b.guest, 'barista');
+        b.guest = null;
+        b.state = 'return';
+        pathTo(b, exactly(...CAFE_HOME));
+      }
+    } else if (b.state === 'return') {
+      if (followPath(b, dt)) { b.state = 'idle'; b.wait = 0.2; }
+    }
+  });
+}
+
+function drawCafe() {
+  if (!cafeOpen()) return;
+  for (let i = 0; i < CAFE_TABLES.length; i++) {
+    const [tx, ty] = CAFE_TABLES[i];
+    const px = tx * T + T / 2, py = ty * T + T / 2;
+    if (i >= S.cafe.tables) {
+      ctx.strokeStyle = 'rgba(255,209,102,0.15)'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(px, py, 13, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+      continue;
+    }
+    ellipse(ctx, px, py + 12, 17, 5, 'rgba(0,0,0,0.4)');
+    ctx.fillStyle = '#5a3a24';
+    ctx.beginPath(); ctx.arc(px + 24, py + 6, 8, 0, 7); ctx.fill();
+    ellipse(ctx, px, py, 17, 14, '#8a5a34');
+    ellipse(ctx, px, py - 1, 14, 11, S.cafe.have.cozy ? '#b0784a' : '#a3703f');
+    if (S.cafe.have.cozy) { ctx.fillStyle = '#8a2a4a'; ctx.beginPath(); ctx.arc(px + 24, py + 6, 6, 0, 7); ctx.fill(); }
+    emoji(['🕯️', '🍂', '🎃'][i % 3], px, py - 2, 11);
+  }
+  // coffee machine
+  const mx = CAFE_MACHINE[0] * T + T / 2, my = CAFE_MACHINE[1] * T + T / 2;
+  ctx.fillStyle = S.cafe.have.deluxe ? '#c9a33a' : S.cafe.have.pro ? '#8a8698' : '#3a3842';
+  rrect(ctx, mx - 13, my - 16, 26, 26, 4); ctx.fill();
+  ctx.fillStyle = '#16141c'; ctx.fillRect(mx - 8, my - 4, 16, 10);
+  emoji('☕', mx, my + 2, 12);
+  if (S.cafe.have.pastry) emoji('🥐', mx - 30, my - 4, 14);
+  emoji('🫖', mx - 44, my - 6, 13);
+  if (G.brewChoice) {
+    ctx.fillStyle = 'rgba(255,248,235,0.92)';
+    rrect(ctx, mx - 11, my - 46, 22, 18, 6); ctx.fill();
+    emoji(cafeItem(G.brewChoice).emoji, mx, my - 37, 12);
+  }
+  if (G.brew > 0) {
+    ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(mx, my - 26, 9, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * G.brew); ctx.stroke();
+  }
+  // order icons over waiting guests
+  G.customers.forEach(c => {
+    if (!c.cafe || c.state !== 'waitingDrink') return;
+    const it = cafeItem(c.order);
+    ctx.fillStyle = 'rgba(255,248,235,0.92)';
+    rrect(ctx, c.x - 11, c.y - 44, 22, 18, 6); ctx.fill();
+    emoji(it.emoji, c.x, c.y - 35, 12);
+    const f = clamp(c.patience / c.maxPatience, 0, 1);
+    ctx.fillStyle = '#0009'; ctx.fillRect(c.x - 12, c.y - 21, 24, 3);
+    ctx.fillStyle = f > 0.5 ? '#7ee7a0' : f > 0.25 ? '#ffb020' : '#ff4d4d';
+    ctx.fillRect(c.x - 12, c.y - 21, 24 * f, 3);
+  });
+}
+
+// the café is kept much darker than the rest of the store, lit by table candles
+function drawCafeGloom() {
+  if (!cafeOpen()) return;
+  const x0 = -9 * T, y0 = 7 * T, w = 9 * T, h = 5 * T;
+  if (x0 + w < G.camX || x0 > G.camX + VW) return;
+  ctx.save();
+  ctx.fillStyle = 'rgba(4,1,12,0.62)';
+  ctx.fillRect(x0, y0, w, h);
+  ctx.beginPath(); ctx.rect(x0, y0, w, h); ctx.clip();
+  ctx.globalCompositeOperation = 'lighter';
+  const glow = (x, y, r, a) => {
+    const gr = ctx.createRadialGradient(x, y, 0, x, y, r);
+    gr.addColorStop(0, `rgba(255,150,60,${a})`);
+    gr.addColorStop(1, 'rgba(255,150,60,0)');
+    ctx.fillStyle = gr;
+    ctx.fillRect(x - r, y - r, r * 2, r * 2);
+  };
+  for (let i = 0; i < S.cafe.tables; i++) {
+    const [tx, ty] = CAFE_TABLES[i];
+    glow(tx * T + T / 2, ty * T + T / 2, 44, 0.22 + 0.05 * Math.sin(G.tick * 7 + i * 2));
+  }
+  glow(CAFE_MACHINE[0] * T + T / 2, CAFE_MACHINE[1] * T + T / 2, 50, 0.2);
+  ctx.restore();
+}
+
+function drawBarista(b) {
+  const bob = b.moving ? Math.abs(Math.sin(G.tick * 11)) * -3 : 0;
+  drawStaff(b.x, b.y + bob, b.face);
+  if (b.state === 'deliver' && b.guest) emoji(cafeItem(b.guest.order).emoji, b.x, b.y - 26 + bob, 16);
 }
 
 // ------------------------------------------------------------
@@ -3859,6 +5002,181 @@ function drawTutorialEdge() {
 }
 
 // ------------------------------------------------------------
+//  ACHIEVEMENTS, STATS, REPORT CARD
+// ------------------------------------------------------------
+let achTimer = 0;
+function checkAchievements() {
+  if (!S || S.sandbox || !S.achievements) return;
+  S.stats.peakMoney = Math.max(S.stats.peakMoney || 0, S.money);
+  for (const a of ACHIEVEMENTS) {
+    if (S.achievements[a.id]) continue;
+    let ok = false;
+    try { ok = a.check(S); } catch (e) { ok = false; }
+    if (ok) {
+      S.achievements[a.id] = Date.now();
+      toast(`🏆 Achievement unlocked: ${a.icon} ${a.name}`, 'big', () => { if (!frozen() && G.scene !== 'night') openJournal('trophies'); });
+      sfx('level');
+    }
+  }
+}
+function achievementTick(dt) {
+  achTimer -= dt;
+  if (achTimer > 0) return;
+  achTimer = 1.5;
+  checkAchievements();
+}
+
+function achievementsHtml() {
+  const got = S.achievements || {};
+  const n = ACHIEVEMENTS.filter(a => got[a.id]).length;
+  return `<p class="journal-count">${S.sandbox ? 'Achievements are off in sandbox mode. ' : ''}${n} of ${ACHIEVEMENTS.length} unlocked</p>
+    <div class="trophies">${ACHIEVEMENTS.map(a => `
+      <div class="trophy ${got[a.id] ? 'got' : ''}" title="${a.desc}">
+        <div class="t-icon">${got[a.id] ? a.icon : '🔒'}</div>
+        <b>${a.name}</b><small>${a.desc}</small>
+      </div>`).join('')}</div>`;
+}
+
+function barList(entries, fmtVal = v => v) {
+  const max = Math.max(1, ...entries.map(e => e[2]));
+  return entries.map(([icon, label, v]) => `
+    <div class="bar-row"><span class="bar-label">${icon} ${label}</span>
+      <span class="bar"><i style="width:${Math.max(3, v / max * 100)}%"></i></span><b>${fmtVal(v)}</b></div>`).join('');
+}
+
+function historyChart(days) {
+  if (!days.length) return '<p class="journal-count">No finished days yet.</p>';
+  const w = 520, h = 110, mid = h / 2, bw = Math.min(26, w / days.length);
+  const max = Math.max(1, ...days.map(x => Math.abs(x.profit)));
+  const bars = days.map((x, i) => {
+    const bh = Math.abs(x.profit) / max * (mid - 6);
+    const y = x.profit >= 0 ? mid - bh : mid;
+    return `<rect x="${i * bw + 1}" y="${y}" width="${bw - 2}" height="${Math.max(1, bh)}" rx="2" fill="${x.profit >= 0 ? '#7ee7a0' : '#ff5a5a'}"><title>Oct ${x.day + 1}: $${x.profit}</title></rect>`;
+  }).join('');
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <line x1="0" y1="${mid}" x2="${w}" y2="${mid}" stroke="#ffffff33" stroke-width="1"/>${bars}</svg>
+    <p class="chart-cap">Profit per day (${days.length} day${days.length === 1 ? '' : 's'})</p>`;
+}
+
+function typeLabel(t) {
+  const s = SHOPPER_INFO.find(x => x.id === t);
+  return s ? [s.face, s.name] : ['🧑', t];
+}
+
+function dayStatsHtml() {
+  const d = G.today;
+  const avg = d.served ? d.revenue / d.served : 0;
+  const top = Object.entries(d.soldItem || {}).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const cats = Object.entries(d.soldCat || {}).sort((a, b) => b[1] - a[1]);
+  const types = Object.entries(d.servedType || {}).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const days = (S.history || []).filter(x => (x.year || 1) === (S.year || 1));
+  const tile = (label, val) => `<div class="stat-tile"><small>${label}</small><b>${val}</b></div>`;
+  return `
+    <div class="stat-tiles">
+      ${tile('Sales', `$${Math.round(d.revenue).toLocaleString()}`)}
+      ${tile('Customers', d.served)}
+      ${tile('Avg basket', `$${fmt(avg)}`)}
+      ${tile('Walkouts', d.walkouts)}
+      ${tile('Best streak', d.bestStreak)}
+      ${tile('Extra cash', `$${Math.round(d.bonus).toLocaleString()}`)}
+    </div>
+    <h4 class="jhead">🔝 Top sellers today</h4>
+    ${top.length ? barList(top.map(([id, n]) => [ITEM[id].emoji, ITEM[id].name, n])) : '<p class="journal-count">Nothing sold today.</p>'}
+    <h4 class="jhead">🗂️ By category</h4>
+    ${cats.length ? barList(cats.map(([c, n]) => ['', CATEGORIES[c].name, n])) : '<p class="journal-count">—</p>'}
+    <h4 class="jhead">🧑‍🤝‍🧑 Who shopped</h4>
+    ${types.length ? barList(types.map(([t, n]) => [...typeLabel(t), n])) : '<p class="journal-count">—</p>'}
+    <h4 class="jhead">📈 This season</h4>
+    ${historyChart(days)}`;
+}
+
+function seasonStatsHtml() {
+  const st = S.stats, se = S.season, tot = se.totals || {};
+  const days = (S.history || []).filter(x => (x.year || 1) === (S.year || 1));
+  const tile = (label, val) => `<div class="stat-tile"><small>${label}</small><b>${val}</b></div>`;
+  const topAll = Object.entries(st.soldItem || {}).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const types = Object.entries(st.servedType || {}).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  return `
+    <h4 class="jhead">📅 This season${(S.year || 1) > 1 ? ` (Year ${S.year})` : ''}</h4>
+    <div class="stat-tiles">
+      ${tile('Sales', `$${Math.round(se.revenue).toLocaleString()}`)}
+      ${tile('Profit', `$${Math.round(se.profit).toLocaleString()}`)}
+      ${tile('Customers', se.served)}
+      ${tile('Best day', `$${Math.round(se.bestDay).toLocaleString()}`)}
+      ${tile('Walkouts', tot.walkouts || 0)}
+      ${tile('Thieves caught', tot.thievesCaught || 0)}
+    </div>
+    ${historyChart(days)}
+    <h4 class="jhead">🌍 All time</h4>
+    <div class="stat-tiles">
+      ${tile('Customers', st.served)}
+      ${tile('Best day ever', `$${Math.round(st.bestDay || 0).toLocaleString()}`)}
+      ${tile('Most money', `$${Math.round(st.peakMoney || 0).toLocaleString()}`)}
+      ${tile('Best streak', st.maxStreak || 0)}
+      ${tile('Monsters found', st.catches)}
+      ${tile('Tips earned', `$${Math.round(st.tips).toLocaleString()}`)}
+    </div>
+    <h4 class="jhead">🔝 Best sellers ever</h4>
+    ${topAll.length ? barList(topAll.map(([id, n]) => [ITEM[id].emoji, ITEM[id].name, n])) : '<p class="journal-count">Nothing sold yet.</p>'}
+    <h4 class="jhead">🧑‍🤝‍🧑 Customers ever</h4>
+    ${types.length ? barList(types.map(([t, n]) => [...typeLabel(t), n])) : '<p class="journal-count">—</p>'}`;
+}
+
+function gradeOf(score) { return GRADES.find(([min]) => score >= min)[1]; }
+function buildReport() {
+  const se = S.season, tot = se.totals || {};
+  const yl = yearLvl();
+  const pct = (a, b, dflt) => (a + b) ? a / (a + b) : dflt;
+  const storyLines = QUESTLINES.filter(L => !(L.unlock && L.unlock.secret));
+  const doneStory = storyLines.filter(L => S.quests[L.id] && S.quests[L.id].done).length;
+  const loreFound = LORE.filter(l => (S.lore || {})[l.id]).length;
+  const rooms = ROOMS.filter((Rm, i) => roomOpen(i)).length;
+  const cats = [
+    { icon: '💰', name: 'Sales', why: `$${Math.round(se.revenue).toLocaleString()} sold`,
+      score: se.revenue / (40000 * (1 + 0.5 * yl)) * 100 },
+    { icon: '😊', name: 'Service', why: `${se.served} served, ${tot.walkouts || 0} walked out`,
+      score: pct(se.served, (tot.walkouts || 0) * 4, 0) * 100 },
+    { icon: '⭐', name: 'Reputation', why: `${Math.round(S.rep)} / 100`, score: S.rep },
+    { icon: '🛡️', name: 'Security', why: `${tot.thievesCaught || 0} thieves caught, ${tot.caught || 0} monsters found`,
+      score: 60 * pct(tot.thievesCaught || 0, tot.thievesEscaped || 0, 0.6) + Math.min(40, (tot.caught || 0) * 8) },
+    { icon: '📖', name: 'Story', why: `${doneStory}/${storyLines.length} townsfolk helped, ${loreFound}/${LORE.length} pages`,
+      score: doneStory / storyLines.length * 70 + loreFound / LORE.length * 30 },
+    { icon: '🏪', name: 'Store', why: `${S.fixtures.length} fixtures, ${rooms} rooms, ${S.expansions} expansions`,
+      score: S.fixtures.length * 2.5 + rooms * 10 + S.expansions * 6 },
+    { icon: '🧹', name: 'Care', why: `${tot.cleaned || 0} messes cleaned, ${tot.treats || 0} treats, ${tot.inspectPass || 0} inspections passed`,
+      score: 40 * pct(tot.inspectPass || 0, tot.inspectFail || 0, 0.5) + Math.min(30, (tot.cleaned || 0) * 1.5) + Math.min(30, (tot.treats || 0) * 2) },
+    { icon: '🤝', name: 'Kindness', why: `${tot.standUps || 0} stand-ups, ${tot.furryHelps || 0} kids helped, ${tot.vips || 0} VIPs`,
+      score: (tot.standUps || 0) * 8 + (tot.furryHelps || 0) * 5 + (tot.vips || 0) * 2 },
+  ].map(c => ({ ...c, score: Math.round(clamp(c.score, 0, 100)) }));
+  const overall = Math.round(cats.reduce((s, c) => s + c.score, 0) / cats.length);
+  return { cats, overall, grade: gradeOf(overall) };
+}
+
+function showReportCard() {
+  const rep = buildReport();
+  S.season.report = { overall: rep.overall, grade: rep.grade };
+  if (rep.grade === 'S') S.stats.gotS = true;
+  checkAchievements();
+  const titles = { S: 'Legendary Jack', A: 'Beloved Shopkeeper', B: 'Solid Season', C: 'Getting There', D: 'Rough October' };
+  $('summary').innerHTML = `
+    <div class="panel summary-panel report-panel">
+      <div class="big-emoji">🎃</div>
+      <h2>Halloween Report Card</h2>
+      <div class="overall grade-${rep.grade}"><span>${rep.grade}</span><small>${titles[rep.grade]} · ${rep.overall}/100</small></div>
+      <div class="report">${rep.cats.map(c => `
+        <div class="rep-row">
+          <span class="rep-icon">${c.icon}</span>
+          <div class="rep-mid"><b>${c.name}</b><small>${c.why}</small>
+            <span class="bar"><i style="width:${Math.max(3, c.score)}%"></i></span></div>
+          <span class="rep-grade grade-${gradeOf(c.score)}">${gradeOf(c.score)}</span>
+        </div>`).join('')}</div>
+      <p class="talk-text">The store is closed. The whole town is heading out…</p>
+      <button class="primary" data-act="gowalk">Go trick-or-treating 🍬</button>
+    </div>`;
+  showOverlay('summary');
+}
+
+// ------------------------------------------------------------
 //  STORY + JOURNAL
 // ------------------------------------------------------------
 function unlockLore(id, quiet) {
@@ -3881,6 +5199,10 @@ function loreTick(dt) {
   if (S.quests.farmer && S.quests.farmer.started) unlockLore('farmer');
   if ((st.standUpsTotal || 0) >= 1) unlockLore('pack');
   if (S.quests.prof && S.quests.prof.done) unlockLore('twentyseven');
+  if (S.npcUnlocks && S.npcUnlocks.limex) unlockLore('limex');
+  if (S.met && S.met.stranger) unlockLore('stranger');
+  if (S.quests.stranger && S.quests.stranger.step >= 3) unlockLore('hollowking');
+  if (S.quests.stranger && S.quests.stranger.done) unlockLore('jem');
 }
 
 function openStory() {
@@ -3889,11 +5211,83 @@ function openStory() {
   showOverlay('talk');
   renderTalk();
 }
-function openJournal() {
+function openJournal(tab) {
+  if (tab) G.journalTab = tab;
   G.talk = { kind: 'journal' };
   sfx('click');
   showOverlay('talk');
   renderTalk();
+}
+
+const isSecretNpc = id => !!(QL[id] && QL[id].unlock && QL[id].unlock.secret);
+function rollSecret() {
+  if (S.sandbox || G.scene === 'night' || S.day >= 29) return;
+  const pool = QUESTLINES.filter(L => L.unlock && L.unlock.secret && S.secrets[L.id] == null && S.day >= (L.unlock.minDay || 0));
+  if (!pool.length || Math.random() > 0.1) return;
+  const L = pick(pool);
+  S.secrets[L.id] = S.day;
+  const when = L.unlock.night ? ' after dark (6 PM+)' : L.unlock.daytime ? ' during the day (before 6 PM)' : L.unlock.morning ? ' this morning (before noon)' : '';
+  setTimeout(() => toast(`✨ A very rare visitor will be hanging around the store${when} today… go say hi!`, 'big'), 4800);
+}
+function unlockNpcUpgrade(L) {
+  S.npcUnlocks[L.id] = true;
+  const u = UPGRADES.find(x => x.unlockBy === L.id);
+  if (!u) return;
+  if (u.free) S.upgrades[u.id] = true;
+  setTimeout(() => toast(`🔓 ${u.free ? 'You got' : 'New upgrade unlocked'}: ${u.emoji} ${u.name}${u.free ? '' : ' (computer → Upgrades)'}`, 'big'), 700);
+}
+
+function journalTabs(active) {
+  const tabs = { lore: '📖 Story', people: '👥 People', trophies: '🏆 Achievements', prices: '🏷️ Prices', stats: '📊 Stats' };
+  return `<div class="jtabs">${Object.entries(tabs).map(([k, v]) => `<button data-act="jtab" data-tab2="${k}" class="${k === active ? 'on' : ''}">${v}</button>`).join('')}</div>`;
+}
+
+function journalPeople() {
+  const met = S.met || {};
+  const person = (face, name, title, desc, status, known) => known
+    ? `<div class="jentry"><div class="jicon">${face}</div><div><h4>${name} <small>${title}</small></h4><p>${desc}</p>${status ? `<p class="jstatus">${status}</p>` : ''}</div></div>`
+    : `<div class="jentry locked"><div class="jicon">❔</div><div><h4>???</h4><p>${desc}</p></div></div>`;
+  const story = QUESTLINES.filter(L => !(L.unlock && L.unlock.secret));
+  const secret = QUESTLINES.filter(L => L.unlock && L.unlock.secret);
+  const qStatus = L => {
+    const q = S.quests[L.id];
+    if (S.npcUnlocks[L.id]) return '✔ All tasks done';
+    if (!q || !q.started) return 'Not started';
+    return `Task ${q.step + 1} of ${L.steps.length}`;
+  };
+  const storyHtml = story.map(L => person(L.face, L.name, L.title, met[L.id] ? L.intro : `Keep playing to meet them.${timeWindowLabel(L.unlock) ? ' ' + timeWindowLabel(L.unlock) + '.' : ''}`, [qStatus(L), timeWindowLabel(L.unlock)].filter(Boolean).join('   '), met[L.id])).join('');
+  const secretHtml = secret.map(L => person(L.face, L.name, L.title, met[L.id] ? L.intro : `A very rare visitor. ${timeWindowLabel(L.unlock) ? timeWindowLabel(L.unlock) + '. ' : ''}Keep playing…`, [qStatus(L), timeWindowLabel(L.unlock)].filter(Boolean).join('   '), met[L.id])).join('');
+  const shopHtml = SHOPPER_INFO.map(p => person(p.face, p.name, '', met[p.id] ? p.desc : 'You haven\'t run into them yet.', '', met[p.id])).join('');
+  const count = arr => arr.filter(x => met[x.id]).length;
+  return `
+    <h4 class="jhead">👥 Townsfolk (${count(story)}/${story.length})</h4><div class="journal">${storyHtml}</div>
+    <h4 class="jhead">✨ Secret visitors (${count(secret)}/${secret.length})</h4><p class="journal-count">Rare! They only show up by chance.</p><div class="journal">${secretHtml}</div>
+    <h4 class="jhead">🛍️ Shoppers (${count(SHOPPER_INFO)}/${SHOPPER_INFO.length})</h4><div class="journal">${shopHtml}</div>`;
+}
+
+function journalPrices() {
+  const marks = S.marks || {};
+  const sold = S.stats.soldItem || {};
+  const stocked = new Set(S.fixtures.map(f => f.item).filter(Boolean));
+  const ids = ITEMS.filter(i => marks[i.id] || sold[i.id] || stocked.has(i.id)).map(i => i.id)
+    .sort((a, b) => (marks[b] ? 1 : 0) - (marks[a] ? 1 : 0) || (sold[b] || 0) - (sold[a] || 0));
+  if (!ids.length) return '<p class="journal-count">Sell or stock something and it will show up here.</p>';
+  const rows = ids.map(id => {
+    const it = ITEM[id], p = S.prices[id], m = S.market[id], prev = S.marketPrev ? S.marketPrev[id] : null;
+    const trend = prev == null ? '' : m > prev + 0.001 ? '<span class="up">▲</span>' : m < prev - 0.001 ? '<span class="down">▼</span>' : '';
+    const diff = (p / m - 1) * 100;
+    return `<tr class="${marks[id] ? 'marked' : ''}">
+      <td><button class="star" data-act="markitem" data-id="${id}" title="Mark">${marks[id] ? '⭐' : '☆'}</button></td>
+      <td>${it.emoji} ${it.name}</td>
+      <td>$${fmt(p)}</td>
+      <td>$${fmt(m)} ${trend}</td>
+      <td class="${diff > 20 ? 'bad' : diff < -10 ? 'good' : ''}">${diff >= 0 ? '+' : ''}${diff.toFixed(0)}%</td>
+      <td>${sold[id] || 0}</td>
+      <td><button class="mini" data-act="jprice" data-id="${id}">Edit</button></td>
+    </tr>`;
+  }).join('');
+  return `<p class="journal-count">⭐ Mark items to pin them to the top. ▲▼ shows how the market moved since yesterday.</p>
+    <div class="jtable-wrap"><table class="jtable"><thead><tr><th></th><th>Item</th><th>Yours</th><th>Market</th><th>vs market</th><th>Sold</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 function renderLoreTalk(t) {
@@ -3908,11 +5302,16 @@ function renderLoreTalk(t) {
         ${t.page < STORY_INTRO.length - 1 ? '<button data-act="storyskip">Skip</button>' : ''}
       </div>`;
   }
+  const tab = G.journalTab || 'lore';
+  const head = `<button class="bx" data-act="close">✕</button><h2>📖 Journal</h2>${journalTabs(tab)}`;
+  if (tab === 'people') return `${head}<div class="jscroll">${journalPeople()}</div><div class="btnrow"><button class="primary" data-act="talkdone">Close</button></div>`;
+  if (tab === 'trophies') return `${head}<div class="jscroll">${achievementsHtml()}</div><div class="btnrow"><button class="primary" data-act="talkdone">Close</button></div>`;
+  if (tab === 'stats') return `${head}<div class="jscroll">${seasonStatsHtml()}</div><div class="btnrow"><button class="primary" data-act="talkdone">Close</button></div>`;
+  if (tab === 'prices') return `${head}<div class="jscroll">${journalPrices()}</div><div class="btnrow"><button class="primary" data-act="talkdone">Close</button></div>`;
   const lore = S.lore || {};
   const found = LORE.filter(l => lore[l.id]).length;
   return `
-    <button class="bx" data-act="close">✕</button>
-    <h2>📖 Journal</h2>
+    ${head}
     <p class="journal-count">${S.sandbox ? 'The story is switched off in sandbox mode.' : `${found} of ${LORE.length} pages found`}</p>
     <div class="journal">
       ${LORE.map(l => lore[l.id] ? `
@@ -3956,7 +5355,7 @@ function harvestPlot(x, y, who) {
   const p = plotAt(x, y);
   if (!p.crop || p.t < CROP[p.crop].time) return null;
   const c = CROP[p.crop];
-  const box = { item: c.item, qty: c.yield };
+  const box = { item: c.item, qty: Math.round(c.yield * (up('goldencan') ? 1.5 : 1)) };
   S.stats.harvested++;
   p.crop = null; p.t = 0;
   burst(x * T + T / 2, y * T + 8, 6, 'puff');
@@ -4020,7 +5419,7 @@ function gardenerTick(dt) {
 }
 
 function updateCamera(dt) {
-  const target = clamp(G.player.x - VW / 2, 0, worldW() - VW);
+  const target = clamp(G.player.x - VW / 2, worldMin(), worldW() - VW);
   G.camX += (target - G.camX) * Math.min(1, dt * 6);
   if (Math.abs(target - G.camX) < 0.5) G.camX = target;
 }
@@ -4100,6 +5499,24 @@ function beginDay() {
   G.challenge = makeChallenge();
   if (S.day === 30 && !S.freeplay) toast('🎃 IT\'S HALLOWEEN! Expect a huge rush and lots of trick-or-treaters.', 'big');
   else toast(`☀️ ${dateLabel()}. Flip the sign by the door to open.`);
+  planVisit();
+  rollSecret();
+  const vNow = G.visit;
+  if (vNow) setTimeout(() => toast(visitAnnounce(vNow), 'big'), 3600);
+  const beat = !S.sandbox && STORY_BEATS.find(b => b.day === S.day);
+  if (beat) {
+    S.beatsSeen = S.beatsSeen || {};
+    if (beat.event) { G.event = { ...EVENTS.find(e => e.id === beat.event) }; }
+    if (!S.beatsSeen[beat.day]) {
+      S.beatsSeen[beat.day] = true;
+      setTimeout(() => {
+        if (G.overlay || G.scene === 'night') return;
+        G.talk = { kind: 'beat', beat };
+        showOverlay('talk');
+        renderTalk();
+      }, 900);
+    }
+  }
   const evNow = G.event, chNow = G.challenge;
   if (evNow) setTimeout(() => toast(`${evNow.icon} Today: ${evNow.name}. ${evNow.desc}`, 'big'), 1200);
   if (chNow) setTimeout(() => toast(`📅 Daily challenge: ${chNow.text} for $${chNow.reward}`), 2400);
@@ -4113,13 +5530,15 @@ function endDay() {
   G.stockers.forEach(s => s.carry.forEach((c, i) => S.boxes.push({ x: s.x + i * 4, y: s.y + 6, item: c.item, qty: c.qty })));
   G.stockers = [];
   G.messes = [];
+  G.baristas = [];
+  G.player.cup = null;
   G.deliveries.forEach(d => dropBoxes(d.boxes));
   G.vans.forEach(v => { if (!v.dropped) dropBoxes(v.boxes); });
   G.deliveries = []; G.vans = [];
 
   for (const k in S.plots) { const p = S.plots[k]; if (p.crop) p.t = CROP[p.crop].time; }
-  const wages = UPGRADES.reduce((s, u) => s + (u.wage ? u.wage * cnt(u.id) : 0), 0);
-  const rent = 150 + 75 * S.expansions + 100 * ROOMS.filter((Rm, i) => roomOpen(i)).length;
+  const wages = UPGRADES.reduce((s, u) => s + (u.wage ? u.wage * cnt(u.id) : 0), 0) + (S.cafe && S.cafe.have.barista ? 30 : 0);
+  const rent = Math.round((150 + 75 * S.expansions + 100 * ROOMS.filter((Rm, i) => roomOpen(i)).length) * (1 + 0.5 * yearLvl()) * (up('keytocity') ? 0.75 : 1));
   S.money -= wages + rent;
   const d = G.today;
   const profit = d.revenue + d.bonus - d.spent - wages - rent;
@@ -4127,11 +5546,37 @@ function endDay() {
   S.season.profit += profit;
   S.season.served += d.served;
   S.season.bestDay = Math.max(S.season.bestDay, d.revenue);
+  S.stats.bestDay = Math.max(S.stats.bestDay || 0, d.revenue);
+  S.season.totals = S.season.totals || {};
+  ['walkouts', 'thievesCaught', 'thievesEscaped', 'caught', 'treats', 'tricks', 'standUps', 'cleaned', 'vips', 'furryHelps', 'bonus', 'inspectPass', 'inspectFail']
+    .forEach(k => { S.season.totals[k] = (S.season.totals[k] || 0) + (d[k] || 0); });
+  S.history = S.history || [];
+  S.history.push({ day: S.day, year: S.year || 1, revenue: Math.round(d.revenue), profit: Math.round(profit), served: d.served, walkouts: d.walkouts, rep: Math.round(S.rep) });
+  if (S.history.length > 200) S.history.splice(0, S.history.length - 200);
+  G.summaryTab = 'summary';
+  G.summaryData = { rent, wages, profit };
 
+  checkAchievements();
+  renderSummary();
+  showOverlay('summary');
+}
+
+function renderSummary() {
+  const d = G.today, { rent, wages, profit } = G.summaryData;
   const row = (label, val, cls = '') => `<div class="srow ${cls}"><span>${label}</span><b>${val}</b></div>`;
+  const tabs = `<div class="jtabs sumtabs">
+    <button data-act="sumtab" data-tab2="summary" class="${G.summaryTab === 'summary' ? 'on' : ''}">📋 Summary</button>
+    <button data-act="sumtab" data-tab2="stats" class="${G.summaryTab === 'stats' ? 'on' : ''}">📊 Stats</button></div>`;
+  const halloween = S.day === 30 && !S.freeplay;
+  const nextBtn = `<button class="primary" data-act="nextday">${halloween ? 'See your report card 🎃' : 'Start next day'}</button>`;
+  if (G.summaryTab === 'stats') {
+    $('summary').innerHTML = `<div class="panel summary-panel stats-panel"><h2>${dateLabel()}</h2>${tabs}${dayStatsHtml()}${nextBtn}</div>`;
+    return;
+  }
   $('summary').innerHTML = `
     <div class="panel summary-panel">
       <h2>${dateLabel()} is done</h2>
+      ${tabs}
       ${row('Sales', `$${fmt(d.revenue)}`, 'good')}
       ${d.bonus ? row('Tips, bounties and quest rewards', `$${fmt(d.bonus)}`, 'good') : ''}
       ${row('Spent on stock and upgrades', `−$${fmt(d.spent)}`)}
@@ -4150,20 +5595,76 @@ function endDay() {
       ${d.tricks ? row('Times you got tricked', `🥚 ${d.tricks}`, 'bad') : ''}
       ${d.standUps ? row('Times you stood up for a furry', `💪 ${d.standUps}`, 'good') : ''}
       ${d.bestStreak >= 3 ? row('Best checkout streak', `🔥 ${d.bestStreak}`) : ''}
+      ${G.today.visitResult ? row(G.today.visitResult[0], G.today.visitResult[1], G.today.visitResult[2]) : ''}
       ${G.challenge ? row(`📅 ${G.challenge.text}`, G.challenge.done ? '✔ Done' : '✘ Missed', G.challenge.done ? 'good' : '') : ''}
       ${row('Reputation', `⭐ ${Math.round(S.rep)}`)}
       ${S.money < 0 ? '<p class="warn">You\'re in the red. Sell what you have before ordering more.</p>' : ''}
-      <button class="primary" data-act="nextday">Start next day</button>
+      ${nextBtn}
     </div>`;
-  showOverlay('summary');
 }
 
 function nextDay() {
   const wasHalloween = S.day === 30 && !S.freeplay;
   S.day++;
+  S.marketPrev = S.market;
   S.market = rollMarket();
-  if (wasHalloween) { S.seasonOver = true; startNight(); return; }
+  if (wasHalloween) { S.seasonOver = true; showReportCard(); return; }
   beginDay();
+}
+
+function showPerks() {
+  const owned = S.perks || [];
+  const bonus = Math.min(5000, Math.max(0, Math.round(S.season.profit * 0.1)));
+  $('season').innerHTML = `
+    <div class="panel summary-panel perk-panel">
+      <div class="big-emoji">🔁</div>
+      <h2>Year ${(S.year || 1) + 1}</h2>
+      <p class="talk-text">Another October begins. You keep your <b>level</b>, <b>journal</b> and <b>perks</b>, plus <b>$${bonus.toLocaleString()}</b> from last season's profit. The store starts fresh, rent is higher, customers are pickier, and more monsters and shoplifters slip through.</p>
+      <p class="talk-text"><b>Pick a perk to keep forever:</b></p>
+      <div class="perks">${PERKS.map(pk => {
+        const has = owned.includes(pk.id);
+        return `<button class="perk" data-act="pickperk" data-id="${pk.id}" ${has ? 'disabled' : ''}>
+          <span class="pk-icon">${pk.icon}</span><b>${pk.name}</b><small>${has ? 'Already owned' : pk.desc}</small></button>`;
+      }).join('')}</div>
+      <div class="btnrow"><button data-act="perkback">Back</button></div>
+    </div>`;
+  showOverlay('season');
+}
+
+function startNextYear(perkId) {
+  const old = S;
+  const bonus = Math.min(5000, Math.max(0, Math.round(old.season.profit * 0.1)));
+  S = newState();
+  S.year = (old.year || 1) + 1;
+  S.xp = old.xp;
+  S.lore = old.lore || {};
+  S.achievements = old.achievements || {};
+  S.stats = old.stats;
+  S.prices = old.prices;
+  S.perks = [...(old.perks || []), perkId].filter((v, i, a) => a.indexOf(v) === i);
+  S.npcUnlocks = old.npcUnlocks || {};
+  S.met = old.met || {};
+  S.marks = old.marks || {};
+  S.marketPrev = old.market;
+  // finished secret quests stay finished; unfinished secrets have to be found again
+  S.quests = {};
+  S.secrets = {};
+  QUESTLINES.forEach(L => {
+    if (L.unlock && L.unlock.secret && old.quests && old.quests[L.id] && old.quests[L.id].done) {
+      S.quests[L.id] = old.quests[L.id];
+      S.secrets[L.id] = (old.secrets || {})[L.id] ?? 0;
+    }
+  });
+  UPGRADES.forEach(u => { if (u.free && u.unlockBy && S.npcUnlocks[u.unlockBy]) S.upgrades[u.id] = true; });
+  S.tutorialDone = true;
+  S.beatsSeen = {};
+  S.sandbox = old.sandbox;
+  S.money = 3000 + bonus + (hasPerk('savings') ? 5000 : 0);
+  if (hasPerk('staff')) { S.upgrades.stocker = 1; S.upgrades.cashier = 1; }
+  if (hasPerk('rooms')) S.upgrades.room_green = true;
+  beginDay();
+  unlockLore('year2');
+  setTimeout(() => toast(`🔁 Year ${S.year} begins! Perks: ${S.perks.map(id => (PERKS.find(p => p.id === id) || { icon: '🚧' }).icon).join(' ')}`, 'big'), 800);
 }
 
 function showSeason() {
@@ -4174,6 +5675,7 @@ function showSeason() {
       <div class="big-emoji">🎃🦇👻</div>
       <h2>Halloween season over</h2>
       <p class="rank">${rank}</p>
+      ${S.season.report ? `<div class="srow"><span>Report card</span><b>${S.season.report.grade} (${S.season.report.overall}/100)</b></div>` : ''}
       <p class="talk-text">🌅 Dawn breaks over Hollowmere. Your candle flickers… but the town loved you too much. Your light stays on.</p>
       <div class="srow"><span>Total sales</span><b>$${fmt(S.season.revenue)}</b></div>
       <div class="srow ${p >= 0 ? 'good' : 'bad'}"><span>Total profit</span><b>$${fmt(p)}</b></div>
@@ -4182,7 +5684,8 @@ function showSeason() {
       ${S.season.candy != null ? `<div class="srow good"><span>Halloween night candy</span><b>🍬 ${S.season.candy}</b></div>
       <div class="srow"><span>Houses visited</span><b>🏠 ${S.season.houses}</b></div>` : ''}
       <div class="btnrow">
-        <button class="primary" data-act="freeplay">Keep playing</button>
+        <button class="primary" data-act="nextyear">Start Year ${(S.year || 1) + 1} 🔁</button>
+        <button data-act="freeplay">Keep playing</button>
         <button data-act="newgame">New season</button>
       </div>
     </div>`;
@@ -4200,6 +5703,7 @@ function renderShop() {
   const lvl = levelOf(S.xp);
   const tab = G.shopTab;
   const tabs = { stock: 'Stock', fixtures: 'Fixtures', upgrades: 'Upgrades', prices: 'My prices' };
+  if (cafeOpen()) tabs.cafe = '☕ Café';
   let body = '';
 
   if (tab === 'stock') {
@@ -4256,7 +5760,7 @@ function renderShop() {
   }
 
   if (tab === 'upgrades') {
-    body = `<div class="grid wide">${UPGRADES.map(u => {
+    const card = u => {
       const n = cnt(u.id), max = upMax(u);
       const locked = u.lvl > lvl;
       const needReq = u.req && !S.upgrades[u.req];
@@ -4276,9 +5780,49 @@ function renderShop() {
       return `<div class="card ${locked ? 'locked' : ''}">
         <div class="em">${u.emoji}</div><div class="nm">${u.name}</div>
         <div class="meta">${u.desc}</div>${extra}<div class="pr">$${u.cost}</div>${btn}</div>`;
-    }).join('')}</div>`;
+    };
+    const friendCard = u => {
+      const L = QL[u.unlockBy];
+      const open = S.npcUnlocks && S.npcUnlocks[u.unlockBy];
+      const known = S.met && S.met[u.unlockBy];
+      if (!open) {
+        const secret = L.unlock && L.unlock.secret;
+        return `<div class="card locked friend">
+          <div class="em">${known || !secret ? u.emoji : '❔'}</div>
+          <div class="nm">${known || !secret ? u.name : '???'}</div>
+          <div class="meta">${known || !secret ? u.desc : 'A secret reward.'}</div>
+          <div class="lock">🔒 ${known ? `Finish ${L.name}'s tasks` : secret ? 'Unlocked by a rare visitor' : `Help ${L.name}`}</div></div>`;
+      }
+      if (u.free) S.upgrades[u.id] = true;
+      return `<div class="card friend">
+        <div class="em">${u.emoji}</div><div class="nm">${u.name}</div>
+        <div class="meta">${u.desc}</div><div class="from">From ${L.face} ${L.name}</div>
+        ${u.free ? '<div class="pr">Free</div>' : `<div class="pr">$${u.cost}</div>`}
+        ${S.upgrades[u.id] ? '<div class="owned">✔ Owned</div>' : `<button class="buy" data-act="buyup" data-id="${u.id}">Buy</button>`}</div>`;
+    };
+    body = `<div class="grid wide">${UPGRADES.filter(u => !u.unlockBy).map(card).join('')}</div>
+      <h3 class="up-section">👥 From townsfolk</h3>
+      <p class="note">Finish a townsperson's tasks to unlock their upgrade.</p>
+      <div class="grid wide">${UPGRADES.filter(u => u.unlockBy && !isSecretNpc(u.unlockBy)).map(friendCard).join('')}</div>
+      <h3 class="up-section">✨ Secret rewards</h3>
+      <p class="note">From rare visitors who only show up by chance.</p>
+      <div class="grid wide">${UPGRADES.filter(u => u.unlockBy && isSecretNpc(u.unlockBy)).map(friendCard).join('')}</div>`;
   }
 
+  if (tab === 'cafe' && cafeOpen()) {
+    const cf = S.cafe;
+    body = `<p class="note">Guests sit at your tables and order drinks. Brew them at the coffee machine (hold E), then carry them over. Menu: ${CAFE_MENU.filter(m => cf.have[m.id]).map(m => `${m.emoji} ${m.name} $${fmt(m.price)}`).join(', ')}.</p>
+    <div class="grid wide">${CAFE_UPGRADES.map(u => {
+      let btn;
+      if (u.id === 'table') {
+        const extra = cf.tables - 2;
+        btn = extra < u.max ? `<div class="hired">Tables: ${cf.tables} / 6</div><button class="buy" data-act="cafebuy" data-id="table">Add a table</button>` : '<div class="owned">✔ All 6 tables</div>';
+      } else if (cf.have[u.id]) btn = '<div class="owned">✔ Owned</div>';
+      else if (u.req && !cf.have[u.req]) btn = `<div class="lock">Needs ${CAFE_UPGRADES.find(x => x.id === u.req).name}</div>`;
+      else btn = `<button class="buy" data-act="cafebuy" data-id="${u.id}">Buy</button>`;
+      return `<div class="card"><div class="em">${u.emoji}</div><div class="nm">${u.name}</div><div class="meta">${u.desc}</div><div class="pr">$${u.cost}</div>${btn}</div>`;
+    }).join('')}</div>`;
+  }
   if (tab === 'prices') {
     const rows = ITEMS.filter(i => i.lvl <= lvl).map(it => {
       const p = S.prices[it.id], m = S.market[it.id];
@@ -4409,6 +5953,7 @@ function onOverlayClick(e) {
     }
     case 'buyup': {
       const u = UPGRADES.find(x => x.id === id);
+      if (u.unlockBy && !(S.npcUnlocks && S.npcUnlocks[u.unlockBy])) return;
       if (S.money < u.cost) { toast('Not enough money 💸', 'bad'); sfx('bad'); return; }
       if (u.repeat && cnt(u.id) >= upMax(u)) return;
       S.money -= u.cost; G.today.spent += u.cost;
@@ -4416,7 +5961,7 @@ function onOverlayClick(e) {
       else if (u.repeat) S.upgrades[u.id] = cnt(u.id) + 1;
       else S.upgrades[u.id] = true;
       if (u.expansion) S.expansions = u.expansion;
-      if (u.room) { repathAll(); toast(`${u.emoji} ${u.name.replace('Build the ', '')} is open! Head east through the new door ➡️`, 'big'); }
+      if (u.room) { repathAll(); const west = ['room_crypt', 'room_cafe', 'room_studio'].includes(u.id); toast(`${u.emoji} ${u.name.replace('Build the ', '')} is open! Head ${west ? 'west ⬅️' : 'east ➡️'} through the new door`, 'big'); }
       const reg = REGISTERS.find(R => R.req === u.id);
       if (reg) {
         // push anyone standing where the new counter goes
@@ -4447,6 +5992,32 @@ function onOverlayClick(e) {
     case 'pm': setPrice(G.priceItem, prettyPrice(S.market[G.priceItem] * parseFloat(b.dataset.m))); sfx('click'); renderPrice(); break;
     case 'allm': ITEMS.forEach(i => setPrice(i.id, prettyPrice(S.market[i.id] * parseFloat(b.dataset.m)))); sfx('click'); renderShop(); break;
     case 'nextday': nextDay(); break;
+    case 'sumtab': G.summaryTab = b.dataset.tab2; renderSummary(); break;
+    case 'gowalk': startNight(); break;
+    case 'jtab': G.journalTab = b.dataset.tab2; renderTalk(); break;
+    case 'markitem': S.marks[id] = !S.marks[id]; if (!S.marks[id]) delete S.marks[id]; renderTalk(); break;
+    case 'jprice': closeOverlay(); openPrice(id); break;
+    case 'pickdrink': G.brewChoice = id; G.brew = 0; closeOverlay(); break;
+    case 'cafebuy': {
+      const u = CAFE_UPGRADES.find(x => x.id === id);
+      if (S.money < u.cost) { toast('Not enough money 💸', 'bad'); sfx('bad'); return; }
+      if (id === 'table') {
+        if (S.cafe.tables >= 6) return;
+        S.cafe.tables++;
+        repathAll();
+      } else {
+        if (S.cafe.have[id] || (u.req && !S.cafe.have[u.req])) return;
+        S.cafe.have[id] = true;
+      }
+      S.money -= u.cost; G.today.spent += u.cost;
+      sfx('level');
+      toast(`${u.emoji} ${u.name}${id === 'table' ? ' added' : ' bought'}!`);
+      renderShop();
+      break;
+    }
+    case 'nextyear': showPerks(); break;
+    case 'perkback': showSeason(); break;
+    case 'pickperk': startNextYear(id); break;
     case 'freeplay': S.freeplay = true; S.seasonOver = false; beginDay(); break;
     case 'newgame': { const sb = S.sandbox; S = newState(); S.sandbox = sb; beginDay(); break; }
     case 'continue': loadGame(); break;
@@ -4525,9 +6096,10 @@ function showTitle() {
   };
   const sb = slotInfo(SANDBOX_KEY);
   $('title').innerHTML = `
+    <canvas id="titlebg"></canvas>
     <div class="panel title-panel">
-      <div class="big-emoji">🎃</div>
-      <h1>Spooky Stock</h1>
+      <div class="title-pumpkin">🎃</div>
+      <h1 class="title-logo">Spooky Stock</h1>
       <p class="sub">A Halloween store simulator</p>
       <p class="blurb">It's October 1st in Hollowmere. Order decorations, stock your shelves, price them right and survive the rush to Halloween night.</p>
       <div class="slots">${[1, 2, 3].slice(0, SLOT_COUNT).map(card).join('')}</div>
@@ -4545,7 +6117,204 @@ function showTitle() {
       </div>
     </div>`;
   showOverlay('title');
+  TitleScene.start();
 }
+
+// ------------------------------------------------------------
+//  TITLE SCREEN BACKDROP (animated graveyard at night)
+// ------------------------------------------------------------
+const TitleScene = (() => {
+  let cv2, c, w = 0, h = 0, dpr = 1, running = false, last = 0, t = 0;
+  let layer = null, stars = [], bats = [], leaves = [], fogs = [], pumpkins = [], windows = [];
+  let flash = 0, nextFlash = 6, bolt = null, ghost = { t: 0, x: 0, y: 0 };
+
+  function buildLayer() {
+    const R = srand(777);
+    layer = document.createElement('canvas');
+    layer.width = w * dpr; layer.height = h * dpr;
+    const b = layer.getContext('2d');
+    b.scale(dpr, dpr);
+    // sky
+    const sky = b.createLinearGradient(0, 0, 0, h);
+    sky.addColorStop(0, '#07020f'); sky.addColorStop(0.45, '#241036'); sky.addColorStop(0.75, '#5a2230'); sky.addColorStop(1, '#8a3a1a');
+    b.fillStyle = sky; b.fillRect(0, 0, w, h);
+    // moon
+    const mx = w * 0.78, my = h * 0.22, mr = Math.min(w, h) * 0.09;
+    const mg = b.createRadialGradient(mx, my, mr * 0.8, mx, my, mr * 4);
+    mg.addColorStop(0, 'rgba(255,230,180,0.35)'); mg.addColorStop(1, 'rgba(255,230,180,0)');
+    b.fillStyle = mg; b.fillRect(mx - mr * 4, my - mr * 4, mr * 8, mr * 8);
+    b.fillStyle = '#fff1cf'; b.beginPath(); b.arc(mx, my, mr, 0, Math.PI * 2); b.fill();
+    b.fillStyle = 'rgba(200,170,120,0.35)';
+    [[-0.3, -0.2, 0.18], [0.25, 0.1, 0.14], [-0.05, 0.35, 0.1], [0.35, -0.35, 0.08]].forEach(([dx, dy, s]) => {
+      b.beginPath(); b.arc(mx + dx * mr, my + dy * mr, s * mr, 0, Math.PI * 2); b.fill();
+    });
+    // far hills
+    const hill = (base, amp, color, seed) => {
+      b.fillStyle = color;
+      b.beginPath(); b.moveTo(0, h);
+      for (let x = 0; x <= w + 20; x += 20) b.lineTo(x, base + Math.sin(x * 0.006 + seed) * amp + Math.sin(x * 0.017 + seed * 2) * amp * 0.4);
+      b.lineTo(w, h); b.fill();
+    };
+    hill(h * 0.62, h * 0.04, '#1c0b26', 1);
+    // haunted house on the hill
+    const hx = w * 0.2, hy = h * 0.6, s = Math.min(w, h) * 0.0016;
+    b.fillStyle = '#0f0616';
+    b.fillRect(hx - 90 * s, hy - 110 * s, 180 * s, 120 * s);
+    b.beginPath(); b.moveTo(hx - 105 * s, hy - 110 * s); b.lineTo(hx, hy - 180 * s); b.lineTo(hx + 105 * s, hy - 110 * s); b.fill();
+    b.fillRect(hx + 50 * s, hy - 200 * s, 40 * s, 100 * s);
+    b.beginPath(); b.moveTo(hx + 42 * s, hy - 200 * s); b.lineTo(hx + 70 * s, hy - 250 * s); b.lineTo(hx + 98 * s, hy - 200 * s); b.fill();
+    b.fillRect(hx - 60 * s, hy - 200 * s, 12 * s, 40 * s);
+    windows = [[-60, -90], [-20, -90], [20, -90], [-60, -45], [20, -45], [62, -170], [-8, -145]].map(([dx, dy]) => ({ x: hx + dx * s, y: hy + dy * s, w: 18 * s, h: 22 * s, ph: R() * 6 }));
+    hill(h * 0.72, h * 0.035, '#12071a', 4);
+    // dead tree
+    b.strokeStyle = '#07030b'; b.lineCap = 'round';
+    const branch = (x, y, len, ang, depth) => {
+      const x2 = x + Math.cos(ang) * len, y2 = y + Math.sin(ang) * len;
+      b.lineWidth = depth * 2.2 * Math.max(0.6, s);
+      b.beginPath(); b.moveTo(x, y); b.lineTo(x2, y2); b.stroke();
+      if (depth > 1) {
+        branch(x2, y2, len * 0.72, ang - 0.35 - R() * 0.35, depth - 1);
+        branch(x2, y2, len * 0.7, ang + 0.3 + R() * 0.35, depth - 1);
+      }
+    };
+    branch(w * 0.86, h * 0.9, Math.min(w, h) * 0.09, -Math.PI / 2 - 0.08, 7);
+    // ground + graveyard
+    b.fillStyle = '#08040c';
+    b.beginPath(); b.moveTo(0, h);
+    for (let x = 0; x <= w + 20; x += 20) b.lineTo(x, h * 0.84 + Math.sin(x * 0.02) * 6);
+    b.lineTo(w, h); b.fill();
+    const grave = (x, y, sc) => {
+      b.fillStyle = '#2a2433';
+      b.beginPath(); b.moveTo(x - 16 * sc, y); b.lineTo(x - 16 * sc, y - 26 * sc); b.arc(x, y - 26 * sc, 16 * sc, Math.PI, 0); b.lineTo(x + 16 * sc, y); b.fill();
+      b.fillStyle = '#18141f'; b.fillRect(x - 8 * sc, y - 30 * sc, 16 * sc, 3 * sc); b.fillRect(x - 1.5 * sc, y - 36 * sc, 3 * sc, 14 * sc);
+    };
+    const gs = Math.max(0.8, Math.min(w, h) / 700);
+    [[0.06, 0.88, 1.1], [0.13, 0.9, 0.8], [0.34, 0.87, 1], [0.6, 0.89, 0.9], [0.68, 0.87, 1.2], [0.95, 0.9, 0.8]]
+      .forEach(([fx, fy, sc]) => grave(w * fx, h * fy, sc * gs));
+    // iron fence
+    b.strokeStyle = '#05020a'; b.lineWidth = 2;
+    b.beginPath(); b.moveTo(0, h * 0.8); b.lineTo(w, h * 0.8); b.stroke();
+    for (let x = 6; x < w; x += 14) { b.beginPath(); b.moveTo(x, h * 0.8 + 18); b.lineTo(x, h * 0.8 - 12); b.stroke(); }
+    // stars
+    stars = Array.from({ length: Math.round(w * h / 5000) }, () => ({ x: R() * w, y: R() * h * 0.55, r: R() < 0.9 ? 1 : 1.8, ph: R() * 6 }));
+    // pumpkins along the bottom
+    const n = Math.max(4, Math.round(w / 170));
+    pumpkins = Array.from({ length: n }, (_, i) => ({ x: (i + 0.5) * (w / n) + (R() - 0.5) * 40, y: h * 0.95 - R() * 10, s: (28 + R() * 26) * gs, ph: R() * 6 }));
+  }
+
+  function resize() {
+    if (!cv2) return;
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    w = innerWidth; h = innerHeight;
+    cv2.width = w * dpr; cv2.height = h * dpr;
+    c = cv2.getContext('2d');
+    buildLayer();
+  }
+
+  function drawBatShape(x, y, flap, sc) {
+    c.save(); c.translate(x, y); c.scale(sc, sc);
+    const wv = Math.sin(flap) * 7;
+    c.fillStyle = '#05020a';
+    c.beginPath();
+    c.moveTo(0, 0);
+    c.quadraticCurveTo(-7, -5 - wv, -18, -2 - wv); c.quadraticCurveTo(-13, 1, -10, 4);
+    c.quadraticCurveTo(-5, 1, 0, 5); c.quadraticCurveTo(5, 1, 10, 4);
+    c.quadraticCurveTo(13, 1, 18, -2 - wv); c.quadraticCurveTo(7, -5 - wv, 0, 0);
+    c.fill();
+    c.beginPath(); c.arc(0, 1, 3, 0, Math.PI * 2); c.fill();
+    c.restore();
+  }
+
+  function frame(now) {
+    if (!running) return;
+    const dt = Math.min(0.05, (now - last) / 1000 || 0);
+    last = now; t += dt;
+    const title = document.getElementById('title');
+    if (!title || title.classList.contains('hidden') || !document.getElementById('titlebg')) { running = false; return; }
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    c.drawImage(layer, 0, 0, w, h);
+    // twinkling stars
+    stars.forEach(st => {
+      c.fillStyle = `rgba(255,250,235,${0.35 + 0.35 * Math.sin(t * 2 + st.ph)})`;
+      c.fillRect(st.x, st.y, st.r, st.r);
+    });
+    // flickering windows
+    windows.forEach(wi => {
+      const f = 0.55 + 0.35 * Math.sin(t * 9 + wi.ph) * Math.sin(t * 3.7 + wi.ph);
+      c.fillStyle = `rgba(255,170,60,${f})`;
+      c.fillRect(wi.x, wi.y, wi.w, wi.h);
+    });
+    // ghost drifting by the house
+    ghost.t -= dt;
+    if (ghost.t <= -8) { ghost.t = 5; ghost.x = w * (0.1 + Math.random() * 0.2); ghost.y = h * 0.48; }
+    if (ghost.t > 0) {
+      c.globalAlpha = Math.min(1, ghost.t, 5 - ghost.t) * 0.7;
+      emoji('👻', ghost.x + (5 - ghost.t) * 18, ghost.y + Math.sin(t * 2) * 8, Math.min(w, h) * 0.05, c);
+      c.globalAlpha = 1;
+    }
+    // bats
+    if (Math.random() < dt * 0.9 && bats.length < 10) {
+      const left = Math.random() < 0.5;
+      bats.push({ x: left ? -30 : w + 30, y: h * (0.1 + Math.random() * 0.45), vx: (left ? 1 : -1) * (60 + Math.random() * 90), ph: Math.random() * 6, sc: 0.8 + Math.random() * 1.2 });
+    }
+    bats.forEach(bt => { bt.x += bt.vx * dt; bt.ph += dt * 16; bt.y += Math.sin(t * 2 + bt.ph * 0.1) * 12 * dt; drawBatShape(bt.x, bt.y, bt.ph, bt.sc); });
+    bats = bats.filter(bt => bt.x > -60 && bt.x < w + 60);
+    // falling leaves
+    if (Math.random() < dt * 4 && leaves.length < 40) leaves.push({ x: Math.random() * w, y: -10, vx: 20 + Math.random() * 30, vy: 30 + Math.random() * 30, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 4, col: pick(LEAF_COLS) });
+    leaves.forEach(l => { l.x += (l.vx + Math.sin(t + l.rot) * 20) * dt; l.y += l.vy * dt; l.rot += l.vr * dt; drawLeaf(c, l.x, l.y, l.rot, l.col, 0.9); });
+    leaves = leaves.filter(l => l.y < h + 20);
+    // fog
+    if (!fogs.length) fogs = Array.from({ length: 7 }, (_, i) => ({ x: Math.random() * w, y: h * (0.78 + Math.random() * 0.2), r: 140 + Math.random() * 160, v: 8 + Math.random() * 14 }));
+    fogs.forEach(f => {
+      f.x += f.v * dt;
+      if (f.x - f.r > w) f.x = -f.r;
+      const gr = c.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r);
+      gr.addColorStop(0, 'rgba(190,170,220,0.16)'); gr.addColorStop(1, 'rgba(190,170,220,0)');
+      c.fillStyle = gr; c.fillRect(f.x - f.r, f.y - f.r, f.r * 2, f.r * 2);
+    });
+    // jack-o'-lanterns with flickering glow
+    pumpkins.forEach(p => {
+      const fl = 0.8 + 0.2 * Math.sin(t * 11 + p.ph) * Math.sin(t * 5 + p.ph);
+      const gr = c.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.s * 2.2);
+      gr.addColorStop(0, `rgba(255,140,40,${0.45 * fl})`); gr.addColorStop(1, 'rgba(255,140,40,0)');
+      c.fillStyle = gr; c.fillRect(p.x - p.s * 2.2, p.y - p.s * 2.2, p.s * 4.4, p.s * 4.4);
+      emoji('🎃', p.x, p.y, p.s, c);
+    });
+    // lightning
+    nextFlash -= dt;
+    if (nextFlash <= 0) {
+      nextFlash = 7 + Math.random() * 9;
+      flash = 1;
+      let x = w * (0.35 + Math.random() * 0.3), y = 0;
+      bolt = [[x, y]];
+      while (y < h * 0.55) { x += (Math.random() - 0.5) * 50; y += 20 + Math.random() * 30; bolt.push([x, y]); }
+      if (typeof sfx === 'function') sfx('van');
+    }
+    if (flash > 0) {
+      c.fillStyle = `rgba(220,210,255,${flash * 0.35})`;
+      c.fillRect(0, 0, w, h);
+      if (bolt && flash > 0.6) {
+        c.strokeStyle = `rgba(255,255,255,${flash})`; c.lineWidth = 2.5;
+        c.beginPath(); bolt.forEach(([bx, by], i) => i ? c.lineTo(bx, by) : c.moveTo(bx, by)); c.stroke();
+      }
+      flash -= dt * 2.2;
+    }
+    // vignette
+    const vg = c.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.35, w / 2, h / 2, Math.max(w, h) * 0.75);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.6)');
+    c.fillStyle = vg; c.fillRect(0, 0, w, h);
+    requestAnimationFrame(frame);
+  }
+
+  function start() {
+    cv2 = document.getElementById('titlebg');
+    if (!cv2) return;
+    resize();
+    if (!running) { running = true; last = performance.now(); requestAnimationFrame(frame); }
+  }
+  window.addEventListener('resize', () => { if (running) resize(); });
+  return { start };
+})();
 
 function startNewGame() {
   S = newState();
@@ -4572,7 +6341,9 @@ function showHelp() {
       <p><b>Customers:</b> ⭐ valued customers buy lots and boost reputation (don't make them wait!). Grandmas tip. Kids want candy and costumes. Big spenders go for big decor. 🐾 Furries are the kindest shoppers around: half of all kids show up with no money, and if a furry is in the store they'll pay for them (the other shoppers aren't always nice to them, sadly). Some "costumed" customers are real monsters with a faint green glow. Remember their face, because the police will come asking.</p>
       <p><b>Watch out for:</b> 🛑 shoplifters sneaking out with a ❗ over their head (run into them or press E), messes on the floor (hold E to clean), and 💢 shoppers being mean to furries (press E to tell them off). From Oct 25, trick-or-treaters knock after 6 PM. Give them candy from your bins or they'll egg your shop!</p>
       <p><b>Every day</b> can bring a random event (sales, rain, full moon, school trips…) and a 📅 daily challenge. Scan customers quickly yourself to build a 🔥 checkout streak for bonus cash.</p>
-      <p><b>Rooms:</b> build the Greenhouse, Party Hall and Showroom from the Upgrades tab. The map scrolls when you walk east. Customers shop in every room but always pay at the main registers. In the Greenhouse, press E on a garden bed to plant seeds, then harvest the box when it's ripe.</p>
+      <p><b>Shoppers</b> come in lots of kinds now: tourists, couples, collectors, complainers (scan them fast!), night owls, morning joggers, goth teens in groups, and at least one dog.</p>
+      <p><b>Later in the month</b> you'll get surprise visits: a health inspector, influencers who want specific items, bulk orders to deliver, and rush hours.</p>
+      <p><b>Rooms:</b> build the Greenhouse, Party Hall and Showroom (east) and the Café, Crypt and Costume Studio (west) from the Upgrades tab. Each wing has its own computer. In the café, hold E at the coffee machine to brew a guest's order, then bring it to their table. The map scrolls when you walk through the side doors. Customers shop in every room but always pay at the main registers. In the Greenhouse, press E on a garden bed to plant seeds, then harvest the box when it's ripe.</p>
       <p><b>Quests:</b> people with ❗ above their heads have tasks for you. ⭐ means a task is ready to turn in.</p>
       <p>The game only saves when you press 💾 Save, and 📂 Load brings that save back.</p>
       <p>Sales earn XP, which unlocks new stock, fixtures and upgrades. Customers get more numerous every day until Halloween on Oct 31.</p>
@@ -4608,9 +6379,9 @@ function update(dt) {
     if (G.spawnTimer <= 0) {
       const stocked = S.fixtures.filter(f => f.stock > 0).length;
       const perHour = 6 * demand() * (0.5 + S.rep / 100) * appeal() * Math.min(2.5, 0.6 + 0.08 * stocked);
-      const interval = (60 / MIN_PER_SEC) / Math.max(0.5, perHour);
+      const interval = (60 / MIN_PER_SEC) / Math.max(0.5, perHour) / (G.rushUntil > G.time ? 2.5 : 1);
       G.spawnTimer = interval * rand(0.6, 1.4);
-      if (G.customers.length < 25) spawnCustomer();
+      if (G.customers.length < 25) { if (cafeOpen() && freeSeat() && Math.random() < 0.3) spawnCafeGuest(); else spawnCustomer(); }
     }
   }
 
@@ -4628,12 +6399,15 @@ function update(dt) {
   updateCops(dt);
   guardTick();
   janitorTick(dt);
+  baristaTick(dt);
   messTick(dt);
   totTick(dt);
   busTick();
   rainTick(dt);
   challengeTick();
+  visitTick();
   loreTick(dt);
+  achievementTick(dt);
   tutorialTick();
   updateGarden(dt);
   gardenerTick(dt);
@@ -4721,14 +6495,15 @@ function drawLeaf(c, x, y, rot, color, alpha = 1) {
 // ---------- static background ----------
 function buildBackground() {
   let b;
-  [bg, b] = makeCanvas();
+  [bg, b] = makeCanvas(W + LEFT * T, H);
+  b.translate(LEFT * T, 0);
   const R = srand(1337);
 
   // outside pavers
   b.fillStyle = '#1e1b24';
-  b.fillRect(0, 13 * T, W, 2 * T);
+  b.fillRect(-LEFT * T, 13 * T, W + LEFT * T, 2 * T);
   for (let y = 13 * T, r = 0; y < H; y += 14, r++) {
-    for (let x = (r % 2 ? -14 : 0); x < W; x += 28) {
+    for (let x = -LEFT * T + (r % 2 ? -14 : 0); x < W; x += 28) {
       const s = 44 + R() * 12 | 0;
       b.fillStyle = `rgb(${s + 6},${s + 2},${s + 12})`;
       b.fillRect(x + 1, y + 1, 26, 12);
@@ -4737,7 +6512,7 @@ function buildBackground() {
     }
   }
   b.fillStyle = '#141119';
-  b.fillRect(0, H - 4, W, 4);
+  b.fillRect(-LEFT * T, H - 4, W + LEFT * T, 4);
   // leaves on the ground
   const leafCols = ['#c25a1a', '#e0892a', '#8a3b12', '#b5761f', '#6e2a10'];
   for (let i = 0; i < 55; i++) drawLeaf(b, R() * W, 13 * T + 4 + R() * (2 * T - 8), R() * 6, leafCols[i % 5], 0.85);
@@ -4838,18 +6613,47 @@ function buildBackground() {
   aoBox(24 * T, 7 * T, 10 * T, 5 * T);
   aoBox(35 * T, 7 * T, 8 * T, 5 * T);
 
+  // ---- west wing: The Crypt (north), Costume Studio (south-west), Witch's Brew Café (south-east)
+  const cx0 = -19 * T;
+  b.fillStyle = '#121016'; b.fillRect(cx0, T, 19 * T, 5 * T);
+  for (let y = T; y < 6 * T; y += 20) for (let x = cx0 + ((y / 20) % 2 ? 12 : 0); x < 0; x += 24) {
+    const s = 34 + R() * 14 | 0;
+    b.fillStyle = `rgb(${s},${s - 2},${s + 6})`;
+    b.fillRect(x + 1, y + 1, 22, 18);
+    if (R() < 0.12) { b.strokeStyle = 'rgba(0,0,0,0.5)'; b.lineWidth = 1; b.beginPath(); b.moveTo(x + 4, y + 4); b.lineTo(x + 12, y + 10); b.lineTo(x + 9, y + 16); b.stroke(); }
+  }
+  b.fillStyle = '#2a0f3a'; b.fillRect(cx0, 4.2 * T, 19 * T, 0.6 * T);
+  b.fillStyle = '#8a5cc2'; b.fillRect(cx0, 4.2 * T, 19 * T, 2); b.fillRect(cx0, 4.8 * T - 2, 19 * T, 2);
+  // café floor
+  planks(-9 * T, 7 * T, 9 * T, 5 * T, 24, 30, 9);
+  // studio: plum carpet with a diamond pattern and a little stage
+  b.fillStyle = '#3a1a3a'; b.fillRect(cx0, 7 * T, 9 * T, 5 * T);
+  b.fillStyle = 'rgba(255,140,200,0.07)';
+  for (let y = 7 * T + 10; y < 12 * T; y += 20) for (let x = cx0 + ((y / 20) % 2 ? 10 : 0); x < -10 * T; x += 20) {
+    b.beginPath(); b.moveTo(x, y - 6); b.lineTo(x + 6, y); b.lineTo(x, y + 6); b.lineTo(x - 6, y); b.fill();
+  }
+  b.fillStyle = '#5a2a4a'; b.fillRect(cx0, 11 * T + 6, 9 * T, T - 6);
+  b.fillStyle = '#d9a43a'; b.fillRect(cx0, 11 * T + 6, 9 * T, 2);
+  // café counter
+  b.fillStyle = '#3a2416'; b.fillRect(-3 * T, 7 * T + 4, 2 * T, T - 8);
+  b.fillStyle = '#6b4226'; b.fillRect(-3 * T, 7 * T + 4, 2 * T, 20);
+  b.fillStyle = 'rgba(255,220,180,0.12)'; b.fillRect(-3 * T, 7 * T + 4, 2 * T, 2);
+  aoBox(cx0, T, 19 * T, 5 * T);
+  aoBox(cx0, 7 * T, 9 * T, 5 * T);
+  aoBox(-9 * T, 7 * T, 9 * T, 5 * T);
+
   // room doorways (floor; drawn bricked-up in-game while locked)
   ROOMS.forEach(Rm => {
     const [dx, dy] = Rm.door;
     b.fillStyle = '#2a1c14'; b.fillRect(dx * T, dy * T, T, T);
     b.fillStyle = '#4a3222';
-    if (dx === 23) b.fillRect(dx * T + 4, dy * T, 4, T); else b.fillRect(dx * T, dy * T + 4, T, 4);
+    if (dx === 23 || dx === 0) b.fillRect(dx * T + 4, dy * T, 4, T); else b.fillRect(dx * T, dy * T + 4, T, 4);
   });
 
   // stone walls (anything that isn't a painted wall face)
-  const isFace = (x, y) => (y === 0 && x > 0 && x < COLS - 1 && x !== 23) || (y === 6 && x > 23 && x < COLS - 1 && x !== 34);
-  for (let y = 0; y <= 12; y++) for (let x = 0; x < COLS; x++) {
-    if (BASE[y][x] !== 1 || isFace(x, y)) continue;
+  const isFace = (x, y) => (y === 0 && x > -LEFT && x < COLS - 1 && x !== 0 && x !== 23) || (y === 6 && ((x > 23 && x < COLS - 1 && x !== 34) || (x < 0 && x > -LEFT && x !== -10)));
+  for (let y = 0; y <= 12; y++) for (let x = -LEFT; x < COLS; x++) {
+    if (baseAt(x, y) !== 1 || isFace(x, y)) continue;
     const px = x * T, py = y * T;
     b.fillStyle = '#120b19';
     b.fillRect(px, py, T, T);
@@ -4859,7 +6663,7 @@ function buildBackground() {
       b.fillRect(px + off + 1, py + r * 10 + 1, 16, 8);
       if (off + 19 < T) b.fillRect(px + off + 19, py + r * 10 + 1, Math.min(16, T - off - 20), 8);
     }
-    const fl = (nx, ny) => ny >= 0 && ny <= 12 && nx >= 0 && nx < COLS && BASE[ny][nx] !== 1;
+    const fl = (nx, ny) => ny >= 0 && ny <= 12 && nx >= -LEFT && nx < COLS && baseAt(nx, ny) !== 1;
     b.fillStyle = '#34244a';
     if (fl(x + 1, y)) b.fillRect(px + T - 3, py, 3, T);
     if (fl(x - 1, y)) b.fillRect(px, py, 3, T);
@@ -4892,6 +6696,22 @@ function buildBackground() {
   b.fillRect(T, 12 * T, 10 * T, 3);
   b.fillRect(13 * T, 12 * T, 10 * T, 3);
   b.fillRect(24 * T, 12 * T, 19 * T, 3);
+  face(-19, -1, 0, '#2a2a33', '#18171e', 'rgba(140,120,180,0.08)');
+  face(-9, -1, 6, '#5a3a24', '#3a2416', 'rgba(255,200,140,0.06)');
+  face(-19, -16, 6, '#4a1f4a', '#2a102a', 'rgba(255,140,200,0.07)');
+  face(-14, -11, 6, '#4a1f4a', '#2a102a', 'rgba(255,140,200,0.07)');
+  b.fillStyle = '#ff8a1f';
+  b.fillRect(-19 * T, 12 * T, 19 * T, 3);
+  b.save();
+  b.textAlign = 'center'; b.textBaseline = 'middle';
+  b.font = '24px Creepster, cursive';
+  b.shadowBlur = 10;
+  b.shadowColor = '#8a5cc2'; b.fillStyle = '#c8b4e8'; b.fillText('THE CRYPT', -10 * T, T / 2 + 1);
+  b.font = '18px Creepster, cursive';
+  b.shadowColor = '#ffb35c'; b.fillStyle = '#ffd9a0'; b.fillText('WITCH\'S BREW CAFÉ', -5 * T, 6 * T + T / 2 + 1);
+  b.font = '15px Creepster, cursive';
+  b.shadowColor = '#ff5ab4'; b.fillStyle = '#ffb4dc'; b.fillText('COSTUME STUDIO', -12.5 * T, 6 * T + T / 2 + 1);
+  b.restore();
 
   // room names
   b.save();
@@ -4959,6 +6779,8 @@ function buildBackground() {
   win(13.3, 22.7);
   win(24.3, 33.7);
   win(35.3, 42.7);
+  win(-18.7, -10.7);
+  win(-8.7, -1.3);
 
 
   // doorway: threshold + mat
@@ -4970,8 +6792,9 @@ function buildBackground() {
   b.textAlign = 'center'; b.textBaseline = 'middle';
   b.fillText('BOO!', 12 * T, 12 * T + T / 2 + 1);
 
-  // desk + computer
-  const dx = 21 * T + 2, dy = T + 4, dw = 2 * T - 6;
+  // desks + computers (one per section)
+  COMPUTERS.forEach(cp => {
+  const dx = cp.desk[0][0] * T + 2, dy = cp.desk[0][1] * T + 4, dw = 2 * T - 6;
   b.fillStyle = 'rgba(0,0,0,0.4)'; b.fillRect(dx + 3, dy + 30, dw, 7);
   b.fillStyle = '#7a4e2e'; b.fillRect(dx, dy, dw, 24);
   b.fillStyle = 'rgba(255,220,180,0.12)'; b.fillRect(dx, dy, dw, 2);
@@ -4988,6 +6811,7 @@ function buildBackground() {
   for (let i = 0; i < 6; i++) b.fillRect(dx + 9 + i * 4, dy + 20, 3, 2);
   b.fillStyle = '#e8e0d0'; b.fillRect(dx + dw - 10, dy + 12, 6, 7);
   b.fillStyle = '#5a3017'; b.fillRect(dx + dw - 9.5, dy + 12, 5, 1.5);
+  });
 
   // outside decor: dead tree, lamp post, graves
   b.strokeStyle = '#0c070b'; b.lineCap = 'round';
@@ -5046,6 +6870,30 @@ function buildBackground() {
   [[24.5, 7.4, '🪴', 18], [33.5, 7.4, '🌵', 16], [24.5, 11.5, '🪴', 16], [33.5, 11.5, '🌿', 16], [24.4, 9.5, '🚿', 13],
    [42.5, 1.5, '🪩', 18], [24.5, 1.5, '🎁', 15], [42.5, 5.5, '🎁', 14], [42.5, 11.5, '⚰️', 18], [35.5, 11.5, '🕯️', 14]]
     .forEach(([x, y, e, s]) => emoji(e, x * T, y * T, s, b));
+
+  // west wing decor
+  [[-18, '🕸️', 15], [-15, '🦇', 13], [-6, '💀', 14], [-3, '🕸️', 15], [-2, '🕯️', 13]].forEach(([x, e, s]) => emoji(e, x * T, 0.52 * T, s, b));
+  [[-18.5, 1.5, '⚰️', 22], [-18.5, 5.4, '⚰️', 22], [-1.5, 1.4, '🕯️', 16], [-11, 1.4, '💀', 14], [-4, 5.4, '🪦', 18], [-8, 5.5, '🕯️', 14]]
+    .forEach(([x, y, e, s]) => emoji(e, x * T, y * T, s, b));
+  // studio: mirrors, spotlights, dress forms
+  [[-18.5, 7.45, '🪞', 18], [-11.5, 7.45, '🪞', 18], [-18.5, 11.5, '👗', 16], [-11.5, 11.5, '🎩', 14], [-15, 11.5, '💡', 12], [-13, 11.5, '💡', 12]]
+    .forEach(([x, y, e, s]) => emoji(e, x * T, y * T, s, b));
+  // café: plants and a menu board
+  [[-1.5, 11.5, '🪴', 16], [-9.5, 11.5, '🪴', 14], [-1.3, 6.52, '🍂', 13], [-8.7, 6.52, '☕', 13]]
+    .forEach(([x, y, e, s]) => emoji(e, x * T, y * T, s, b));
+  // outside the west wing
+  const lp3 = -10.5 * T;
+  ellipse(b, lp3, 14.3 * T, 8, 3, 'rgba(0,0,0,0.4)');
+  b.fillStyle = '#16121c'; b.fillRect(lp3 - 2, 12.6 * T, 4, 1.7 * T);
+  b.fillRect(lp3 - 5, 14.2 * T, 10, 4);
+  b.fillStyle = '#0d0a12'; b.fillRect(lp3 - 7, 12.35 * T, 14, 3);
+  b.fillStyle = '#ffd98a'; b.fillRect(lp3 - 5, 12.35 * T + 3, 10, 9);
+  grave(-16.5 * T, 13.8 * T, 1);
+  grave(-5.3 * T, 14.1 * T, 0.8);
+  ellipse(b, -13.5 * T, 14.6 * T, 22, 5, 'rgba(0,0,0,0.35)');
+  branch(-13.5 * T, 14.6 * T, 15, -Math.PI / 2, 5);
+  [[-19.2, '🎃', 16], [-7.4, '🌾', 18], [-2.6, '☕', 14], [-8.2, '🎃', 14]].forEach(([x, e, s]) => emoji(e, x * T, 13.35 * T, s, b));
+  for (let i = 0; i < 30; i++) drawLeaf(b, -LEFT * T + R() * LEFT * T, 13 * T + 4 + R() * (2 * T - 8), R() * 6, leafCols[i % 5], 0.85);
 
   // wall-mounted decor along the back wall
   [[13.2, '🦇', 15], [14.1, '🕸️', 16], [15.2, '💀', 15], [16.3, '🖼️', 15], [17.4, '⛓️', 14], [18.5, '🦇', 13], [19.6, '🕯️', 13], [3.3, '🦇', 13]]
@@ -5626,6 +7474,9 @@ function lightList() {
     [1, [[26.5, 9], [31, 9]], '170,255,160'],
     [2, [[37, 9], [41, 9]], '200,130,255'],
   ];
+  roomLights.push([ROOMS.findIndex(r => r.id === 'crypt'), [[-15, 3], [-7, 3], [-2, 3]], '170,130,255']);
+  roomLights.push([ROOMS.findIndex(r => r.id === 'cafe'), [[-5, 9]], '255,120,60']);
+  roomLights.push([ROOMS.findIndex(r => r.id === 'studio'), [[-15, 9], [-12, 11]], '255,140,210']);
   roomLights.forEach(([i, pts, col]) => { if (roomOpen(i)) pts.forEach(([x, y]) => L.push({ x: x * T, y: y * T, r: 200, a: 0.75, c: col })); });
   L.push({ x: 30.5 * T, y: 12.6 * T, r: 190, a: 0.95, c: '255,210,130' });
   G.vans.forEach(v => L.push({ x: v.x - 90, y: 14 * T + 18, r: 90, a: 0.9, c: '255,240,200' }));
@@ -5711,7 +7562,7 @@ function drawCustomer(c) {
   const bob = c.moving ? Math.abs(Math.sin(G.tick * 10 + c.bob)) * -3 : 0;
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   ctx.beginPath(); ctx.ellipse(c.x, c.y + 10, 9, 3, 0, 0, Math.PI * 2); ctx.fill();
-  if (c.type === 'monster' && Math.sin(G.tick * 2.5 + c.bob) > 0.2) {
+  if (c.type === 'monster' && (up('witchward') || up('ghostdetector') || Math.sin(G.tick * 2.5 + c.bob) > 0.2)) {
     ctx.save();
     ctx.shadowColor = '#5dff7a';
     ctx.shadowBlur = 10 + Math.sin(G.tick * 9) * 4;
@@ -5721,9 +7572,12 @@ function drawCustomer(c) {
   emoji(c.face, c.x, c.y - 2 + bob, 26);
   if (c.type === 'vip') emoji('⭐', c.x + 11, c.y - 14 + bob, 11);
   if (c.type === 'furry') emoji('🐾', c.x + 11, c.y - 14 + bob, 10);
-  if (c.type === 'thief' && S.upgrades.camera && !c.caught) emoji('🔍', c.x - 12, c.y - 14 + bob, 10);
+  if (c.type === 'thief' && (S.upgrades.camera || up('ghostdetector')) && !c.caught) emoji('🔍', c.x - 12, c.y - 14 + bob, 10);
   if (c.fleeing && Math.sin(G.tick * 12) > -0.2) { emoji('❗', c.x, c.y - 26, 14); emoji('💨', c.x + (c.x < c.exitX * T ? -14 : 14), c.y + 4, 11); }
   if (c.type === 'tot') emoji('🎃', c.x + 11, c.y + 6 + bob, 11);
+  if (c.type === 'celeb') emoji('🌟', c.x + 11, c.y - 14 + bob, 12);
+  if (c.type === 'inspector') emoji('📋', c.x + 12, c.y + 4 + bob, 12);
+  if (c.type === 'planner') emoji('📦', c.x + 12, c.y + 4 + bob, 12);
   if (c.bullying > 0 && Math.sin(G.tick * 8) > 0) emoji('💢', c.x - 12, c.y - 14, 11);
   if (c.type === 'police' && Math.sin(G.tick * 10) > 0) emoji('🚨', c.x, c.y - 20, 11);
   if (c.basket.length && c.type !== 'thief') {
@@ -5748,6 +7602,7 @@ function drawPlayer() {
   ctx.beginPath(); ctx.ellipse(p.x, p.y + 11, 11, 4, 0, 0, Math.PI * 2); ctx.fill();
   emoji('🎃', p.x, p.y - 2 + bob, 30);
   if (p.carry) drawBox(p.x, p.y - 26 + bob, p.carry.item, p.carry.qty);
+  if (p.cup) emoji(cafeItem(p.cup.drink).emoji, p.x, p.y - 26 + bob, 18);
 }
 
 
@@ -5756,9 +7611,10 @@ function draw() {
   ctx.save();
   ctx.clearRect(0, 0, VW, H);
   ctx.translate(-Math.round(G.camX), 0);
-  ctx.drawImage(bg, 0, 0, W, H);
+  ctx.drawImage(bg, -LEFT * T, 0, W + LEFT * T, H);
   drawRooms();
   drawPlots();
+  drawCafe();
   drawSlots();
   drawMesses();
   REGISTERS.forEach((R, r) => regActive(r) ? drawCounter(r) : drawRegisterSlot(r));
@@ -5790,6 +7646,7 @@ function draw() {
   G.stockers.forEach(s => actors.push({ y: s.y, d: () => drawStocker(s) }));
   activeQuestNPCs().forEach(L => actors.push({ y: L.pos[1] * T + T / 2, d: () => drawQuestNPC(L) }));
   G.gardeners.forEach(gd => actors.push({ y: gd.y, d: () => drawGardener(gd) }));
+  G.baristas.forEach(bb => actors.push({ y: bb.y, d: () => drawBarista(bb) }));
   G.janitors.forEach(j => actors.push({ y: j.y, d: () => drawJanitor(j) }));
   G.guards.forEach((gd, i) => actors.push({ y: gd.y, d: () => { drawStaff(gd.x, gd.y, ['💂', '👮‍♀️'][i]); } }));
   if (S.upgrades.candybowl) actors.push({ y: 13 * T, d: () => emoji('🥣', 11.5 * T, 13 * T + 4, 16) });
@@ -5805,6 +7662,7 @@ function draw() {
   G.vans.forEach(drawVan);
   drawParticles();
   drawFog();
+  drawCafeGloom();
   if (G.rain.length) {
     ctx.strokeStyle = 'rgba(170,200,255,0.35)';
     ctx.lineWidth = 1;
@@ -5860,7 +7718,8 @@ function draw() {
   ctx.font = '600 13px Fredoka, sans-serif';
   ctx.textBaseline = 'middle';
   const pulse = 0.55 + 0.35 * Math.sin(G.tick * 3);
-  if (anyRoom && G.camX < W - VW - 20 && G.player.x < 24 * T) {
+  const eastOpen = ROOMS.some((Rm, i) => Rm.area[0] > 23 && roomOpen(i));
+  if (eastOpen && G.camX < W - VW - 20 && G.player.x >= 0 && G.player.x < 24 * T) {
     ctx.fillStyle = `rgba(20,11,28,${0.75})`;
     rrect(ctx, VW - 112, H / 2 - 16, 104, 32, 16); ctx.fill();
     ctx.fillStyle = `rgba(255,209,102,${pulse + 0.1})`;
@@ -5873,6 +7732,21 @@ function draw() {
     ctx.fillStyle = `rgba(255,209,102,${pulse + 0.1})`;
     ctx.textAlign = 'center';
     ctx.fillText('⬅️ Main store', 64, H / 2);
+  }
+  const westOpen = ROOMS.some((Rm, i) => Rm.area[0] < 0 && roomOpen(i));
+  if (westOpen && G.player.x >= 0 && G.player.x < 24 * T && G.camX > worldMin() + 20) {
+    ctx.fillStyle = `rgba(20,11,28,${0.75})`;
+    rrect(ctx, 8, H / 2 + 22, 112, 32, 16); ctx.fill();
+    ctx.fillStyle = `rgba(255,209,102,${pulse + 0.1})`;
+    ctx.textAlign = 'center';
+    ctx.fillText('⬅️ More rooms', 64, H / 2 + 38);
+  }
+  if (G.player.x < 0) {
+    ctx.fillStyle = `rgba(20,11,28,${0.75})`;
+    rrect(ctx, VW - 124, H / 2 - 16, 116, 32, 16); ctx.fill();
+    ctx.fillStyle = `rgba(255,209,102,${pulse + 0.1})`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Main store ➡️', VW - 66, H / 2);
   }
 }
 
@@ -5992,6 +7866,7 @@ function setupTouch() {
   btn('tb-act', () => press('e'), 'e');
   btn('tb-drop', () => press('q'));
   btn('tb-pack', () => press('f'));
+  btn('tb-journal', () => { if (G.scene !== 'night') openJournal(); });
   btn('tb-place', () => { if (G.placing) G.placing = null; else press('p'); });
 
   document.addEventListener('gesturestart', e => e.preventDefault());
