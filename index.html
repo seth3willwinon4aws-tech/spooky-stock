@@ -699,6 +699,8 @@ body.touch button { touch-action: manipulation; }
 }
 #joy {
   position: relative;
+  transform: scale(var(--touch-scale, 1));
+  transform-origin: bottom left;
   width: 116px;
   height: 116px;
   border-radius: 50%;
@@ -719,6 +721,8 @@ body.touch button { touch-action: manipulation; }
   pointer-events: none;
 }
 .pad-btns {
+  transform: scale(var(--touch-scale, 1));
+  transform-origin: bottom right;
   display: grid;
   grid-template-columns: 52px 72px;
   grid-template-rows: 52px 52px 52px;
@@ -792,6 +796,16 @@ body.touch button { touch-action: manipulation; }
   .toast { transition: none; }
 }
 
+.settings-panel { max-width: 560px; }
+.settings-panel h2 { font-family: Creepster, cursive; font-size: 2rem; color: var(--pumpkin); margin: 0 0 10px; }
+.set-row { display: flex; align-items: center; gap: 10px; margin: 10px 0; flex-wrap: wrap; }
+.set-row label { min-width: 150px; font-weight: 600; color: var(--wax); }
+.set-row input[type=range] { flex: 1; min-width: 140px; accent-color: var(--pumpkin); }
+.set-row span { width: 48px; text-align: right; color: var(--gold); }
+.segs { display: flex; gap: 6px; flex-wrap: wrap; }
+.seg { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: var(--wax); border-radius: 10px; padding: 5px 11px; cursor: pointer; }
+.seg.on { background: var(--pumpkin); border-color: var(--pumpkin); color: #2a1206; font-weight: 700; }
+.set-foot { margin-top: 14px; text-align: center; }
 .credits-panel { text-align: center; max-width: 560px; }
 .credits-panel h2 { font-family: Creepster, cursive; font-size: 40px; color: #ff8a1f; margin: 2px 0 0; letter-spacing: 1px; }
 .cred-pumpkin { font-size: 46px; line-height: 1; filter: drop-shadow(0 0 14px rgba(255,138,31,0.55)); }
@@ -853,6 +867,7 @@ body.touch button { touch-action: manipulation; }
       <button id="btn-mute" class="hbtn icon" title="Sound effects (M)">🔊</button>
       <button id="btn-journal" class="hbtn icon" title="Journal">📖</button>
       <button id="btn-cheats" class="hbtn icon" title="Cheat console (`)">🕹️</button>
+      <button id="btn-settings" class="hbtn icon" title="Settings">⚙️</button>
       <button id="btn-help" class="hbtn icon" title="How to play">?</button>
     </div>
   </header>
@@ -1242,21 +1257,21 @@ const UPGRADES = [
   { id: 'ghostdetector', emoji: '📡', name: 'Ghost Detector',     cost: 1600, lvl: 1, unlockBy: 'prof', desc: 'Marks shoplifters with 🔍 and makes monsters glow.' },
   { id: 'policeradio',   emoji: '📻', name: 'Police Radio',       cost: 1200, lvl: 1, unlockBy: 'detective', desc: 'Officers arrive faster and monster bounties pay $350.' },
   // rooms
-  { id: 'room_green', emoji: '🌱', name: 'Build the Greenhouse', cost: 3500, lvl: 1, room: true, desc: 'A glass room with 16 garden beds. Grow pumpkins, hay, sunflowers, black roses and more. Rent +$100/day.' },
-  { id: 'room_party', emoji: '🎉', name: 'Build the Party Hall', cost: 5000, lvl: 2, room: true, desc: 'A big new room with 28 fixture spots for party supplies, makeup and more. Rent +$100/day.' },
-  { id: 'room_show',  emoji: '🕯️', name: 'Build the Showroom',  cost: 8000, lvl: 3, room: true, req: 'room_party', desc: 'A spooky velvet room behind the Party Hall with 12 spots, perfect for animatronics. Rent +$100/day.' },
-  { id: 'room_cafe',  emoji: '☕', name: 'Build the Witch\'s Brew Café', cost: 4500, lvl: 2, room: true, desc: 'A cozy café west of the main store. Guests sit down and order drinks: brew them at the coffee machine and serve them. Upgrade it from the computer\'s Café tab. Rent +$100/day.' },
-  { id: 'room_studio', emoji: '🎭', name: 'Build the Costume Studio', cost: 6000, lvl: 3, room: true, req: 'room_crypt', desc: 'A dressing-room studio behind the Crypt with 14 fixture spots. Costumes are 20% more popular. Rent +$100/day.' },
-  { id: 'room_crypt', emoji: '⚰️', name: 'Build the Crypt',     cost: 7000, lvl: 3, room: true, desc: 'A creepy stone crypt west of the main store with 24 fixture spots. People come just to see it: +10% customers. Rent +$100/day.' },
+  { id: 'room_green', emoji: '🌱', name: 'Build the Greenhouse', cost: 1200, lvl: 1, room: true, desc: 'A glass room with 16 garden beds. Grow pumpkins, hay, sunflowers, black roses and more. Rent +$100/day.' },
+  { id: 'room_party', emoji: '🎉', name: 'Build the Party Hall', cost: 1600, lvl: 2, room: true, desc: 'A big new room with 28 fixture spots for party supplies, makeup and more. Rent +$100/day.' },
+  { id: 'room_show',  emoji: '🕯️', name: 'Build the Showroom',  cost: 2000, lvl: 3, room: true, req: 'room_party', desc: 'A spooky velvet room behind the Party Hall with 12 spots, perfect for animatronics. Rent +$100/day.' },
+  { id: 'room_cafe',  emoji: '☕', name: 'Build the Witch\'s Brew Café', cost: 1500, lvl: 2, room: true, desc: 'A cozy café west of the main store. Guests sit down and order drinks: brew them at the coffee machine and serve them. Upgrade it from the computer\'s Café tab. Rent +$100/day.' },
+  { id: 'room_studio', emoji: '🎭', name: 'Build the Costume Studio', cost: 1800, lvl: 3, room: true, req: 'room_crypt', desc: 'A dressing-room studio behind the Crypt with 14 fixture spots. Costumes are 20% more popular. Rent +$100/day.' },
+  { id: 'room_crypt', emoji: '⚰️', name: 'Build the Crypt',     cost: 1900, lvl: 3, room: true, desc: 'A creepy stone crypt west of the main store with 24 fixture spots. People come just to see it: +10% customers. Rent +$100/day.' },
   // second floor (level 4+). f2 rooms need the Second Floor first
-  { id: 'floor2', emoji: '🪜', name: 'Second Floor', cost: 12000, lvl: 4, room: true, f2: true, desc: 'Open up the attic! A whole upstairs with 7 rooms: the Upper Hall (48 spots) plus 6 rooms to build. Upstairs sells its own stock (books, séance goods, toys, lab props, curios, neon) on its own fixtures. Stairs are next to the computer. +10% customers. No rent up there: the Jack owns the building.' },
-  { id: 'f2_library',  emoji: '📚', name: 'Build the Haunted Library', cost: 6500, lvl: 4, room: true, f2: true, req: 'floor2', desc: 'Upstairs, east. 28 fixture spots between creaky old shelves. Books sell 25% better. No rent.' },
-  { id: 'f2_seance',   emoji: '🔮', name: 'Build the Séance Parlor',   cost: 7000, lvl: 5, room: true, f2: true, req: 'floor2', desc: 'Upstairs, east. 16 spots around a spirit circle. Séance goods sell 25% better, +15% customers after 6 PM. No rent.' },
-  { id: 'f2_toys',     emoji: '🧸', name: 'Build the Toy Graveyard',   cost: 6000, lvl: 5, room: true, f2: true, req: 'f2_library', desc: 'Upstairs, behind the Library. 12 spots of forgotten toys. Toys sell 25% better and kids visit 50% more. No rent.' },
-  { id: 'f2_lab',      emoji: '⚗️', name: 'Build the Mad Lab',         cost: 8000, lvl: 5, room: true, f2: true, req: 'floor2', desc: 'Upstairs, west. 24 spots and a lot of sparks. Lab props sell 25% better. +5% customers. No rent.' },
-  { id: 'f2_oddities', emoji: '🗝️', name: 'Build the Oddities Parlor', cost: 7500, lvl: 6, room: true, f2: true, req: 'floor2', desc: 'Upstairs, west. 12 spots for strange antiques and its own computer. Curios sell 25% better and collectors visit twice as often. No rent.' },
-  { id: 'f2_complab',  emoji: '💻', name: 'Build the Computer Lab', cost: 3500, lvl: 5, f2: true, req: 'f2_library', desc: 'Four old machines and a printer in the corner of the Haunted Library. Customers print for $0.50 a page (set your own price). A full printer lasts about five days. Keep paper and ink stocked or they just sit there gaming for free. Gamers only show up 8 AM to noon.' },
-  { id: 'f2_loft',     emoji: '🟣', name: 'Build the Blacklight Loft', cost: 9000, lvl: 6, room: true, f2: true, req: 'f2_lab', desc: 'Upstairs, behind the Mad Lab. 14 spots under UV lights. Glow gear sells 25% better, goths and night owls visit 50% more. No rent.' },
+  { id: 'floor2', emoji: '🪜', name: 'Second Floor', cost: 4000, lvl: 4, room: true, f2: true, desc: 'Open up the attic! A whole upstairs with 7 rooms: the Upper Hall (48 spots) plus 6 rooms to build. Upstairs sells its own stock (books, séance goods, toys, lab props, curios, neon) on its own fixtures. Stairs are next to the computer. +10% customers. No rent up there: the Jack owns the building.' },
+  { id: 'f2_library',  emoji: '📚', name: 'Build the Haunted Library', cost: 1500, lvl: 4, room: true, f2: true, req: 'floor2', desc: 'Upstairs, east. 28 fixture spots between creaky old shelves. Books sell 25% better. No rent.' },
+  { id: 'f2_seance',   emoji: '🔮', name: 'Build the Séance Parlor',   cost: 1600, lvl: 5, room: true, f2: true, req: 'floor2', desc: 'Upstairs, east. 16 spots around a spirit circle. Séance goods sell 25% better, +15% customers after 6 PM. No rent.' },
+  { id: 'f2_toys',     emoji: '🧸', name: 'Build the Toy Graveyard',   cost: 1500, lvl: 5, room: true, f2: true, req: 'f2_library', desc: 'Upstairs, behind the Library. 12 spots of forgotten toys. Toys sell 25% better and kids visit 50% more. No rent.' },
+  { id: 'f2_lab',      emoji: '⚗️', name: 'Build the Mad Lab',         cost: 1800, lvl: 5, room: true, f2: true, req: 'floor2', desc: 'Upstairs, west. 24 spots and a lot of sparks. Lab props sell 25% better. +5% customers. No rent.' },
+  { id: 'f2_oddities', emoji: '🗝️', name: 'Build the Oddities Parlor', cost: 1700, lvl: 6, room: true, f2: true, req: 'floor2', desc: 'Upstairs, west. 12 spots for strange antiques and its own computer. Curios sell 25% better and collectors visit twice as often. No rent.' },
+  { id: 'f2_complab',  emoji: '💻', name: 'Build the Computer Lab', cost: 1400, lvl: 5, f2: true, req: 'f2_library', desc: 'Four old machines and a printer in the corner of the Haunted Library. Customers print for $0.50 a page (set your own price). A full printer lasts about five days. Keep paper and ink stocked or they just sit there gaming for free. Gamers only show up 8 AM to noon.' },
+  { id: 'f2_loft',     emoji: '🟣', name: 'Build the Blacklight Loft', cost: 2000, lvl: 6, room: true, f2: true, req: 'f2_lab', desc: 'Upstairs, behind the Mad Lab. 14 spots under UV lights. Glow gear sells 25% better, goths and night owls visit 50% more. No rent.' },
   { id: 'sprinklers', emoji: '💧', name: 'Greenhouse Sprinklers', cost: 900, lvl: 1, req: 'room_green', desc: 'Crops grow 50% faster.' },
   { id: 'librarian', emoji: '📖', name: 'Librarian',            cost: 2600, lvl: 5, wage: 45, repeat: true, max: 3, req: 'floor2', desc: 'Runs the second floor: keeps the printer loaded, moves gamers along when someone is waiting, tidies upstairs messes and helps shoppers find things. Wage $45/day each.' },
   { id: 'bookcart',  emoji: '🛒', name: 'Book Carts',           cost: 1400, lvl: 5, req: 'librarian', desc: 'Librarians fetch upstairs boxes and shelve them, so your stockers can stay downstairs.' },
@@ -1973,7 +1988,7 @@ function makeMissing(id) {
   if (OVERLAY_IDS.includes(id)) { el.className = 'overlay hidden'; document.body.appendChild(el); }
   else if (id.startsWith('btn-')) {
     el.className = 'hbtn icon';
-    el.textContent = { 'btn-journal': '📖', 'btn-cheats': '🕹️', 'btn-music': '🎵', 'btn-save': '💾', 'btn-load': '📂' }[id] || '•';
+    el.textContent = { 'btn-journal': '📖', 'btn-cheats': '🕹️', 'btn-music': '🎵', 'btn-save': '💾', 'btn-load': '📂', 'btn-settings': '⚙️' }[id] || '•';
     const grp = document.querySelector('#hud .hud-group:last-child') || document.body;
     grp.insertBefore(el, grp.lastElementChild);
   } else if (id === 'tut') { el.className = 'hidden'; document.body.appendChild(el); }
@@ -2362,7 +2377,7 @@ function getAC() {
   return AC;
 }
 function sfx(type) {
-  if (muted) return;
+  if (muted || Settings.get('sfxVol') <= 0) return;
   try {
     getAC();
     const cfg = {
@@ -2378,13 +2393,14 @@ function sfx(type) {
     o.connect(g); g.connect(AC.destination);
     const t = AC.currentTime;
     o.type = cfg[2];
+    const sfxVol = Settings.get('sfxVol');
     o.frequency.setValueAtTime(cfg[0], t);
     if (type === 'cash') o.frequency.setValueAtTime(1319, t + 0.09);
     if (type === 'level') o.frequency.linearRampToValueAtTime(1320, t + 0.4);
     if (type === 'scream') o.frequency.exponentialRampToValueAtTime(120, t + 0.9);
     if (type === 'portal') { o.frequency.exponentialRampToValueAtTime(180, t + 0.3); }
     if (type === 'stairs') { o.frequency.setValueAtTime(320, t + 0.07); o.frequency.setValueAtTime(400, t + 0.14); o.frequency.setValueAtTime(480, t + 0.21); }
-    g.gain.setValueAtTime(cfg[3], t);
+    g.gain.setValueAtTime(cfg[3] * sfxVol / 0.8, t);
     g.gain.exponentialRampToValueAtTime(0.0001, t + cfg[1]);
     o.start(t); o.stop(t + cfg[1] + 0.02);
   } catch (e) { }
@@ -2515,7 +2531,34 @@ const Music = (() => {
     if (master) master.gain.setTargetAtTime(on ? 0.5 : 0, AC.currentTime, 0.1);
     if (on) { start(); next = AC ? AC.currentTime + 0.1 : 0; }
   }
-  return { start, toggle, isOn: () => on };
+  function setVol(v) {
+    if (master && AC) master.gain.setTargetAtTime(on ? 0.5 * v : 0, AC.currentTime, 0.1);
+  }
+  function setOn(v) {
+    on = v;
+    lsSet('spookyStock_music', on ? '1' : '0');
+    setVol(Settings.get('musicVol'));
+    if (on) { start(); next = AC ? AC.currentTime + 0.1 : 0; }
+  }
+  return { start, toggle, isOn: () => on, setVol, setOn };
+})();
+
+// ------------------------------------------------------------
+//  SETTINGS (per device, kept out of the save file)
+// ------------------------------------------------------------
+const Settings = (() => {
+  const DEF = { musicVol: 0.5, sfxVol: 0.8, textScale: 1, touchScale: 1, effects: 1 };
+  let s = Object.assign({}, DEF);
+  try { Object.assign(s, JSON.parse(lsGet('spookyStock_settings') || '{}')); } catch (e) { }
+  const save = () => lsSet('spookyStock_settings', JSON.stringify(s));
+  function apply() {
+    document.documentElement.style.fontSize = (16 * s.textScale).toFixed(1) + 'px';
+    document.documentElement.style.setProperty('--touch-scale', s.touchScale);
+    muted = s.sfxVol <= 0;
+    Music.setVol(s.musicVol);
+  }
+  function set(k, v) { s[k] = v; save(); apply(); }
+  return { get: k => s[k], set, apply, all: () => s, reset: () => { s = Object.assign({}, DEF); save(); apply(); } };
 })();
 
 // ------------------------------------------------------------
@@ -6725,6 +6768,14 @@ function onOverlayClick(e) {
     }
     case 'help': G.helpFromTitle = true; showHelp(); break;
     case 'credits': G.helpFromTitle = true; showCredits(); break;
+    case 'settings': showSettings(); break;
+    case 'setopt': {
+      Settings.set(b.dataset.key, +b.dataset.val);
+      sfx('click');
+      showSettings();
+      break;
+    }
+    case 'setreset': Settings.reset(); sfx('click'); showSettings(); break;
     case 'cheat': runCheat(b.dataset.code); break;
     case 'sandboxyes': enterSandbox(); break;
     case 'sandboxleave': leaveSandbox(); break;
@@ -6778,6 +6829,7 @@ function showTitle() {
       </div>
       <div class="btnrow">
         <button data-act="help">How to play</button>
+        <button data-act="settings">⚙️ Settings</button>
         <button data-act="credits">🕯️ Credits</button>
         <button data-act="nightpreview">🎃 Preview Halloween night</button>
       </div>
@@ -6988,6 +7040,46 @@ function startNewGame() {
   openStory();
   if (isTouch && innerHeight > innerWidth) setTimeout(() => toast('📱 Turn your phone sideways for a bigger view'), 3000);
   setTimeout(() => toast('Tip: your shelves are stocked. Flip the sign by the door to open!'), 1500);
+}
+
+function showSettings() {
+  const s = Settings.all();
+  const seg = (key, opts) => opts.map(([label, val]) =>
+    `<button class="seg${s[key] === val ? ' on' : ''}" data-act="setopt" data-key="${key}" data-val="${val}">${label}</button>`).join('');
+  $('help').innerHTML = `
+    <div class="panel help-panel settings-panel">
+      <button class="bx" data-act="close">✕</button>
+      <h2>⚙️ Settings</h2>
+      <div class="set-row">
+        <label>🎵 Music</label>
+        <input type="range" id="set-music" min="0" max="100" value="${Math.round(s.musicVol * 100)}">
+        <span id="set-music-val">${Math.round(s.musicVol * 100)}%</span>
+      </div>
+      <div class="set-row">
+        <label>🔊 Sound effects</label>
+        <input type="range" id="set-sfx" min="0" max="100" value="${Math.round(s.sfxVol * 100)}">
+        <span id="set-sfx-val">${Math.round(s.sfxVol * 100)}%</span>
+      </div>
+      <div class="set-row"><label>🔠 Text size</label><div class="segs">${seg('textScale', [['Small', 0.9], ['Normal', 1], ['Large', 1.15], ['Huge', 1.3]])}</div></div>
+      ${isTouch ? `<div class="set-row"><label>📱 Touch controls</label><div class="segs">${seg('touchScale', [['Small', 0.85], ['Normal', 1], ['Large', 1.25]])}</div></div>` : ''}
+      <div class="set-row"><label>✨ Extra effects</label><div class="segs">${seg('effects', [['Off', 0], ['On', 1]])}</div></div>
+      <p class="note">Extra effects are the fog, falling leaves, dust and bats. Turning them off helps on older phones. Settings are saved on this device, not in your save file.</p>
+      <div class="set-foot"><button class="buy" data-act="setreset">Reset to defaults</button></div>
+    </div>`;
+  showOverlay('help');
+  const bind = (id, key, label) => {
+    const el = $(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      const v = +el.value / 100;
+      Settings.set(key, v);
+      setText(label, Math.round(v * 100) + '%');
+      if (key === 'musicVol') { if (v > 0 && !Music.isOn()) Music.setOn(true); else if (v <= 0 && Music.isOn()) Music.setOn(false); }
+    });
+    el.addEventListener('change', () => sfx('click'));
+  };
+  bind('set-music', 'musicVol', 'set-music-val');
+  bind('set-sfx', 'sfxVol', 'set-sfx-val');
 }
 
 function showCredits() {
@@ -8328,6 +8420,7 @@ function drawLab() {
 
 function drawPortalFx() {
   if (!G.portalFx) return;
+  if (Settings.get('effects') <= 0) { G.portalFx = 0; return; }
   G.portalFx = Math.max(0, G.portalFx - 1 / 60);
   const p = G.player, a = Math.min(1, G.portalFx);
   ctx.save();
@@ -8555,8 +8648,8 @@ function burst(x, y, n, type) {
 
 function updateParticles(dt) {
   if (G.parts.length < 160) {
-    if (Math.random() < dt * 5) G.parts.push({ type: 'dust', x: G.scene === 'night' ? -99 : rand(T, W - T) + (onUpstairs() ? UP * T : 0), y: rand(T, 12 * T), vx: rand(-4, 4), vy: rand(-5, -1), life: rand(4, 8), size: rand(0.8, 1.7) });
-    if (Math.random() < dt * 1.3) G.parts.push({ type: 'leaf', x: rand(worldMin() - 10, worldW()), y: 13 * T - rand(0, 16), vx: rand(10, 28), vy: rand(10, 18), life: rand(6, 10), rest: rand(13.2 * T, H - 6), rot: rand(0, 6), vr: rand(-3, 3), color: pick(LEAF_COLS) });
+    if (Settings.get('effects') > 0 && Math.random() < dt * 5) G.parts.push({ type: 'dust', x: G.scene === 'night' ? -99 : rand(T, W - T) + (onUpstairs() ? UP * T : 0), y: rand(T, 12 * T), vx: rand(-4, 4), vy: rand(-5, -1), life: rand(4, 8), size: rand(0.8, 1.7) });
+    if (Settings.get('effects') > 0 && Math.random() < dt * 1.3) G.parts.push({ type: 'leaf', x: rand(worldMin() - 10, worldW()), y: 13 * T - rand(0, 16), vx: rand(10, 28), vy: rand(10, 18), life: rand(6, 10), rest: rand(13.2 * T, H - 6), rot: rand(0, 6), vr: rand(-3, 3), color: pick(LEAF_COLS) });
   }
   for (const p of G.parts) {
     p.life -= dt;
@@ -8602,6 +8695,7 @@ function drawParticles() {
 }
 
 function drawBats() {
+  if (Settings.get('effects') <= 0) return;
   for (const b of G.bats) {
     ctx.save();
     ctx.translate(b.x, b.y);
@@ -8713,6 +8807,7 @@ function drawLighting() {
 }
 
 function drawFog() {
+  if (Settings.get('effects') <= 0) return;
   if (!S.upgrades.fog) return;
   for (let i = 0; i < 6; i++) {
     const fx = ((G.tick * (10 + i * 2) + i * 211) % (W + 240)) - 120 + (onUpstairs() ? UP * T : 0);
@@ -9002,7 +9097,7 @@ function updateHUD() {
   setText('btn-endday', nightWalk ? '🏠 Head home' : '🌙 End day');
   $('btn-endday').disabled = !closedNight && !nightWalk;
   $('btn-endday').classList.toggle('ready', closedNight || (nightWalk && N.visited.size >= N.houses.length - 1));
-  setText('btn-mute', muted ? '🔇' : '🔊');
+  setText('btn-mute', Settings.get('sfxVol') > 0 ? '🔊' : '🔇');
   $('btn-load').disabled = !(S.sandbox ? hasSandboxSave : hasSave);
   $('hud-sandbox').classList.toggle('hidden', !S.sandbox);
 
@@ -9033,6 +9128,7 @@ function press(k) {
 
 function setupTouch() {
   isTouch = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+  Settings.apply();
   if (!isTouch) return;
   document.body.classList.add('touch');
 
@@ -9115,7 +9211,7 @@ function boot() {
       return;
     }
     if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].includes(k)) e.preventDefault();
-    if (k === 'm') { muted = !muted; lsSet('spookyStock_muted', muted ? '1' : '0'); return; }
+    if (k === 'm') { const v = Settings.get('sfxVol') > 0 ? 0 : 0.8; Settings.set('sfxVol', v); lsSet('spookyStock_muted', v > 0 ? '0' : '1'); return; }
     if (G.overlay) {
       if (k === 'escape' && ['shop', 'price', 'help', 'talk', 'cheats'].includes(G.overlay)) closeOverlay();
       return;
@@ -9164,7 +9260,13 @@ function boot() {
     loadGame();
   });
   $('btn-music').addEventListener('click', e => { e.currentTarget.blur(); Music.toggle(); });
-  $('btn-mute').addEventListener('click', e => { e.currentTarget.blur(); muted = !muted; lsSet('spookyStock_muted', muted ? '1' : '0'); });
+  $('btn-settings').addEventListener('click', e => { e.currentTarget.blur(); showSettings(); });
+  $('btn-mute').addEventListener('click', e => {
+    e.currentTarget.blur();
+    const v = Settings.get('sfxVol') > 0 ? 0 : 0.8;
+    Settings.set('sfxVol', v);
+    lsSet('spookyStock_muted', v > 0 ? '0' : '1');
+  });
   $('tut').addEventListener('click', e => {
     const b = e.target.closest('button');
     if (!b) return;
