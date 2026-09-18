@@ -918,7 +918,9 @@ const LEFT = 20;        // extra columns west of the main store (x goes from -LE
 // The second floor lives in the same grid, UP columns further east (x from UP-LEFT to UP+COLS-1).
 // Every upstairs tile is its downstairs twin + UP, so rooms line up with the ones below.
 const UP = 70;
+const DN = 140;         // the basement sits DN columns east in the same grid
 const STAIRS_X = 20;    // stairwell in the back wall, next to the computer (upstairs it's STAIRS_X + UP)
+const CELLAR_X = 3;     // second stairwell on the left of the back wall, down to the basement
 
 // Fixture = the thing you stock items onto
 const FIXTURE_TYPES = {
@@ -937,6 +939,9 @@ const FIXTURE_TYPES = {
   labbench: { name: 'Lab Bench',     cap: 16, cost: 450, lvl: 4, f2: true, desc: 'Mad science props. Upstairs only' },
   cabinet:  { name: 'Curio Cabinet', cap: 12, cost: 500, lvl: 4, f2: true, desc: 'Antique curios. Upstairs only' },
   neonwall: { name: 'Neon Wall',     cap: 16, cost: 380, lvl: 4, f2: true, desc: 'Glow and neon gear. Upstairs only' },
+  // basement only
+  workbench: { name: 'Work Bench',   cap: 16, cost: 340, lvl: 5, b: true, desc: 'Craft and costume supplies. Basement only' },
+  signrack:  { name: 'Sign Rack',    cap: 12, cost: 360, lvl: 5, b: true, desc: 'Ready-made signs and banners. Basement only' },
 };
 
 // weight = how often customers want this category
@@ -960,6 +965,12 @@ const CATEGORIES = {
   // computer lab: supplies are orderable but nobody shops for them, printing is a service
   supplies: { name: 'Lab Supplies', fixture: 'printer', weight: 0, qty: [1, 1], f2: true, noDemand: true },
   print:    { name: 'Printing',     fixture: 'printer', weight: 0, qty: [1, 1], f2: true, noDemand: true, hidden: true },
+  // basement
+  diy:      { name: 'Craft Supplies', fixture: 'workbench', weight: 1.5, qty: [1, 2], b: true },
+  signage:  { name: 'Signs & Banners', fixture: 'signrack', weight: 1.3, qty: [1, 2], b: true },
+  blanks:   { name: 'Workshop Blanks', fixture: 'bench', weight: 0, qty: [1, 1], b: true, noDemand: true },
+  jobs:     { name: 'Workshop Jobs',   fixture: 'bench', weight: 0, qty: [1, 1], b: true, noDemand: true, hidden: true },
+  brk:      { name: 'Break Room',      fixture: 'pantry', weight: 0, qty: [1, 1], b: true, noDemand: true },
 };
 
 // cost = wholesale per unit, box = units per box, price = base market price per unit
@@ -1192,6 +1203,40 @@ const ITEMS = [
   { id: 'paper', name: 'Paper Ream (150)', emoji: '📄', cat: 'supplies', cost: 3.50, box: 4, price: 0, lvl: 5, supply: true, sheets: 150 },
   { id: 'ink', name: 'Ink Cartridge', emoji: '🖋️', cat: 'supplies', cost: 8.00, box: 3, price: 0, lvl: 5, supply: true, sheets: 200 },
   { id: 'printjob', name: 'Printing (per page)', emoji: '🖨️', cat: 'print', cost: 0.04, box: 1, price: 0.50, lvl: 5, virtual: true },
+  // ---- BASEMENT STOCK ----
+  // craft supplies (Work Bench)
+  { id: 'foam', name: 'EVA Foam Sheets', emoji: '🟦', cat: 'diy', cost: 5.00, box: 12, price: 11.99, lvl: 5 },
+  { id: 'latex', name: 'Liquid Latex', emoji: '🧴', cat: 'diy', cost: 6.40, box: 12, price: 14.99, lvl: 5 },
+  { id: 'fakefur', name: 'Fake Fur Roll', emoji: '🧶', cat: 'diy', cost: 9.00, box: 8, price: 21.99, lvl: 5 },
+  { id: 'paintkit', name: 'Prop Paint Kit', emoji: '🖍', cat: 'diy', cost: 7.20, box: 8, price: 16.99, lvl: 5 },
+  { id: 'blankmask', name: 'Blank Mask', emoji: '⚪', cat: 'diy', cost: 4.20, box: 12, price: 9.99, lvl: 5 },
+  { id: 'wigblank', name: 'Wig Blank', emoji: '👱', cat: 'diy', cost: 8.00, box: 8, price: 18.99, lvl: 6 },
+  { id: 'sewkit', name: 'Sewing Kit', emoji: '🧵', cat: 'diy', cost: 3.60, box: 12, price: 8.49, lvl: 5 },
+  { id: 'thermo', name: 'Thermoplastic Sheet', emoji: '🟫', cat: 'diy', cost: 12.00, box: 6, price: 27.99, lvl: 6 },
+  // signs and banners (Sign Rack)
+  { id: 'yardsign', name: 'Spooky Yard Sign', emoji: '⛳', cat: 'signage', cost: 4.80, box: 12, price: 11.99, lvl: 5 },
+  { id: 'banner', name: 'Halloween Banner', emoji: '🚩', cat: 'signage', cost: 7.50, box: 8, price: 17.99, lvl: 5 },
+  { id: 'poster', name: 'Monster Poster', emoji: '🖼', cat: 'signage', cost: 3.40, box: 18, price: 7.99, lvl: 5 },
+  { id: 'decals', name: 'Window Decals', emoji: '🔖', cat: 'signage', cost: 2.80, box: 18, price: 6.99, lvl: 5 },
+  { id: 'chalkboard', name: 'Chalkboard Sign', emoji: '📋', cat: 'signage', cost: 11.00, box: 6, price: 25.99, lvl: 6 },
+  { id: 'bunting', name: 'Bunting (10m)', emoji: '🔗', cat: 'signage', cost: 5.20, box: 12, price: 12.49, lvl: 5 },
+  { id: 'nametags', name: 'Name Tag Pack', emoji: '🏷', cat: 'signage', cost: 1.90, box: 24, price: 4.49, lvl: 5 },
+  { id: 'lightbox', name: 'Light-Up Sign', emoji: '🔅', cat: 'signage', cost: 19.00, box: 4, price: 44.99, lvl: 6 },
+  // workshop consumables (loaded into the benches, not shelved)
+  { id: 'keyblank', name: 'Key Blanks (25)', emoji: '🔑', cat: 'blanks', cost: 6.00, box: 4, price: 0, lvl: 5, supply: true, units: 25 },
+  { id: 'engbits', name: 'Engraving Bits', emoji: '🪛', cat: 'blanks', cost: 9.00, box: 3, price: 0, lvl: 5, supply: true, units: 30 },
+  { id: 'vinylroll', name: 'Vinyl Roll', emoji: '📼', cat: 'blanks', cost: 11.00, box: 3, price: 0, lvl: 5, supply: true, units: 30 },
+  { id: 'signstock', name: 'Sign Board Stock', emoji: '🟨', cat: 'blanks', cost: 8.00, box: 4, price: 0, lvl: 5, supply: true, units: 25 },
+  // break room supplies
+  { id: 'instantcoffee', name: 'Instant Coffee Tin', emoji: '☕', cat: 'brk', cost: 7.00, box: 4, price: 0, lvl: 5, supply: true, units: 20 },
+  { id: 'biscuits', name: 'Biscuit Box', emoji: '🥠', cat: 'brk', cost: 4.50, box: 6, price: 0, lvl: 5, supply: true, units: 15 },
+  { id: 'energydrink', name: 'Energy Drinks (12)', emoji: '🔋', cat: 'brk', cost: 9.00, box: 4, price: 0, lvl: 5, supply: true, units: 12 },
+  { id: 'noodles', name: 'Cup Noodles (12)', emoji: '🍜', cat: 'brk', cost: 6.00, box: 4, price: 0, lvl: 5, supply: true, units: 12 },
+  // jobs customers pay for (virtual)
+  { id: 'keyjob', name: 'Key Cutting', emoji: '🗝', cat: 'jobs', cost: 0.30, box: 1, price: 6.00, lvl: 5, virtual: true },
+  { id: 'engravejob', name: 'Engraving', emoji: '🏷️', cat: 'jobs', cost: 0.50, box: 1, price: 14.00, lvl: 5, virtual: true },
+  { id: 'signjob', name: 'Custom Sign', emoji: '📢', cat: 'jobs', cost: 1.20, box: 1, price: 24.00, lvl: 5, virtual: true },
+  { id: 'bannerjob', name: 'Wide Banner', emoji: '📰', cat: 'jobs', cost: 3.00, box: 1, price: 55.00, lvl: 5, virtual: true },
   // grown in the greenhouse only (not sold by SpookyMart)
   { id: 'roses', name: 'Black Roses (grown)', emoji: '🥀', cat: 'small', cost: 0, box: 1, price: 6.99, lvl: 2, grown: true },
   { id: 'flytrap', name: 'Venus Flytrap (grown)', emoji: '🪴', cat: 'small', cost: 0, box: 1, price: 12.99, lvl: 3, grown: true },
@@ -1272,6 +1317,19 @@ const UPGRADES = [
   { id: 'f2_oddities', emoji: '🗝️', name: 'Build the Oddities Parlor', cost: 1700, lvl: 6, room: true, f2: true, req: 'floor2', desc: 'Upstairs, west. 12 spots for strange antiques and its own computer. Curios sell 25% better and collectors visit twice as often. No rent.' },
   { id: 'f2_complab',  emoji: '💻', name: 'Build the Computer Lab', cost: 1400, lvl: 5, f2: true, req: 'f2_library', desc: 'Four old machines and a printer in the corner of the Haunted Library. Customers print for $0.50 a page (set your own price). A full printer lasts about five days. Keep paper and ink stocked or they just sit there gaming for free. Gamers only show up 8 AM to noon.' },
   { id: 'f2_loft',     emoji: '🟣', name: 'Build the Blacklight Loft', cost: 2000, lvl: 6, room: true, f2: true, req: 'f2_lab', desc: 'Upstairs, behind the Mad Lab. 14 spots under UV lights. Glow gear sells 25% better, goths and night owls visit 50% more. No rent.' },
+  // basement (level 5+)
+  { id: 'basement', emoji: '🔽', name: 'Basement', cost: 4000, lvl: 5, room: true, b: true, desc: 'Dig out the cellar: 48 spots plus three rooms to build. Stairs are on the left of the back wall. Rent free, like upstairs. Basement stock goes damp overnight until you buy a Dehumidifier.' },
+  { id: 'b_workshop', emoji: '🔧', name: 'Build the Workshop', cost: 1500, lvl: 5, room: true, b: true, req: 'basement', desc: 'Key cutting and engraving benches you run yourself, plus 24 spots of craft and costume supplies.' },
+  { id: 'b_print', emoji: '📢', name: 'Build the Print Shop', cost: 1500, lvl: 5, room: true, b: true, req: 'basement', desc: 'A sign press for custom jobs, plus 24 spots of ready-made signs and banners.' },
+  { id: 'b_break', emoji: '🍜', name: 'Build the Break Room', cost: 1500, lvl: 6, room: true, b: true, req: 'basement', desc: 'Keep the shelf stocked and every staff member works 20% faster and takes 10% less wages.' },
+  { id: 'dehumid', emoji: '💨', name: 'Dehumidifier', cost: 1500, lvl: 5, b: true, req: 'basement', desc: 'No more damp. Basement stock stops spoiling overnight.' },
+  { id: 'freightlift', emoji: '🛗', name: 'Freight Lift', cost: 2500, lvl: 6, b: true, req: 'basement', desc: 'A lift in the cellar that takes you and whatever you are carrying straight to any floor.' },
+  { id: 'cellarlight', emoji: '💡', name: 'Cellar Lighting', cost: 1200, lvl: 5, b: true, req: 'basement', desc: 'Proper strip lights downstairs. +10% customers and basement stock sells a little faster.' },
+  { id: 'autocutter', emoji: '⚙️', name: 'Auto Cutter', cost: 2000, lvl: 6, b: true, req: 'b_workshop', desc: 'Start a key or engraving job and it finishes on its own. No holding.' },
+  { id: 'fancyengrave', emoji: '🏷️', name: 'Custom Engraving', cost: 1800, lvl: 6, b: true, req: 'b_workshop', desc: 'Fancier engraving jobs worth three times as much. They take longer.' },
+  { id: 'wideformat', emoji: '🖨️', name: 'Wide Format', cost: 2200, lvl: 6, b: true, req: 'b_print', desc: 'Unlocks big banner jobs: slower, but they pay like an animatronic.' },
+  { id: 'vinylcutter', emoji: '📐', name: 'Vinyl Cutter', cost: 1600, lvl: 6, b: true, req: 'b_print', desc: 'Sign jobs use half the vinyl and run 30% faster.' },
+  { id: 'workshopper', emoji: '🧑‍🏭', name: 'Workshopper', cost: 2600, lvl: 6, wage: 45, repeat: true, b: true, req: 'basement', desc: 'Hire as many as you like. They run key, engraving and sign jobs for you, and restock the benches. Wage $45/day each.' },
   { id: 'sprinklers', emoji: '💧', name: 'Greenhouse Sprinklers', cost: 900, lvl: 1, req: 'room_green', desc: 'Crops grow 50% faster.' },
   { id: 'librarian', emoji: '📖', name: 'Librarian',            cost: 2600, lvl: 5, wage: 45, repeat: true, max: 3, req: 'floor2', desc: 'Runs the second floor: keeps the printer loaded, moves gamers along when someone is waiting, tidies upstairs messes and helps shoppers find things. Wage $45/day each.' },
   { id: 'bookcart',  emoji: '🛒', name: 'Book Carts',           cost: 1400, lvl: 5, req: 'librarian', desc: 'Librarians fetch upstairs boxes and shelve them, so your stockers can stay downstairs.' },
@@ -1316,6 +1374,12 @@ const SLOT_BLOCKS = [
   [-7, -2, [8], 'f2_oddities'], [-7, -2, [10], 'f2_oddities'],                                                     // Oddities Parlor
   [-18, -12, [8], 'f2_loft'], [-18, -12, [10], 'f2_loft'],                                                         // Blacklight Loft
 ].forEach(([a, b, rows, u]) => SLOT_BLOCKS.push({ zone: 20, x0: a + UP, x1: b + UP, rows, up: u, f2: true }));
+// Basement spots
+[
+  [3, 8, [3, 4], 'basement'], [14, 19, [3, 4], 'basement'], [3, 8, [7, 8], 'basement'], [14, 19, [7, 8], 'basement'],   // the Cellar
+  [32, 37, [2, 3], 'b_workshop'], [39, 41, [2, 3], 'b_workshop'],                                                        // Workshop shelves
+  [-17, -12, [2, 3], 'b_print'], [-9, -4, [2, 3], 'b_print'],                                                            // Print Shop shelves
+].forEach(([a, b, rows, u]) => SLOT_BLOCKS.push({ zone: 20, x0: a + DN, x1: b + DN, rows, up: u, b: true }));
 
 // extra rooms east of the main store. area = [x0, y0, x1, y1] (inclusive)
 const ROOMS = [
@@ -1327,6 +1391,20 @@ const ROOMS = [
   { id: 'studio', up: 'room_studio', name: 'Costume Studio', door: [-15, 6], area: [-19, 7, -11, 11] },
 ];
 // upstairs rooms, in ground coords (add UP for the real tile). Same shapes as the rooms below.
+// basement rooms (ground coords, + DN at runtime)
+const B_ROOMS = [
+  { id: 'workshop', up: 'b_workshop', name: 'The Workshop',  door: [23, 3], area: [24, 1, 42, 5] },
+  { id: 'print',    up: 'b_print',    name: 'The Print Shop', door: [0, 3],  area: [-19, 1, -1, 5] },
+  { id: 'break',    up: 'b_break',    name: 'The Break Room', door: [23, 8], area: [24, 7, 42, 11] },
+];
+// work stations you operate with E (and the Workshopper runs for you)
+const BENCHES = [
+  { id: 'key', room: 'b_workshop', name: 'Key Cutter', tile: [26, 5], stand: [26, 4], job: 'keyjob', supply: 'keys', emoji: '🔑' },
+  { id: 'engrave', room: 'b_workshop', name: 'Engraver', tile: [29, 5], stand: [29, 4], job: 'engravejob', supply: 'keys', emoji: '🏷️' },
+  { id: 'press', room: 'b_print', room2: true, name: 'Sign Press', tile: [-6, 5], stand: [-6, 4], job: 'signjob', supply: 'vinyl', emoji: '📢' },
+];
+const PANTRY = [30, 11];        // break room shelf you keep stocked
+const LIFT = [1, 1];            // freight lift, same tile on every floor
 // computer lab: machines along the library's south-west corner, printer on the end
 const LAB = {
   machines: [[24, 5], [25, 5], [26, 5], [27, 5]],
@@ -1361,6 +1439,7 @@ const COMPUTERS = [
   { id: 'up', label: 'upstairs ', f2: true, desk: [[21 + UP, 1], [22 + UP, 1]], needs: ['floor2'] },
   { id: 'upeast', label: 'upstairs east wing ', f2: true, desk: [[41 + UP, 1], [42 + UP, 1]], needs: ['f2_library'] },
   { id: 'upwest', label: 'upstairs west wing ', f2: true, desk: [[-9 + UP, 7], [-8 + UP, 7]], needs: ['f2_oddities'] },
+  { id: 'cellar', label: 'basement ', b: true, desk: [[21 + DN, 1], [22 + DN, 1]], needs: ['basement'] },
 ];
 
 const CAFE_MENU = [
@@ -1918,6 +1997,9 @@ const ACHIEVEMENTS = [
   { id: 'year2',      icon: '🔁', name: 'Another October',     desc: 'Start a second year.',                    check: s => (s.year || 1) >= 2 },
   { id: 'floor2',     icon: '🪜', name: 'Moving On Up',        desc: 'Open the second floor.',                  check: s => !!s.upgrades.floor2 },
   { id: 'f2rooms',    icon: '🏰', name: 'Top Floor Tycoon',    desc: 'Build every upstairs room.',              check: s => F2_ROOMS.every(r => s.upgrades[r.up]) },
+  { id: 'cellar',     icon: '🔽', name: 'Down Below',          desc: 'Dig out the basement.',                   check: s => !!s.upgrades.basement },
+  { id: 'jobs50',     icon: '🔧', name: 'Odd Jobs',            desc: 'Finish 50 workshop or print jobs.',       check: s => (s.stats.jobs || 0) >= 50 },
+  { id: 'brooms',     icon: '🏗️', name: 'Three Floors',        desc: 'Build every room on every floor.',        check: s => ROOMS.every(r => s.upgrades[r.up]) && F2_ROOMS.every(r => s.upgrades[r.up]) && B_ROOMS.every(r => s.upgrades[r.up]) },
   { id: 'f2vip',      icon: '🗂️', name: 'Special Collections', desc: 'Serve 10 upstairs regulars.',              check: s => (s.stats.f2vip || 0) >= 10 },
   { id: 'labfull',    icon: '🎮', name: 'Arcade Owner',        desc: 'Have all four lab machines busy at once.', check: s => !!s.stats.labFull },
   { id: 'rafters',    icon: '🏚️', name: 'Stocked to the Rafters', desc: 'Have 30 upstairs fixtures stocked at once.', check: s => s.fixtures.filter(f => f.x >= F2_X0 && f.stock > 0).length >= 30 },
@@ -2049,6 +2131,7 @@ function newState() {
     achievements: {}, history: [], cafe: newCafe(),
     freeplay: false, seasonOver: false,
     lab: { paper: 0, ink: 0 },
+    shop: { keys: 0, vinyl: 0, brk: 0 },
   };
   return s;
 }
@@ -2065,9 +2148,10 @@ function newRuntime() {
     queues: REGISTERS.map(() => []), stockers: [], claimed: new Set(), managerTimer: 6,
     gardeners: [], plotClaims: new Set(), camX: 0, brew: 0, baristas: [],
     janitors: [], guards: [], librarians: [], messes: [], event: null, challenge: null, streak: 0, busDone: false, rain: [],
-    cart: {}, shopTab: 'stock', shopCat: 'all', shopF2: false, priceItem: null,
+    cart: {}, shopTab: 'stock', shopCat: 'all', shopFloor: 'g', priceItem: null,
     mouse: { x: -1, y: -1 }, tick: 0, target: null, info: null, fixMap: new Map(),
     closedToastShown: false, stairLock: false, fade: 0, labUse: [null, null, null, null],
+    benchUse: {}, workers: [],
     parts: [], portalFx: 0, bats: [], belts: REGISTERS.map(() => ({ t: 0, a: 0 })),
   };
 }
@@ -2172,6 +2256,8 @@ function load(key = saveKey(false)) {
     s.achievements = s.achievements || {};
     s.history = s.history || [];
     s.lab = s.lab || { paper: 0, ink: 0 };
+    s.shop = s.shop || { keys: 0, vinyl: 0, brk: 0 };
+    ['keyjob', 'engravejob', 'signjob', 'bannerjob'].forEach(id => { if (s.prices && s.prices[id] == null) s.prices[id] = ITEM[id].price; });
     if (s.prices && s.prices.printjob == null) s.prices.printjob = 0.50;
     if (s.cafe) { s.cafe.have.greentea = true; s.cafe.seats = s.cafe.seats || 1; }
     if (!s.cafe) {
@@ -2260,15 +2346,29 @@ function dateLabel() {
 // ------------------------------------------------------------
 // 0 floor, 1 wall, 2 outside, 3 counter, 4 desk, 5 door, 6 void (roof / gap between floors), 7 stairs
 const WCOLS = COLS + LEFT;        // columns on one floor, including the west wing
-const TCOLS = UP + COLS + LEFT;   // every column in the grid (both floors + the gap between them)
+const TCOLS = DN + COLS + LEFT;   // every column in the grid (all three floors + the gaps between them)
 const F2_X0 = UP - LEFT;          // first upstairs column
-const isF2x = x => x >= F2_X0;
+const B_X0 = DN - LEFT;           // first basement column
+const isF2x = x => x >= F2_X0 && x < B_X0;
+const isBx = x => x >= B_X0;
+const floorOf = x => x >= B_X0 ? 'b' : x >= F2_X0 ? 'f2' : 'g';
+const floorOff = f => f === 'b' ? DN : f === 'f2' ? UP : 0;
+// the basement is three rooms plus the cellar; everything else down there is solid rock
+const B_AREAS = [[1, 1, 22, 11], [24, 1, 42, 5], [-19, 1, -1, 5], [24, 7, 42, 11]];
 const BASE = [];
 for (let y = 0; y < ROWS; y++) {
   const row = [];
-  for (let x = -LEFT; x < UP + COLS; x++) {
-    if (x >= COLS && x < F2_X0) { row.push(6); continue; }
-    const f2 = isF2x(x), gx = f2 ? x - UP : x;
+  for (let x = -LEFT; x < DN + COLS; x++) {
+    if ((x >= COLS && x < F2_X0) || (x >= UP + COLS && x < B_X0)) { row.push(6); continue; }
+    const fl = floorOf(x), gx = x - floorOff(fl);
+    if (fl === 'b') {
+      // basement: the cellar and three rooms, carved out of rock
+      const inside = B_AREAS.some(([x0, y0, x1, y1]) => gx >= x0 && gx <= x1 && y >= y0 && y <= y1);
+      const edge = B_AREAS.some(([x0, y0, x1, y1]) => gx >= x0 - 1 && gx <= x1 + 1 && y >= y0 - 1 && y <= y1 + 1);
+      row.push(inside ? 0 : edge ? 1 : 6);
+      continue;
+    }
+    const f2 = fl === 'f2';
     if (y >= 13) row.push(f2 ? 6 : 2);
     else if (y === 0 || gx === 0 || gx === 23 || gx === COLS - 1 || gx === -LEFT) row.push(1);
     else if (y === 12) row.push(!f2 && (gx === 11 || gx === 12) ? 5 : 1);
@@ -2295,14 +2395,31 @@ for (let y = 7; y <= 12; y++) setBase(-10 + UP, y, 1);
 LAB.machines.concat([LAB.printer]).forEach(([x, y]) => setBase(x + UP, y, 8));
 setBase(STAIRS_X, 0, 7);
 setBase(STAIRS_X + UP, 0, 7);
+// basement: doors (60+), stairwell and the three work stations
+B_ROOMS.forEach((Rm, i) => setBase(Rm.door[0] + DN, Rm.door[1], 60 + i));
+setBase(CELLAR_X, 0, 7);
+setBase(CELLAR_X + DN, 0, 7);
+BENCHES.forEach(b => setBase(b.tile[0] + DN, b.tile[1], 9));
+setBase(PANTRY[0] + DN, PANTRY[1], 9);
 
 function roomOpen(i) { return !!S.upgrades[ROOMS[i].up]; }
+function stairPartner(x) {
+  if (x === STAIRS_X) return STAIRS_X + UP;
+  if (x === STAIRS_X + UP) return STAIRS_X;
+  if (x === CELLAR_X) return CELLAR_X + DN;
+  if (x === CELLAR_X + DN) return CELLAR_X;
+  return null;
+}
 const labOn = () => !!(S.upgrades && S.upgrades.f2_complab);
+const breakBoost = () => (S.upgrades.b_break && S.shop.brk > 0 ? 1.2 : 1);
 const labSeat = i => [LAB.seats[i][0] + UP, LAB.seats[i][1]];
 function labSupplies() { return Math.min(S.lab.paper, S.lab.ink); }
 function labFreeSeat() { return G.labUse.findIndex(u => !u); }
 function labWaiter() { return G.customers.find(c => c.state === 'labWait' && c.labJob === 'print'); }
 function f2Open(i) { return !!(S.upgrades.floor2 && S.upgrades[F2_ROOMS[i].up]); }
+function bOpen(i) { return !!(S.upgrades.basement && S.upgrades[B_ROOMS[i].up]); }
+function onBasement() { return !!(G && G.scene !== 'night' && G.player && isBx(G.player.x / T)); }
+function playerFloor() { return G && G.player ? floorOf(G.player.x / T) : 'g'; }
 function onUpstairs() { return !!(G && G.scene !== 'night' && G.player && isF2x(G.player.x / T)); }
 
 function rebuildFixMap() {
@@ -2311,12 +2428,14 @@ function rebuildFixMap() {
 }
 function isSolid(tx, ty) {
   if (G && G.scene === 'night') return tx < 0 || ty < 8 || tx >= NCOLS || ty >= ROWS;
-  if (tx < -LEFT || ty < 0 || tx >= UP + COLS || ty >= ROWS) return true;
+  if (tx < -LEFT || ty < 0 || tx >= DN + COLS || ty >= ROWS) return true;
   const b = baseAt(tx, ty);
   if (b === 1 || b === 4 || b === 30 || b === 6) return true;
-  if (b === 7) return !S.upgrades.floor2;
+  if (b === 7) return !S.upgrades[tx === CELLAR_X || tx === CELLAR_X + DN ? 'basement' : 'floor2'];
   if (b === 8) return !!S.upgrades.f2_complab;
+  if (b === 9) return true;
   if (b >= 40 && b < 50) return !f2Open(b - 40);
+  if (b >= 60 && b < 70) return !bOpen(b - 60);
   if (b === 31) return cafeOpen() && CAFE_TABLES.findIndex(([x, y]) => x === tx && y === ty) < S.cafe.tables;
   if (b === 32) return true;
   if (b >= 20 && b < 30) return !roomOpen(b - 20);
@@ -2357,11 +2476,13 @@ function bfs(sx, sy, goalFn) {
       prev[nk] = k;
       q.push(nk);
     }
-    // the stairwell links the two floors (row 0, STAIRS_X <-> STAIRS_X + UP)
-    if (!night && y === 0 && (x === STAIRS_X || x === STAIRS_X + UP)) {
-      const ox = x === STAIRS_X ? x + UP : STAIRS_X;
-      const nk = ox + off;
-      if (prev[nk] === -2 && !isSolid(ox, 0)) { prev[nk] = k; q.push(nk); }
+    // stairwells link the floors (row 0): STAIRS_X <-> upstairs, CELLAR_X <-> basement
+    if (!night && y === 0) {
+      const ox = stairPartner(x);
+      if (ox != null) {
+        const nk = ox + off;
+        if (prev[nk] === -2 && !isSolid(ox, 0)) { prev[nk] = k; q.push(nk); }
+      }
     }
   }
   return null;
@@ -2386,7 +2507,7 @@ function sfx(type) {
       bad: [150, 0.15, 'square', 0.04], click: [760, 0.04, 'sine', 0.05], pickup: [380, 0.08, 'triangle', 0.06],
       scream: [900, 0.9, 'sawtooth', 0.09], knock: [180, 0.08, 'square', 0.08],
       bust: [300, 0.25, 'sawtooth', 0.05], clean: [900, 0.12, 'sine', 0.05], streak: [880, 0.18, 'triangle', 0.06],
-      stairs: [240, 0.28, 'triangle', 0.07], portal: [620, 0.35, 'sine', 0.07],
+      stairs: [240, 0.28, 'triangle', 0.07], portal: [620, 0.35, 'sine', 0.07], grind: [180, 0.12, 'sawtooth', 0.04],
     }[type];
     if (!cfg) return;
     const o = AC.createOscillator(), g = AC.createGain();
@@ -2625,9 +2746,10 @@ function movePlayer(dt) {
   if (!collides(p.x, p.y + dy * sp)) p.y += dy * sp;
   // walk up into the stairwell to change floors (let go of "up" after arriving before it works again)
   if (dy > -0.3) G.stairLock = false;
-  else if (!G.stairLock && up('floor2') && p.y <= T + 14) {
+  else if (!G.stairLock && p.y <= T + 14) {
     const tx = Math.floor(p.x / T);
-    if (tx === STAIRS_X || tx === STAIRS_X + UP) useStairs(tx);
+    const down = tx === CELLAR_X || tx === CELLAR_X + DN;
+    if (stairPartner(tx) != null && up(down ? 'basement' : 'floor2')) useStairs(tx);
   }
 }
 
@@ -2721,10 +2843,106 @@ function labFinish(c) {
   c.state = 'think'; c.wait = 0.4;
 }
 
+// ---------- basement work stations ----------
+const benchOn = b => !!(S.upgrades.basement && S.upgrades[b.room]);
+const benchAt = id => BENCHES.find(b => b.id === id);
+function benchSupply(b) { return b.supply === 'keys' ? S.shop.keys : S.shop.vinyl; }
+function benchJobId(b) {
+  if (b.id === 'press') return up('wideformat') && Math.random() < 0.35 ? 'bannerjob' : 'signjob';
+  if (b.id === 'engrave' && up('fancyengrave')) return 'engravejob';
+  return b.job;
+}
+function benchWork(b, job) {
+  const base = { keyjob: 8, engravejob: 14, signjob: 16, bannerjob: 26 }[job] || 10;
+  const fancy = job === 'engravejob' && up('fancyengrave') ? 1.5 : 1;
+  const quick = b.id === 'press' && up('vinylcutter') ? 0.7 : 1;
+  return Math.round(base * fancy * quick);
+}
+function benchCost(b, job) {
+  if (b.supply === 'vinyl') return (job === 'bannerjob' ? 3 : 1) * (up('vinylcutter') ? 0.5 : 1);
+  return 1;
+}
+function freeBench(room) { return BENCHES.filter(b => b.room === room && benchOn(b) && !G.benchUse[b.id]); }
+
+// a customer walks over and waits for you (or a Workshopper) to run the job
+function shopJobStart(c) {
+  const rooms = [];
+  if (up('b_workshop')) rooms.push('b_workshop');
+  if (up('b_print')) rooms.push('b_print');
+  if (!rooms.length) { c.shopJob = null; c.state = 'think'; c.wait = 0.3; return; }
+  const room = c.shopJob === 'print' && up('b_print') ? 'b_print' : pick(rooms);
+  const b = freeBench(room)[0];
+  if (!b || benchSupply(b) < 3) {
+    if (!b) { c.shopJob = null; c.state = 'think'; c.wait = 0.3; return; }
+    c.shopJob = null;
+    say(c, pick(['No blanks? 😕', 'Out of materials…', 'Maybe next time']), 2.2);
+    loseRep(0.15);
+    if (!G.benchWarned) { G.benchWarned = true; toast('🔧 The workshop is out of materials — order blanks from the basement computer', 'big'); }
+    c.state = 'think'; c.wait = 0.3;
+    return;
+  }
+  if (!pathTo(c, exactly(b.stand[0] + DN, b.stand[1]))) { c.shopJob = null; c.state = 'think'; c.wait = 0.3; return; }
+  G.benchUse[b.id] = c;
+  c.bench = b.id;
+  c.jobId = benchJobId(b);
+  c.state = 'toBench';
+  c.jobWait = 75;
+}
+
+function benchProgress(id, n) {
+  const b = benchAt(id);
+  const c = G.benchUse[id];
+  if (!b || !c) return;
+  G.benchProg = G.benchProg || {};
+  G.benchProg[id] = (G.benchProg[id] || 0) + n;
+  if (Math.random() < 0.25) burst((b.tile[0] + DN) * T + T / 2, b.tile[1] * T + 10, 1, 'spark');
+  if (G.benchProg[id] < benchWork(b, c.jobId)) return;
+  G.benchProg[id] = 0;
+  benchFinish(id);
+}
+
+function benchFinish(id) {
+  const b = benchAt(id), c = G.benchUse[id];
+  G.benchUse[id] = null;
+  if (!c) return;
+  const job = c.jobId || b.job;
+  const use = benchCost(b, job);
+  if (b.supply === 'keys') S.shop.keys = Math.max(0, S.shop.keys - use);
+  else S.shop.vinyl = Math.max(0, S.shop.vinyl - use);
+  c.basket.push({ id: job, price: S.prices[job], fix: null });
+  S.stats.jobs = (S.stats.jobs || 0) + 1;
+  G.today.jobs = (G.today.jobs || 0) + 1;
+  c.bench = null; c.jobId = null;
+  say(c, pick([`${ITEM[job].emoji} perfect, thanks!`, 'Exactly right 👌', 'Brilliant, cheers']), 2);
+  popup((b.tile[0] + DN) * T + T / 2, b.tile[1] * T, `${ITEM[job].emoji} $${fmt(S.prices[job])}`, '#7ee7a0');
+  sfx('stock');
+  c.state = 'think'; c.wait = 0.3;
+}
+
+function benchAbandon(c) {
+  if (c.bench) { G.benchUse[c.bench] = null; if (G.benchProg) G.benchProg[c.bench] = 0; }
+  c.bench = null; c.jobId = null; c.shopJob = null;
+}
+
+function loadBench(item) {
+  const c = G.player.carry;
+  if (!c) return;
+  const it = ITEM[item];
+  const key = (item === 'keyblank' || item === 'engbits') ? 'keys' : item === 'instantcoffee' || item === 'biscuits' || item === 'energydrink' || item === 'noodles' ? 'brk' : 'vinyl';
+  const cap = key === 'brk' ? 200 : 300;
+  if (S.shop[key] >= cap) return;
+  S.shop[key] = Math.min(cap, S.shop[key] + it.units);
+  c.qty--;
+  sfx('stock');
+  if (c.qty <= 0) { G.player.carry = null; toast('📦 Box empty, flattened and binned'); }
+}
+
 function useStairs(tx) {
+  const dest = stairPartner(tx);
   const goingUp = tx === STAIRS_X;
+  const goingDown = tx === CELLAR_X;
   const p = G.player;
-  p.x = (goingUp ? tx + UP : STAIRS_X) * T + T / 2;
+  p.x = dest * T + T / 2;
   p.y = 1.7 * T;
   p.face = { x: 0, y: 1 };
   G.stairLock = true;
@@ -2737,6 +2955,23 @@ function useStairs(tx) {
     S.stats.wentUp = true;
     toast('🪜 Welcome upstairs! Upstairs stock only goes on upstairs fixtures. Customers find their way up on their own.', 'big');
   }
+  if (goingDown && !S.stats.wentDown) {
+    S.stats.wentDown = true;
+    toast('🔽 The cellar. Basement stock needs basement fixtures, and it goes damp overnight until you buy a Dehumidifier.', 'big');
+  }
+}
+
+// the freight lift: same idea, but it picks the floor for you
+function useLift(to) {
+  const p = G.player;
+  const from = playerFloor();
+  if (from === to) return;
+  p.x = (LIFT[0] + floorOff(to)) * T + T / 2;
+  p.y = (LIFT[1] + 1) * T + T / 2;
+  G.stairLock = true;
+  G.camX = clamp(p.x - VW / 2, worldMin(), worldW() - VW);
+  G.fade = 0.85;
+  sfx('stairs');
 }
 
 function getTarget() {
@@ -2751,10 +2986,16 @@ function getTarget() {
   COMPUTERS.forEach(cp => {
     if (cp.needs && !cp.needs.some(u => S.upgrades[u])) return;
     if (cp.f2 && !S.upgrades.floor2) return;
+    if (cp.b && !S.upgrades.basement) return;
     const [[x1, y1], [x2]] = cp.desk;
     consider((x1 + x2 + 1) / 2 * T, y1 * T + T / 2, 64, { kind: 'computer', cp });
   });
   [STAIRS_X, STAIRS_X + UP].forEach(sx => consider(sx * T + T / 2, 0.9 * T, 50, { kind: 'stairs', sx }));
+  if (up('basement')) {
+    BENCHES.forEach(b => { if (benchOn(b)) consider((b.tile[0] + DN) * T + T / 2, b.tile[1] * T + T / 2, 52, { kind: 'bench', b }); });
+    if (up('b_break')) consider((PANTRY[0] + DN) * T + T / 2, PANTRY[1] * T + T / 2, 52, { kind: 'pantry' });
+    if (up('freightlift')) [0, UP, DN].forEach(off => consider((LIFT[0] + off) * T + T / 2, LIFT[1] * T + T / 2, 52, { kind: 'lift' }));
+  }
   if (labOn()) {
     consider((LAB.printer[0] + UP) * T + T / 2, LAB.printer[1] * T + T / 2, 52, { kind: 'printer' });
     LAB.machines.forEach(([mx, my], i) => consider((mx + UP) * T + T / 2, my * T + T / 2, 46, { kind: 'labpc', i }));
@@ -2783,7 +3024,7 @@ function getTarget() {
 function targetInfo(t) {
   const p = G.player;
   switch (t.kind) {
-    case 'computer': return { text: `Use the ${t.cp.label}computer (SpookyMart)`, once: () => openShop(!!t.cp.f2) };
+    case 'computer': return { text: `Use the ${t.cp.label}computer (SpookyMart)`, once: () => openShop(t.cp.b ? 'b' : t.cp.f2 ? 'f2' : 'g') };
     case 'printer': {
       const car = G.player.carry;
       if (car && (car.item === 'paper' || car.item === 'ink')) {
@@ -2800,6 +3041,35 @@ function targetInfo(t) {
       if (u && u.labJob === 'game') return { text: `Ask them to wrap it up (someone may be waiting)`, once: () => labKick(t.i) };
       if (u) return { text: `${u.face} is printing…`, none: true };
       return { text: `Old computer. Customers print here${labSupplies() <= 0 ? ' — out of paper or ink!' : ''}`, none: true };
+    }
+    case 'bench': {
+      const b = t.b, car = G.player.carry;
+      if (car && ['keyblank', 'engbits', 'vinylroll', 'signstock'].includes(car.item)) {
+        const key = b.supply === 'keys' ? 'keys' : 'vinyl';
+        const rightBox = (key === 'keys') === (car.item === 'keyblank' || car.item === 'engbits');
+        if (!rightBox) return { text: `${ITEM[car.item].name} belongs in the other bench`, none: true, bad: true };
+        if (S.shop[key] >= 300) return { text: 'This bench is fully loaded', none: true, bad: true };
+        return { text: `Hold to load ${ITEM[car.item].name} (${S.shop[key]} left)`, repeat: () => loadBench(car.item), interval: 0.25 };
+      }
+      const cust = G.benchUse[b.id];
+      if (cust && cust.state === 'atBench') {
+        if (benchSupply(b) < benchCost(b, cust.jobId)) return { text: `Out of materials for this job`, none: true, bad: true };
+        const done = (G.benchProg && G.benchProg[b.id]) || 0;
+        return { text: `Hold to run ${ITEM[cust.jobId].name} for ${cust.name || 'them'} (${Math.round(done / benchWork(b, cust.jobId) * 100)}%)`, repeat: () => benchProgress(b.id, 1), interval: 0.18 };
+      }
+      if (cust) return { text: `${b.emoji} ${b.name} — they're on their way over`, none: true };
+      return { text: `${b.emoji} ${b.name}. E to set job prices (${ITEM[b.job].emoji} $${fmt(S.prices[b.job])}). Materials: ${benchSupply(b)}`, once: () => openPrice(b.job) };
+    }
+    case 'pantry': {
+      const car = G.player.carry;
+      if (car && ['instantcoffee', 'biscuits', 'energydrink', 'noodles'].includes(car.item))
+        return { text: `Hold to stock the break room (${S.shop.brk} servings left)`, repeat: () => loadBench(car.item), interval: 0.25 };
+      return { text: `🍜 Break room shelf — ${S.shop.brk} servings left${S.shop.brk > 0 ? '. Staff are working faster' : '. Staff get no break'}`, none: true };
+    }
+    case 'lift': {
+      const f = playerFloor();
+      const to = f === 'b' ? 'g' : f === 'g' ? (up('floor2') ? 'f2' : 'b') : 'b';
+      return { text: `🛗 Freight lift — go to the ${FLOOR_NAME[to]}`, once: () => useLift(to) };
     }
     case 'stairs':
       if (!up('floor2')) return { text: `🔒 Stairs to the second floor. Build it from the Upgrades tab (level 4)`, none: true };
@@ -2937,7 +3207,7 @@ function packUpFixture() {
 function canPlace(tx, ty) {
   const blk = slotBlock(tx, ty);
   if (!blk || !blockOpen(blk) || G.fixMap.has(tx + ',' + ty)) return false;
-  if (G.placing && !!blk.f2 !== !!FIXTURE_TYPES[G.placing].f2) return false;
+  if (G.placing && (blk.f2 ? 'f2' : blk.b ? 'b' : 'g') !== fixFloor(FIXTURE_TYPES[G.placing])) return false;
   const occ = (x, y) => Math.floor(x / T) === tx && Math.floor(y / T) === ty;
   if (occ(G.player.x, G.player.y)) return false;
   if (G.customers.some(c => occ(c.x, c.y))) return false;
@@ -3039,6 +3309,7 @@ function spawnCustomer(forceType) {
     wants, basket: [], scanned: 0, state: 'think', wait: 0.1, path: [],
     bubble: '', bubbleT: 0, patience: 0, maxPatience: 1, qi: -1, bob: Math.random() * 6,
   };
+  if (up('basement') && (up('b_workshop') || up('b_print')) && Math.random() < 0.2) c.shopJob = up('b_print') && Math.random() < 0.5 ? 'print' : 'key';
   if (up('f2_complab')) {
     const gamerType = ['kid', 'goth', 'nightowl', 'tourist', 'furry', 'normal'].includes(type);
     const morning = G.time >= 8 * 60 && G.time < 12 * 60;
@@ -3071,6 +3342,7 @@ function say(c, text, t = 2.2) { c.bubble = text; c.bubbleT = t; }
 function nextWant(c) {
   if (c.type === 'celeb') { celebNext(c); return; }
   if (!c.wants.length && c.labJob && c.type !== 'thief' && c.type !== 'celeb') { labStart(c); return; }
+  if (!c.wants.length && c.shopJob && c.type !== 'thief' && c.type !== 'celeb') { shopJobStart(c); return; }
   if (!c.wants.length) {
     if (c.type === 'thief' && c.basket.length) { startEscape(c); return; }
     if (c.basket.length) joinQueue(c); else leave(c);
@@ -3162,6 +3434,7 @@ function updateQueue(r) {
 }
 function leave(c) {
   if (c.labSeat != null) { G.labUse[c.labSeat] = null; c.labSeat = null; }
+  if (c.bench) benchAbandon(c);
   if (c.type === 'monster' && !c.reported) {
     c.reported = true;
     G.copQueue.push({ face: c.face, t: up('policeradio') ? rand(5, 12) : rand(12, 30) });
@@ -3385,6 +3658,22 @@ function updateCustomer(c, dt) {
       }
       break;
     }
+    case 'toBench':
+      if (followPath(c, dt)) { c.state = 'atBench'; say(c, `${ITEM[c.jobId].emoji} ${ITEM[c.jobId].name}, please`, 2.4); }
+      break;
+    case 'atBench': {
+      c.jobWait -= dt;
+      const b = benchAt(c.bench);
+      if (up('autocutter') && b && b.supply === 'keys' && benchSupply(b) >= 1) benchProgress(c.bench, dt * 4);
+      if (c.bubbleT <= 0 && Math.random() < 0.006) say(c, pick(['Any minute now?', '⏳', 'No rush… mostly']), 1.6);
+      if (c.jobWait <= 0) {
+        say(c, pick(['I\'ll come back another day 😤', 'Nobody works down here?']), 2.2);
+        loseRep(0.6);
+        benchAbandon(c);
+        c.state = 'think'; c.wait = 0.3;
+      }
+      break;
+    }
     case 'leave': if (followPath(c, dt)) c.remove = true; break;
     case 'copIn': if (followPath(c, dt)) { c.state = 'copWait'; c.wait = 55; } break;
     case 'copWait':
@@ -3526,7 +3815,7 @@ function stockerTick(dt) {
   }
   const lvl = stockerLevel();
   G.stockers.forEach(s => {
-    s.speed = 260 * (1 + 0.3 * lvl);
+    s.speed = 260 * (1 + 0.3 * lvl) * breakBoost();
     s.moving = false;
     switch (s.state) {
       case 'idle':
@@ -4091,7 +4380,7 @@ function librarianTick(dt) {
   const fast = up('libtrain');
   G.librarians.forEach(L => {
     L.moving = false;
-    L.speed = fast ? 223 : 165;
+    L.speed = (fast ? 223 : 165) * breakBoost();
     if (L.bubbleT > 0) L.bubbleT -= dt;
     switch (L.state) {
       case 'idle': {
@@ -4209,6 +4498,132 @@ function librarianTick(dt) {
   });
 }
 
+// Workshoppers run the basement benches and keep them loaded
+function workerTick(dt) {
+  const want = S.upgrades.basement ? cnt('workshopper') : 0;
+  while (G.workers.length > want) {
+    const w = G.workers.pop();
+    if (w.carry) S.boxes.push({ x: w.x, y: w.y + 6, item: w.carry.item, qty: w.carry.qty });
+  }
+  while (G.workers.length < want) {
+    const n = G.workers.length;
+    G.workers.push({
+      x: (12 + DN + (n % 4) * 2) * T, y: 6 * T, path: [], state: 'idle', wait: 0.4 + n * 0.3,
+      speed: 170, face: ['🧑‍🏭', '👨🏽‍🏭', '👩‍🏭'][n % 3], carry: null, moving: false, home: n,
+    });
+  }
+  G.workers.forEach(w => {
+    w.moving = false;
+    w.speed = 170 * breakBoost();
+    if (w.bubbleT > 0) w.bubbleT -= dt;
+    switch (w.state) {
+      case 'idle': {
+        w.wait -= dt;
+        if (w.wait > 0) return;
+        w.wait = 0.5;
+        const others = G.workers.filter(o => o !== w);
+        // 1. a customer waiting at a bench with materials to hand
+        const job = BENCHES.find(b => benchOn(b) && G.benchUse[b.id] && G.benchUse[b.id].state === 'atBench'
+          && benchSupply(b) >= benchCost(b, G.benchUse[b.id].jobId) && !others.some(o => o.bench === b.id));
+        if (job && pathTo(w, exactly(job.stand[0] + DN, job.stand[1] - 1))) { w.state = 'toJob'; w.bench = job.id; return; }
+        // 2. materials running low and a box is somewhere in the store
+        const lowKeys = S.shop.keys < 40 && BENCHES.some(b => b.supply === 'keys' && benchOn(b));
+        const lowVinyl = S.shop.vinyl < 40 && BENCHES.some(b => b.supply === 'vinyl' && benchOn(b));
+        const lowBrk = up('b_break') && S.shop.brk < 10;
+        const wanted = [];
+        if (lowKeys) wanted.push('keyblank', 'engbits');
+        if (lowVinyl) wanted.push('vinylroll', 'signstock');
+        if (lowBrk) wanted.push('instantcoffee', 'biscuits', 'energydrink', 'noodles');
+        if (wanted.length && !others.some(o => o.carry || o.state === 'toBox')) {
+          const box = S.boxes.filter(b => wanted.includes(b.item))
+            .sort((a, b) => walkDist(a.x, a.y, w.x, w.y) - walkDist(b.x, b.y, w.x, w.y))[0];
+          if (box && pathTo(w, nearTile(Math.floor(box.x / T), Math.floor(box.y / T)))) { w.state = 'toBox'; w.box = box; return; }
+        }
+        // 3. shelve basement stock left in boxes
+        const claimed = new Set(others.map(o => o.box).filter(Boolean));
+        const sbox = S.boxes.filter(b => !claimed.has(b) && !G.claimed.has(b) && CATEGORIES[ITEM[b.item].cat].b && !ITEM[b.item].supply && findFixtureFor(b.item))
+          .sort((a, b) => walkDist(a.x, a.y, w.x, w.y) - walkDist(b.x, b.y, w.x, w.y))[0];
+        if (sbox && pathTo(w, nearTile(Math.floor(sbox.x / T), Math.floor(sbox.y / T)))) { w.state = 'toBox'; w.box = sbox; w.shelving = true; return; }
+        // 4. drift near the benches
+        const spot = BENCHES[(w.home || 0) % BENCHES.length];
+        if (benchOn(spot) && pathTo(w, exactly(spot.stand[0] + DN, spot.stand[1] - 1))) { w.state = 'walk'; w.wait = rand(3, 6); }
+        return;
+      }
+      case 'walk':
+        if (followPath(w, dt)) { w.state = 'idle'; w.wait = rand(1.5, 3); }
+        break;
+      case 'toJob':
+        if (followPath(w, dt)) { w.state = 'working'; w.wait = 0.18; }
+        break;
+      case 'working': {
+        const b = benchAt(w.bench), c = G.benchUse[w.bench];
+        if (!b || !c || c.state !== 'atBench' || benchSupply(b) < benchCost(b, c.jobId)) { w.bench = null; w.state = 'idle'; w.wait = 0.5; return; }
+        w.wait -= dt;
+        if (w.wait > 0) return;
+        w.wait = 0.16;
+        benchProgress(w.bench, 1);
+        if (!G.benchUse[w.bench]) { w.bench = null; w.state = 'idle'; w.wait = 0.6; }
+        break;
+      }
+      case 'toBox':
+        if (!S.boxes.includes(w.box)) { w.box = null; w.shelving = false; w.state = 'idle'; return; }
+        if (followPath(w, dt)) {
+          w.carry = { item: w.box.item, qty: w.box.qty };
+          S.boxes.splice(S.boxes.indexOf(w.box), 1);
+          w.box = null;
+          if (w.shelving) {
+            const f = findFixtureFor(w.carry.item, w);
+            if (f && pathTo(w, nearTile(f.x, f.y))) { w.state = 'toShelf'; w.fix = f; return; }
+            S.boxes.push({ x: w.x, y: w.y + 6, item: w.carry.item, qty: w.carry.qty, retryAt: G.tick + 12 });
+            w.carry = null; w.shelving = false; w.state = 'idle';
+            return;
+          }
+          const isBrk = ['instantcoffee', 'biscuits', 'energydrink', 'noodles'].includes(w.carry.item);
+          const target = isBrk ? PANTRY : (w.carry.item === 'keyblank' || w.carry.item === 'engbits' ? benchAt('key').tile : benchAt('press').tile);
+          if (pathTo(w, nearTile(target[0] + DN, target[1]))) { w.state = 'toLoad'; }
+          else w.state = 'idle';
+        }
+        break;
+      case 'toLoad':
+        if (followPath(w, dt)) { w.state = 'loading'; w.wait = 0.3; }
+        break;
+      case 'loading': {
+        w.wait -= dt;
+        if (w.wait > 0) return;
+        w.wait = 0.3;
+        const it = ITEM[w.carry.item];
+        const key = (w.carry.item === 'keyblank' || w.carry.item === 'engbits') ? 'keys'
+          : ['instantcoffee', 'biscuits', 'energydrink', 'noodles'].includes(w.carry.item) ? 'brk' : 'vinyl';
+        const cap = key === 'brk' ? 200 : 300;
+        if (S.shop[key] >= cap) { w.state = 'idle'; return; }
+        S.shop[key] = Math.min(cap, S.shop[key] + it.units);
+        w.carry.qty--;
+        if (w.carry.qty <= 0) { w.carry = null; w.state = 'idle'; w.wait = 0.8; }
+        break;
+      }
+      case 'toShelf':
+        if (followPath(w, dt)) { w.state = 'shelve'; w.wait = 0.2; }
+        break;
+      case 'shelve': {
+        w.wait -= dt;
+        if (w.wait > 0) return;
+        w.wait = 0.14;
+        const f = w.fix;
+        if (!w.carry || !f || !S.fixtures.includes(f) || !canStock(f, w.carry.item)) {
+          if (w.carry) { S.boxes.push({ x: w.x, y: w.y + 6, item: w.carry.item, qty: w.carry.qty, retryAt: G.tick + 12 }); w.carry = null; }
+          w.fix = null; w.shelving = false; w.state = 'idle';
+          return;
+        }
+        f.item = w.carry.item;
+        f.stock++;
+        w.carry.qty--;
+        if (w.carry.qty <= 0) { w.carry = null; w.fix = null; w.shelving = false; w.state = 'idle'; w.wait = 0.6; }
+        break;
+      }
+    }
+  });
+}
+
 function janitorTick(dt) {
   const want = cnt('janitor');
   while (G.janitors.length > want) G.janitors.pop();
@@ -4268,8 +4683,15 @@ function rainTick(dt) {
 //  HALLOWEEN NIGHT: WALK THE NEIGHBORHOOD
 // ------------------------------------------------------------
 let N = { candy: 0, visited: new Set(), houses: [] };
-function worldW() { return (G && G.scene === 'night' ? NCOLS : onUpstairs() ? UP + COLS : COLS) * T; }
-function worldMin() { return G && G.scene === 'night' ? 0 : (onUpstairs() ? F2_X0 : -LEFT) * T; }
+function worldW() {
+  if (G && G.scene === 'night') return NCOLS * T;
+  const f = playerFloor();
+  return (floorOff(f) + COLS) * T;
+}
+function worldMin() {
+  if (G && G.scene === 'night') return 0;
+  return (floorOff(playerFloor()) - LEFT) * T;
+}
 
 const NEIGHBOR_FACES = ['👩', '👨', '🧔', '👩‍🦰', '👨‍🦳', '👱‍♀️', '🧑‍🦱', '👵', '👴'];
 const HOUSE_DEFS = [
@@ -6209,7 +6631,22 @@ function endDay() {
   G.deliveries = []; G.vans = [];
 
   for (const k in S.plots) { const p = S.plots[k]; if (p.crop) p.t = CROP[p.crop].time; }
-  const wages = UPGRADES.reduce((s, u) => s + (u.wage ? u.wage * cnt(u.id) : 0), 0) + (S.cafe && S.cafe.have.barista ? 30 : 0);
+  // the break room: staff eat a serving each and work cheaper the next day
+  const staffCount = UPGRADES.reduce((n, u) => n + (u.wage ? cnt(u.id) : 0), 0);
+  const fed = up('b_break') && S.shop.brk >= staffCount && staffCount > 0;
+  if (fed) S.shop.brk -= staffCount;
+  const wages = Math.round((UPGRADES.reduce((s, u) => s + (u.wage ? u.wage * cnt(u.id) : 0), 0) + (S.cafe && S.cafe.have.barista ? 30 : 0)) * (fed ? 0.9 : 1));
+  // damp: basement stock goes off overnight until you buy a dehumidifier
+  if (up('basement') && !up('dehumid')) {
+    let spoiled = 0;
+    S.fixtures.forEach(f => {
+      if (f.x < B_X0 || !f.stock) return;
+      const n = Math.max(1, Math.round(f.stock * 0.08));
+      f.stock = Math.max(0, f.stock - n);
+      spoiled += n;
+    });
+    if (spoiled) toast(`💧 ${spoiled} item(s) went damp in the basement overnight`, 'bad');
+  }
   // the Jack owns the building, so the second floor is rent-free
   const rooms = ROOMS.filter((Rm, i) => roomOpen(i)).length;
   const rent = Math.round((150 + 75 * S.expansions + 100 * rooms) * (1 + 0.5 * yearLvl()) * (up('keytocity') ? 0.75 : 1));
@@ -6369,12 +6806,15 @@ function showSeason() {
 // ------------------------------------------------------------
 //  COMPUTER / SHOP WEBSITE
 // ------------------------------------------------------------
-function openShop(f2 = false) {
+function openShop(floor = 'g') {
   sfx('click');
-  if (G.shopF2 !== f2) { G.shopF2 = f2; G.shopCat = 'all'; if (f2 && G.shopTab === 'cafe') G.shopTab = 'stock'; }
+  if (G.shopFloor !== floor) { G.shopFloor = floor; G.shopCat = 'all'; if (floor !== 'g' && G.shopTab === 'cafe') G.shopTab = 'stock'; }
   showOverlay('shop');
   renderShop();
 }
+const catFloor = k => CATEGORIES[k].f2 ? 'f2' : CATEGORIES[k].b ? 'b' : 'g';
+const fixFloor = ft => ft.f2 ? 'f2' : ft.b ? 'b' : 'g';
+const FLOOR_NAME = { g: 'ground floor', f2: 'upstairs', b: 'basement' };
 
 function renderShop() {
   const el = $('shop');
@@ -6382,18 +6822,21 @@ function renderShop() {
   const lvl = levelOf(S.xp);
   const tab = G.shopTab;
   const tabs = { stock: 'Stock', fixtures: 'Fixtures', upgrades: 'Upgrades', prices: 'My prices' };
-  if (cafeOpen() && !G.shopF2) tabs.cafe = '☕ Café';
+  if (cafeOpen() && G.shopFloor === 'g') tabs.cafe = '☕ Café';
   let body = '';
 
   if (tab === 'stock') {
-    const mine = k => !!CATEGORIES[k].f2 === !!G.shopF2 && !CATEGORIES[k].hidden
-      && (k !== 'supplies' || up('f2_complab'));
+    const mine = k => catFloor(k) === G.shopFloor && !CATEGORIES[k].hidden
+      && (k !== 'supplies' || up('f2_complab'))
+      && (k !== 'blanks' || up('b_workshop') || up('b_print'))
+      && (k !== 'brk' || up('b_break'));
     const cats = ['all', ...Object.keys(CATEGORIES).filter(mine)];
     if (G.shopCat !== 'all' && !mine(G.shopCat)) G.shopCat = 'all';
     const owned = new Set(S.fixtures.map(f => f.type).concat(S.pendingFixtures));
     const list = ITEMS.filter(i => !i.grown && !i.virtual && mine(i.cat) && (G.shopCat === 'all' || i.cat === G.shopCat));
     const cards = list.map(it => {
-      const f2lock = CATEGORIES[it.cat].f2 && !up('floor2');
+      const fl2 = catFloor(it.cat);
+      const f2lock = (fl2 === 'f2' && !up('floor2')) || (fl2 === 'b' && !up('basement'));
       const locked = it.lvl > lvl || f2lock;
       const n = G.cart[it.id] || 0;
       const needs = CATEGORIES[it.cat].fixture;
@@ -6401,10 +6844,11 @@ function renderShop() {
         <div class="em">${it.emoji}</div>
         <div class="nm">${it.name}</div>
         <div class="meta">Box of ${it.box}, sells for about $${fmt(S.market[it.id])} each</div>
-        ${!locked && it.supply ? `<div class="need">Load it into the printer in the Computer Lab</div>`
+        ${!locked && it.supply ? `<div class="need">${it.cat === 'supplies' ? 'Load it into the printer in the Computer Lab'
+          : it.cat === 'brk' ? 'Load it onto the Break Room shelf' : 'Load it into a workshop bench'}</div>`
           : !locked && !owned.has(needs) ? `<div class="need">Needs a ${FIXTURE_TYPES[needs].name}${FIXTURE_TYPES[needs].f2 ? ' (upstairs)' : ''}</div>` : ''}
         <div class="pr">$${fmt(it.cost * it.box * wholesaleMul())}${ev('sale') ? ' <s class="was">$' + fmt(it.cost * it.box) + '</s>' : ''}${ev('trend') && G.event.item === it.id ? ' 🔥' : ''}</div>
-        ${locked ? `<div class="lock">🔒 ${it.lvl > lvl ? `Level ${it.lvl}` : 'Needs the Second Floor'}</div>` :
+        ${locked ? `<div class="lock">🔒 ${it.lvl > lvl ? `Level ${it.lvl}` : fl2 === 'b' ? 'Needs the Basement' : 'Needs the Second Floor'}</div>` :
           `<div class="qty"><button data-act="dec" data-id="${it.id}">−</button><b>${n}</b><button data-act="inc" data-id="${it.id}">+</button></div>`}
       </div>`;
     }).join('');
@@ -6413,7 +6857,9 @@ function renderShop() {
     body = `
       <div class="stockwrap">
         <div>
-          <p class="note">${G.shopF2 ? '🪜 Upstairs stock. Downstairs stock is on a ground-floor computer.' : '🏪 Ground floor stock. Upstairs stock is on an upstairs computer.'}</p>
+          <p class="note">${G.shopFloor === 'f2' ? '🪜 Upstairs stock only. Other floors have their own computers.'
+            : G.shopFloor === 'b' ? '🔽 Basement stock and workshop supplies only. Other floors have their own computers.'
+            : '🏪 Ground floor stock only. Upstairs and the basement have their own computers.'}</p>
           <div class="cats">${cats.map(c => `<button data-cat="${c}" class="${G.shopCat === c ? 'on' : ''}">${c === 'all' ? 'Everything' : CATEGORIES[c].name}</button>`).join('')}</div>
           <div class="grid">${cards}</div>
         </div>
@@ -6431,20 +6877,20 @@ function renderShop() {
 
   if (tab === 'fixtures') {
     const fixCard = ([k, ft]) => {
-      const locked = ft.lvl > lvl || (ft.f2 && !up('floor2'));
+      const locked = ft.lvl > lvl || (ft.f2 && !up('floor2')) || (ft.b && !up('basement'));
       const count = S.fixtures.filter(f => f.type === k).length;
       return `<div class="card ${locked ? 'locked' : ''}">
         <div class="em">${fixtureEmoji(k)}</div>
         <div class="nm">${ft.name}</div>
         <div class="meta">${ft.desc}. Holds ${capOf(k)}. You own ${count}.</div>
         <div class="pr">$${ft.cost}</div>
-        ${locked ? `<div class="lock">🔒 ${ft.lvl > lvl ? `Level ${ft.lvl}` : 'Needs the Second Floor'}</div>` : `<button class="buy" data-act="buyfix" data-id="${k}">Buy and place</button>`}
+        ${locked ? `<div class="lock">🔒 ${ft.lvl > lvl ? `Level ${ft.lvl}` : ft.b ? 'Needs the Basement' : 'Needs the Second Floor'}</div>` : `<button class="buy" data-act="buyfix" data-id="${k}">Buy and place</button>`}
       </div>`;
     };
-    const fx = Object.entries(FIXTURE_TYPES).filter(([, ft]) => !!ft.f2 === !!G.shopF2);
+    const fx = Object.entries(FIXTURE_TYPES).filter(([, ft]) => fixFloor(ft) === G.shopFloor);
     body = `<div class="grid wide">${fx.map(fixCard).join('')}</div>
-    <p class="note">${G.shopF2 ? '🪜 These only fit on second-floor spots, and upstairs stock only goes on them. Ground-floor fixtures are on a downstairs computer.'
-      : 'Fixtures go on the marked floor spots. Expansions (Upgrades tab) unlock more spots. Upstairs fixtures are on an upstairs computer.'}</p>`;
+    <p class="note">${G.shopFloor === 'g' ? 'Fixtures go on the marked floor spots. Expansions (Upgrades tab) unlock more spots. Other floors have their own fixtures.'
+      : `These only fit on ${FLOOR_NAME[G.shopFloor]} spots, and ${FLOOR_NAME[G.shopFloor]} stock only goes on them.`}</p>`;
   }
 
   if (tab === 'upgrades') {
@@ -6488,13 +6934,15 @@ function renderShop() {
         ${u.free ? '<div class="pr">Free</div>' : `<div class="pr">$${u.cost}</div>`}
         ${S.upgrades[u.id] ? '<div class="owned">✔ Owned</div>' : `<button class="buy" data-act="buyup" data-id="${u.id}">Buy</button>`}</div>`;
     };
-    const f2ups = UPGRADES.filter(u => u.f2 && (G.shopF2 ? u.id !== 'floor2' : u.id === 'floor2'));
-    body = `${G.shopF2 ? '' : `<div class="grid wide">${UPGRADES.filter(u => !u.unlockBy && !u.f2).map(card).join('')}</div>`}
-      <h3 class="up-section">🪜 ${G.shopF2 ? 'Upstairs rooms' : 'Second floor'}</h3>
-      <p class="note">${G.shopF2 ? 'Build out the rest of the second floor. Everything else is on a downstairs computer.'
-        : 'Unlocks at level 4. Buy the Second Floor here, then build the upstairs rooms from an upstairs computer.'}</p>
-      <div class="grid wide">${f2ups.map(card).join('')}</div>
-      ${G.shopF2 ? '' : `<h3 class="up-section">👥 From townsfolk</h3>
+    const fl = G.shopFloor;
+    const floorUps = fl === 'g' ? UPGRADES.filter(u => (u.f2 && u.id === 'floor2') || (u.b && u.id === 'basement'))
+      : UPGRADES.filter(u => (fl === 'f2' ? u.f2 : u.b) && u.id !== 'floor2' && u.id !== 'basement');
+    body = `${fl !== 'g' ? '' : `<div class="grid wide">${UPGRADES.filter(u => !u.unlockBy && !u.f2 && !u.b).map(card).join('')}</div>`}
+      <h3 class="up-section">${fl === 'f2' ? '🪜 Upstairs' : fl === 'b' ? '🔽 Basement' : '🏗️ More floors'}</h3>
+      <p class="note">${fl === 'g' ? 'Open a floor here, then build its rooms from that floor\'s own computer.'
+        : `Build out the ${FLOOR_NAME[fl]}. Everything else is on a ground-floor computer.`}</p>
+      <div class="grid wide">${floorUps.map(card).join('')}</div>
+      ${fl !== 'g' ? '' : `<h3 class="up-section">👥 From townsfolk</h3>
       <p class="note">Finish a townsperson's tasks to unlock their upgrade.</p>
       <div class="grid wide">${UPGRADES.filter(u => u.unlockBy && !isSecretNpc(u.unlockBy)).map(friendCard).join('')}</div>
       <h3 class="up-section">✨ Secret rewards</h3>
@@ -6550,12 +6998,12 @@ function renderShop() {
     <div class="browser">
       <div class="bbar">
         <span class="dots"><i></i><i></i><i></i></span>
-        <div class="url">🔒 spookymart.wholesale/${G.shopF2 ? 'upstairs/' : ''}${tab}</div>
+        <div class="url">🔒 spookymart.wholesale/${G.shopFloor === 'f2' ? 'upstairs/' : G.shopFloor === 'b' ? 'basement/' : ''}${tab}</div>
         <button class="bx" data-act="close" title="Close (Esc)">✕</button>
       </div>
       <div class="site">
         <div class="shead">
-          <div class="logo">SpookyMart<span>${G.shopF2 ? 'upstairs terminal' : 'wholesale for the wicked'}</span></div>
+          <div class="logo">SpookyMart<span>${G.shopFloor === 'f2' ? 'upstairs terminal' : G.shopFloor === 'b' ? 'basement terminal' : 'wholesale for the wicked'}</span></div>
           <div class="bal">Balance <b class="${S.money < 0 ? 'bad' : ''}">$${fmt(S.money)}</b></div>
         </div>
         <nav class="tabs">${Object.entries(tabs).map(([k, v]) => `<button data-tab="${k}" class="${k === tab ? 'on' : ''}">${v}</button>`).join('')}</nav>
@@ -6566,7 +7014,7 @@ function renderShop() {
   if (sb) sb.scrollTop = oldScroll;
 }
 
-function fixtureEmoji(k) { return { shelf: '🗄️', bin: '🧺', rack: '👗', crate: '📦', pad: '🟪', table: '🎉', counter: '💄', petrack: '🐾', bookcase: '📚', seance: '🔮', toychest: '🧸', labbench: '⚗️', cabinet: '🏺', neonwall: '🟣' }[k]; }
+function fixtureEmoji(k) { return { shelf: '🗄️', bin: '🧺', rack: '👗', crate: '📦', pad: '🟪', table: '🎉', counter: '💄', petrack: '🐾', bookcase: '📚', seance: '🔮', toychest: '🧸', labbench: '⚗️', cabinet: '🏺', neonwall: '🟣', workbench: '🔧', signrack: '📢' }[k]; }
 
 function setPrice(id, v) {
   if (isNaN(v)) return;
@@ -6645,7 +7093,7 @@ function onOverlayClick(e) {
       G.placing = id;
       sfx('cash');
       closeOverlay();
-      toast(ft.f2 ? `Head upstairs and click a glowing spot to place your ${ft.name}` : `Click a glowing spot to place your ${ft.name}`);
+      toast(ft.f2 || ft.b ? `Head ${FLOOR_NAME[fixFloor(ft)]} and click a glowing spot to place your ${ft.name}` : `Click a glowing spot to place your ${ft.name}`);
       break;
     }
     case 'buyup': {
@@ -6660,8 +7108,10 @@ function onOverlayClick(e) {
       if (u.expansion) S.expansions = u.expansion;
       if (u.room) {
         repathAll();
-        const west = ['room_crypt', 'room_cafe', 'room_studio', 'f2_lab', 'f2_oddities', 'f2_loft'].includes(u.id);
+        const west = ['room_crypt', 'room_cafe', 'room_studio', 'f2_lab', 'f2_oddities', 'f2_loft', 'b_print'].includes(u.id);
         const where = u.id === 'floor2' ? 'Take the new stairs next to the computer ⬆️'
+          : u.id === 'basement' ? 'Take the new stairs on the left of the back wall ⬇️'
+          : u.b ? `It's in the basement, ${west ? 'west ⬅️' : 'east ➡️'} of the Cellar`
           : u.f2 ? `It's upstairs, ${west ? 'west ⬅️' : 'east ➡️'} of the Upper Hall` : `Head ${west ? 'west ⬅️' : 'east ➡️'} through the new door`;
         toast(`${u.emoji} ${u.name.replace('Build the ', '')} is open! ${where}`, 'big');
       }
@@ -7135,6 +7585,7 @@ function showHelp() {
       <p><b>Later in the month</b> you'll get surprise visits: a health inspector, influencers who want specific items, bulk orders to deliver, and rush hours.</p>
       <p><b>Rooms:</b> build the Greenhouse, Party Hall and Showroom (east) and the Café, Crypt and Costume Studio (west) from the Upgrades tab. Each wing has its own computer. In the café, hold E at the coffee machine to brew a guest's order, then bring it to their table. The map scrolls when you walk through the side doors. Customers shop in every room but always pay at the main registers. In the Greenhouse, press E on a garden bed to plant seeds, then harvest the box when it's ripe.</p>
       <p><b>Café seating:</b> tables start with one chair each. Buy Extra Chairs from the café tab to add a second, third and fourth chair to every table, so a full café can seat 23 guests instead of 6. Chairs go wherever there's walking room around the table.</p>
+      <p><b>Basement:</b> dig it out at level 5 and take the stairs on the left of the back wall. The Cellar has 48 spots, and you can build the Workshop (key cutting and engraving, plus craft supplies), the Print Shop (custom signs and banners, plus ready-made signage) and the Break Room. Customers come down and wait at a bench for a job: hold E at the bench to run it and the fee goes on their bill at a price you set. Keep blanks and vinyl loaded the same way you load the printer. Basement stock goes damp overnight until you buy a Dehumidifier, keeping the Break Room shelf stocked makes all your staff faster and cheaper, and the Freight Lift moves you between all three floors. Hire as many 🧑‍🏭 Workshoppers as you like and they run the jobs for you.</p>
       <p><b>Second floor:</b> at level 4 you can buy the Second Floor. Walk up into the stairwell next to the computer (or press E there) to go up. Upstairs has its own Upper Hall and six rooms to build (Haunted Library, Séance Parlor, Toy Graveyard, Mad Lab, Oddities Parlor, Blacklight Loft), plus its own fixtures and stock: books, séance goods, toys, lab props, curios and neon. Upstairs stock only goes on upstairs fixtures. Customers walk up by themselves but still pay downstairs. The second floor is rent-free, since the Jack owns the building.</p>
       <p><b>Computer lab:</b> build it in the Haunted Library (level 5). Customers sit down and print, and the pages go on their bill at whatever you charge per page (press E on the printer to set it). Order Paper Reams and Ink Cartridges from an upstairs computer, carry the box over and hold E on the printer to load it. Run dry and nobody can print. From 8 AM to noon some shoppers just come in to game for free, and they sit twice as long — anyone waiting to print gets impatient and blames you, so press E on a gaming machine to ask them to wrap it up.</p>
       <p><b>Staff upstairs:</b> stockers, janitors and the rest use the stairs like everyone else and judge distance through the stairwell, so upstairs jobs get picked up properly. The 📖 Librarians (level 5, up to three) work the second floor only: they carry paper and ink boxes to the printer, move gamers along when someone is waiting, clean messes up there and help shoppers near them decide to buy. Book Carts let them shelve upstairs stock as well, Library Training speeds them up, and Personal Shopper widens their reach.</p>
@@ -7195,6 +7646,7 @@ function update(dt) {
   guardTick();
   janitorTick(dt);
   librarianTick(dt);
+  workerTick(dt);
   baristaTick(dt);
   messTick(dt);
   totTick(dt);
@@ -7222,7 +7674,7 @@ function update(dt) {
 // ------------------------------------------------------------
 const DPR = Math.min(2, window.devicePixelRatio || 1);
 const W = COLS * T, H = ROWS * T, VW = VIEW_COLS * T;
-let lc, lx, vig, bg2;
+let lc, lx, vig, bg2, bg3;
 const spriteCache = new Map();
 
 function makeCanvas(w = W, h = H) {
@@ -7941,6 +8393,83 @@ function buildBackground() {
   emoji('🕸️', -18.5 * T, 1.6 * T, 22, b);
   b.globalAlpha = 1;
 
+  // ================= BASEMENT =================
+  [bg3, b] = makeCanvas(W + LEFT * T, H);
+  b.translate(LEFT * T, 0);
+  b.fillStyle = '#0a0810';
+  b.fillRect(-LEFT * T, 0, W + LEFT * T, H);
+  const bFloor = (x0, y0, x1, y1) => {
+    // poured concrete with stains and control joints
+    for (let y = y0 * T; y < (y1 + 1) * T; y += 20) for (let x = x0 * T; x < (x1 + 1) * T; x += 20) {
+      const s = 34 + R() * 10 | 0;
+      b.fillStyle = `rgb(${s},${s - 2},${s + 4})`;
+      b.fillRect(x, y, 20, 20);
+    }
+    b.strokeStyle = 'rgba(0,0,0,0.35)'; b.lineWidth = 1;
+    for (let x = x0 * T + 3 * T; x < (x1 + 1) * T; x += 3 * T) { b.beginPath(); b.moveTo(x, y0 * T); b.lineTo(x, (y1 + 1) * T); b.stroke(); }
+    for (let y = y0 * T + 3 * T; y < (y1 + 1) * T; y += 3 * T) { b.beginPath(); b.moveTo(x0 * T, y); b.lineTo((x1 + 1) * T, y); b.stroke(); }
+    for (let i = 0; i < (x1 - x0) * 1.5; i++) ellipse(b, rand(x0 * T, (x1 + 1) * T), rand(y0 * T, (y1 + 1) * T), 8 + R() * 22, 5 + R() * 12, 'rgba(60,70,90,0.12)');
+    aoBox(x0 * T, y0 * T, (x1 - x0 + 1) * T, (y1 - y0 + 1) * T);
+  };
+  B_AREAS.forEach(([x0, y0, x1, y1]) => bFloor(x0, y0, x1, y1));
+  // brick walls
+  for (let y = 0; y <= 12; y++) for (let x = -LEFT; x < COLS; x++) {
+    if (baseAt(x + DN, y) !== 1) continue;
+    const px = x * T, py = y * T;
+    b.fillStyle = '#1a1118'; b.fillRect(px, py, T, T);
+    for (let r = 0; r < 5; r++) {
+      const off = r % 2 ? 0 : 10;
+      for (let c2 = 0; c2 < 3; c2++) {
+        const bx = px + off + c2 * 14 - 6;
+        if (bx + 13 < px || bx > px + T) continue;
+        const s = 46 + R() * 16 | 0;
+        b.fillStyle = `rgb(${s + 10},${s - 4},${s - 2})`;
+        b.fillRect(Math.max(px, bx), py + r * 8 + 1, Math.min(13, px + T - Math.max(px, bx)), 6);
+      }
+    }
+    b.fillStyle = 'rgba(120,160,200,0.05)'; b.fillRect(px, py, T, 3);
+  }
+  // pipes along the ceiling row and damp patches
+  b.fillStyle = '#4a4a52'; b.fillRect(T, 14, 22 * T, 5);
+  b.fillStyle = '#6a6a74'; b.fillRect(T, 14, 22 * T, 1.5);
+  for (let x = 2 * T; x < 22 * T; x += 4 * T) { b.fillStyle = '#7a6a54'; b.fillRect(x, 11, 7, 11); }
+  [[24, 42], [-19, -1]].forEach(([a, c2]) => {
+    b.fillStyle = '#4a4a52'; b.fillRect(a * T, 14, (c2 - a + 1) * T, 5);
+    b.fillStyle = '#6a6a74'; b.fillRect(a * T, 14, (c2 - a + 1) * T, 1.5);
+  });
+  for (let i = 0; i < 26; i++) ellipse(b, rand(-18 * T, 42 * T), rand(T, 11.6 * T), 10 + R() * 26, 6 + R() * 12, 'rgba(90,130,120,0.07)');
+  // strip lights on the ceiling
+  [[6, 2], [17, 2], [6, 9], [17, 9], [30, 3], [37, 3], [-14, 3], [-6, 3], [30, 9], [37, 9]].forEach(([x, y]) => {
+    b.fillStyle = 'rgba(255,255,220,0.1)';
+    b.fillRect(x * T - 26, y * T - 4, 52, 8);
+    b.fillStyle = 'rgba(255,255,230,0.55)';
+    b.fillRect(x * T - 22, y * T - 2, 44, 3);
+  });
+  B_ROOMS.forEach((Rm, i) => {
+    const [dx, dy] = Rm.door;
+    b.fillStyle = '#2a2028'; b.fillRect(dx * T, dy * T, T, T);
+    b.fillStyle = '#4a3a44';
+    if (dx === 23 || dx === 0) b.fillRect(dx * T + 4, dy * T, 4, T); else b.fillRect(dx * T, dy * T + 4, T, 4);
+  });
+  // signs
+  b.save();
+  b.textAlign = 'center'; b.textBaseline = 'middle'; b.shadowBlur = 9;
+  b.font = '24px Creepster, cursive';
+  b.shadowColor = '#7fd8ff'; b.fillStyle = '#d8f2ff'; b.fillText('THE CELLAR', 6 * T, T / 2 + 1);
+  b.font = '20px Creepster, cursive';
+  b.shadowColor = '#ffd166'; b.fillStyle = '#ffe9b0'; b.fillText('THE WORKSHOP', 34 * T, T / 2 + 1);
+  b.shadowColor = '#9affc8'; b.fillStyle = '#d8ffe8'; b.fillText('THE PRINT SHOP', -10 * T, T / 2 + 1);
+  b.font = '17px Creepster, cursive';
+  b.shadowColor = '#ff9ad2'; b.fillStyle = '#ffd9ee'; b.fillText('THE BREAK ROOM', 33 * T, 6 * T + T / 2 + 1);
+  b.restore();
+  // basement desk + props
+  COMPUTERS.filter(cp => cp.b).forEach(cp => drawDesk(cp, DN));
+  [[1.5, 11.4, '🧯', 16], [22.5, 11.4, '🪣', 16], [22.5, 1.6, '🧰', 16], [2.6, 1.5, '📦', 16], [4.2, 1.5, '📦', 14],
+   [24.6, 1.5, '🧰', 16], [42.4, 1.5, '🪚', 15], [42.4, 4.6, '🪵', 16], [24.6, 4.6, '🔧', 14],
+   [-18.4, 1.5, '🖨️', 16], [-1.6, 1.5, '📐', 15], [-1.6, 4.6, '📦', 15], [-18.4, 4.6, '🎞️', 14],
+   [25, 7.5, '🪑', 16], [27, 7.5, '🪑', 16], [26, 8.4, '🍽️', 14], [41, 7.6, '🧊', 18], [39, 7.6, '☕', 14], [41, 11.4, '🗑️', 15]]
+    .forEach(([x, y, e, s]) => emoji(e, x * T, y * T, s, b));
+
   // vignette
   let v;
   [vig, v] = makeCanvas(VW, H);
@@ -8221,7 +8750,39 @@ BODY.neonwall = (c, it, n) => {
   }
 };
 
-const FIX_SLOTS = { shelf: 12, bin: 6, rack: 4, crate: 6, pad: 0, table: 8, counter: 8, petrack: 4, bookcase: 12, seance: 8, toychest: 6, labbench: 6, cabinet: 6, neonwall: 8 };
+BODY.workbench = (c, it, n) => {
+  ellipse(c, 20, 37, 19, 4, 'rgba(0,0,0,0.45)');
+  c.fillStyle = '#2a2430'; c.fillRect(3, -6, 34, 16);
+  c.fillStyle = '#6a6472';
+  for (let k = 0; k < 4; k++) c.fillRect(7 + k * 8, -4, 2, 12);
+  c.fillStyle = '#7a5a34'; c.fillRect(2, 12, 36, 8);
+  c.fillStyle = '#9a7548'; c.fillRect(2, 12, 36, 2);
+  c.fillStyle = '#4a3a24'; c.fillRect(4, 20, 32, 5);
+  c.fillStyle = '#3a3a44'; c.fillRect(6, 25, 4, 11); c.fillRect(30, 25, 4, 11);
+  if (it) {
+    const pos = [[9, 7], [20, 6], [31, 7], [13, 0], [27, 0], [20, -3]];
+    for (let i = 0; i < n; i++) emoji(it.emoji, pos[i][0], pos[i][1], 11, c);
+  } else emoji('🔧', 20, 6, 11, c);
+};
+BODY.signrack = (c, it, n) => {
+  ellipse(c, 20, 37, 17, 4, 'rgba(0,0,0,0.45)');
+  c.fillStyle = '#4a4552'; c.fillRect(6, -12, 3, 46); c.fillRect(31, -12, 3, 46);
+  c.fillStyle = '#5a5566'; c.fillRect(6, -12, 28, 3); c.fillRect(6, 12, 28, 2.5);
+  if (it) {
+    for (let i = 0; i < n; i++) {
+      const row = i < 3 ? 0 : 1;
+      const x = 12 + (i % 3) * 8;
+      c.fillStyle = ['#d8c9a8', '#c8d8e8', '#e8d0c8'][i % 3];
+      c.fillRect(x - 3, row ? 16 : -8, 7, 18);
+      emoji(it.emoji, x, row ? 24 : 0, 9, c);
+    }
+  } else {
+    c.fillStyle = '#d8c9a8'; c.fillRect(12, -8, 16, 18);
+    c.fillStyle = '#8a7a5a'; c.fillRect(14, -4, 12, 2); c.fillRect(14, 1, 9, 2);
+  }
+};
+
+const FIX_SLOTS = { shelf: 12, bin: 6, rack: 4, crate: 6, pad: 0, table: 8, counter: 8, petrack: 4, bookcase: 12, seance: 8, toychest: 6, labbench: 6, cabinet: 6, neonwall: 8, workbench: 6, signrack: 6 };
 
 function drawFixture(f) {
   const px = f.x * T, py = f.y * T, ft = FIXTURE_TYPES[f.type];
@@ -8264,7 +8825,8 @@ function drawFixture(f) {
 // ---------- rooms + garden ----------
 function drawRooms() {
   drawRoomList(ROOMS, 0, roomOpen);
-  if (up('floor2') && G.camX > F2_X0 * T - VW) drawRoomList(F2_ROOMS, UP, f2Open);
+  if (up('floor2') && G.camX > F2_X0 * T - VW && G.camX < B_X0 * T) drawRoomList(F2_ROOMS, UP, f2Open);
+  if (up('basement') && G.camX > B_X0 * T - VW) drawRoomList(B_ROOMS, DN, bOpen);
 }
 function drawRoomList(list, sh, isOpen) {
   list.forEach((Rm, i) => {
@@ -8298,10 +8860,11 @@ function drawRoomList(list, sh, isOpen) {
 
 // stairwell in the back wall (both floors)
 function drawStairs() {
-  const open = up('floor2');
-  [[STAIRS_X, false], [STAIRS_X + UP, true]].forEach(([sx, down]) => {
+  [[STAIRS_X, false, 'floor2'], [STAIRS_X + UP, true, 'floor2'], [CELLAR_X, true, 'basement'], [CELLAR_X + DN, false, 'basement']].forEach(([sx, down, u]) => {
+    const open = up(u);
     const px = sx * T;
-    if (px + T < G.camX || px > G.camX + VW || (down && !open)) return;
+    if (px + T < G.camX || px > G.camX + VW) return;
+    if (!open && sx >= F2_X0) return;
     ctx.fillStyle = '#07040b'; ctx.fillRect(px + 1, 0, T - 2, T);
     for (let i = 0; i < 6; i++) {
       const sy = T - (i + 1) * 6.4;
@@ -8418,6 +8981,50 @@ function drawLab() {
   ctx.restore();
 }
 
+// benches, break room shelf and the freight lift
+function drawBasement() {
+  if (!up('basement') || G.camX < B_X0 * T - VW) return;
+  BENCHES.forEach(bn => {
+    if (!benchOn(bn)) return;
+    const px = (bn.tile[0] + DN) * T, py = bn.tile[1] * T;
+    ctx.fillStyle = '#2e2a34'; ctx.fillRect(px + 1, py + 4, T - 2, T - 6);
+    ctx.fillStyle = '#4a4552'; ctx.fillRect(px + 1, py + 4, T - 2, 5);
+    ctx.fillStyle = '#6a6472'; ctx.fillRect(px + 5, py + 10, T - 10, 16);
+    ctx.fillStyle = '#23202a'; ctx.fillRect(px + 8, py + 13, T - 16, 10);
+    emoji(bn.emoji, px + T / 2, py + 18, 13);
+    const c = G.benchUse[bn.id];
+    const prog = (G.benchProg && G.benchProg[bn.id]) || 0;
+    if (c && prog > 0) {
+      const w = benchWork(bn, c.jobId);
+      ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(px + 5, py - 8, T - 10, 5);
+      ctx.fillStyle = '#7ee7a0'; ctx.fillRect(px + 5, py - 8, (T - 10) * clamp(prog / w, 0, 1), 5);
+    }
+    const sup = benchSupply(bn);
+    ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(px + 5, py + T - 6, T - 10, 3);
+    ctx.fillStyle = sup > 0 ? '#ffd166' : '#b8433a'; ctx.fillRect(px + 5, py + T - 6, (T - 10) * clamp(sup / 120, 0, 1), 3);
+    if (sup <= 0) emoji('❗', px + T - 6, py + 4, 11);
+  });
+  if (up('b_break')) {
+    const px = (PANTRY[0] + DN) * T, py = PANTRY[1] * T;
+    ctx.fillStyle = '#3a2e2a'; ctx.fillRect(px + 2, py + 6, T - 4, T - 10);
+    ctx.fillStyle = '#5a4a40'; ctx.fillRect(px + 2, py + 6, T - 4, 4); ctx.fillRect(px + 2, py + 20, T - 4, 4);
+    emoji('🍜', px + 13, py + 15, 11); emoji('☕', px + 27, py + 15, 11);
+    ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(px + 5, py + T - 6, T - 10, 3);
+    ctx.fillStyle = S.shop.brk > 0 ? '#9ad7c8' : '#b8433a'; ctx.fillRect(px + 5, py + T - 6, (T - 10) * clamp(S.shop.brk / 60, 0, 1), 3);
+  }
+  if (up('freightlift')) {
+    [0, UP, DN].forEach(off => {
+      const px = (LIFT[0] + off) * T, py = LIFT[1] * T;
+      if (px + T < G.camX || px > G.camX + VW) return;
+      if (off === UP && !up('floor2')) return;
+      ctx.fillStyle = '#20202a'; ctx.fillRect(px + 1, py + 2, T - 2, T - 4);
+      ctx.fillStyle = '#5a5a6a'; ctx.fillRect(px + 1, py + 2, T - 2, 3); ctx.fillRect(px + 1, py + T - 5, T - 2, 3);
+      ctx.fillStyle = '#8a8a9a'; ctx.fillRect(px + T / 2 - 1, py + 4, 2, T - 8);
+      emoji('🛗', px + T / 2, py + T / 2, 15);
+    });
+  }
+}
+
 function drawPortalFx() {
   if (!G.portalFx) return;
   if (Settings.get('effects') <= 0) { G.portalFx = 0; return; }
@@ -8483,6 +9090,14 @@ function drawMesses() {
     ctx.globalAlpha = 1;
   });
 }
+function drawWorker(w) {
+  const bob = w.moving ? Math.abs(Math.sin(G.tick * 11)) * -3 : 0;
+  drawStaff(w.x, w.y + bob, w.face);
+  if (w.carry) drawBox(w.x - 13, w.y - 26 + bob, w.carry.item, w.carry.qty);
+  else emoji(w.state === 'working' ? '🔧' : '🧰', w.x + 12, w.y + 2 + bob, 12);
+  if (w.bubbleT > 0) drawBubble(w.bubble, w.x, w.y - 24);
+}
+
 function drawLibrarian(L) {
   const bob = L.moving ? Math.abs(Math.sin(G.tick * 11)) * -3 : 0;
   drawStaff(L.x, L.y + bob, L.face);
@@ -8648,7 +9263,7 @@ function burst(x, y, n, type) {
 
 function updateParticles(dt) {
   if (G.parts.length < 160) {
-    if (Settings.get('effects') > 0 && Math.random() < dt * 5) G.parts.push({ type: 'dust', x: G.scene === 'night' ? -99 : rand(T, W - T) + (onUpstairs() ? UP * T : 0), y: rand(T, 12 * T), vx: rand(-4, 4), vy: rand(-5, -1), life: rand(4, 8), size: rand(0.8, 1.7) });
+    if (Settings.get('effects') > 0 && Math.random() < dt * 5) G.parts.push({ type: 'dust', x: G.scene === 'night' ? -99 : rand(T, W - T) + floorOff(playerFloor()) * T, y: rand(T, 12 * T), vx: rand(-4, 4), vy: rand(-5, -1), life: rand(4, 8), size: rand(0.8, 1.7) });
     if (Settings.get('effects') > 0 && Math.random() < dt * 1.3) G.parts.push({ type: 'leaf', x: rand(worldMin() - 10, worldW()), y: 13 * T - rand(0, 16), vx: rand(10, 28), vy: rand(10, 18), life: rand(6, 10), rest: rand(13.2 * T, H - 6), rot: rand(0, 6), vr: rand(-3, 3), color: pick(LEAF_COLS) });
   }
   for (const p of G.parts) {
@@ -8745,6 +9360,17 @@ function lightList() {
   roomLights.push([ROOMS.findIndex(r => r.id === 'studio'), [[-15, 9], [-12, 11]], '255,140,210']);
   roomLights.forEach(([i, pts, col]) => { if (roomOpen(i)) pts.forEach(([x, y]) => L.push({ x: x * T, y: y * T, r: 200, a: 0.75, c: col })); });
   L.push({ x: 30.5 * T, y: 12.6 * T, r: 190, a: 0.95, c: '255,210,130' });
+  if (up('basement')) {
+    const X = x => (x + DN) * T;
+    const bright = up('cellarlight') ? 1 : 0.72;
+    [[6, 2], [17, 2], [6, 9], [17, 9]].forEach(([x, y]) => L.push({ x: X(x), y: y * T, r: 230, a: 0.7 * bright, c: '210,235,255' }));
+    L.push({ x: X(21.8), y: 1.1 * T, r: 80, a: 0.75, c: '130,120,255' });
+    L.push({ x: (CELLAR_X + DN + 0.5) * T, y: 0.6 * T, r: 70, a: 0.7, c: '255,200,120' });
+    L.push({ x: (CELLAR_X + 0.5) * T, y: 0.6 * T, r: 70, a: 0.7, c: '255,200,120' });
+    if (up('b_workshop')) [[30, 3], [37, 3]].forEach(([x, y]) => L.push({ x: X(x), y: y * T, r: 220, a: 0.8 * bright, c: '255,225,170' }));
+    if (up('b_print')) [[-14, 3], [-6, 3]].forEach(([x, y]) => L.push({ x: X(x), y: y * T, r: 220, a: 0.8 * bright, c: '190,255,220' }));
+    if (up('b_break')) [[30, 9], [37, 9]].forEach(([x, y]) => L.push({ x: X(x), y: y * T, r: 210, a: 0.8 * bright, c: '255,200,220' }));
+  }
   if (up('floor2')) {
     const X = x => (x + UP) * T;
     [[6, 4.5], [17, 4.5], [6, 9], [17, 9], [12, 7]].forEach(([x, y]) => L.push({ x: X(x), y: y * T, r: 210, a: 0.66, c: '255,195,140' }));
@@ -8810,7 +9436,7 @@ function drawFog() {
   if (Settings.get('effects') <= 0) return;
   if (!S.upgrades.fog) return;
   for (let i = 0; i < 6; i++) {
-    const fx = ((G.tick * (10 + i * 2) + i * 211) % (W + 240)) - 120 + (onUpstairs() ? UP * T : 0);
+    const fx = ((G.tick * (10 + i * 2) + i * 211) % (W + 240)) - 120 + floorOff(playerFloor()) * T;
     const fy = 2 * T + i * 1.8 * T + Math.sin(G.tick * 0.5 + i) * 10;
     const g = ctx.createRadialGradient(fx, fy, 0, fx, fy, 110);
     g.addColorStop(0, 'rgba(190,170,230,0.13)');
@@ -8899,7 +9525,8 @@ function draw() {
   ctx.clearRect(0, 0, VW, H);
   ctx.translate(-Math.round(G.camX), 0);
   ctx.drawImage(bg, -LEFT * T, 0, W + LEFT * T, H);
-  if (bg2 && G.camX > F2_X0 * T - VW) ctx.drawImage(bg2, F2_X0 * T, 0, W + LEFT * T, H);
+  if (bg2 && G.camX > F2_X0 * T - VW && G.camX < B_X0 * T) ctx.drawImage(bg2, F2_X0 * T, 0, W + LEFT * T, H);
+  if (bg3 && G.camX > B_X0 * T - VW) ctx.drawImage(bg3, B_X0 * T, 0, W + LEFT * T, H);
   drawStairs();
   drawRooms();
   drawPlots();
@@ -8938,6 +9565,7 @@ function draw() {
   G.baristas.forEach(bb => actors.push({ y: bb.y, d: () => drawBarista(bb) }));
   G.janitors.forEach(j => actors.push({ y: j.y, d: () => drawJanitor(j) }));
   G.librarians.forEach(L => actors.push({ y: L.y, d: () => drawLibrarian(L) }));
+  G.workers.forEach(w => actors.push({ y: w.y, d: () => drawWorker(w) }));
   G.guards.forEach((gd, i) => actors.push({ y: gd.y, d: () => { drawStaff(gd.x, gd.y, ['💂', '👮‍♀️'][i]); } }));
   if (S.upgrades.candybowl) actors.push({ y: 13 * T, d: () => emoji('🥣', 11.5 * T, 13 * T + 4, 16) });
   for (let i = 0; i < cnt('greeter'); i++) {
@@ -8954,6 +9582,7 @@ function draw() {
   drawFog();
   drawCafeGloom();
   drawLab();
+  drawBasement();
   drawPortalFx();
   drawUpstairsFX();
   if (G.rain.length) {
@@ -8980,7 +9609,7 @@ function draw() {
   // placement ghost
   if (G.placing && G.mouse.x >= 0) {
     const tx = Math.floor(G.mouse.x / T), ty = Math.floor(G.mouse.y / T);
-    if (tx >= -LEFT && ty >= 0 && tx < UP + COLS && ty < ROWS) {
+    if (tx >= -LEFT && ty >= 0 && tx < DN + COLS && ty < ROWS) {
       const ok = canPlace(tx, ty);
       ctx.globalAlpha = ok ? 0.75 : 0.35;
       blit(cachedSprite(`${G.placing}||0`, c => BODY[G.placing](c, null, 0)), tx * T, ty * T);
@@ -9010,10 +9639,11 @@ function draw() {
   ctx.font = '600 13px Fredoka, sans-serif';
   ctx.textBaseline = 'middle';
   const pulse = 0.55 + 0.35 * Math.sin(G.tick * 3);
-  const f2 = onUpstairs(), sh = f2 ? UP * T : 0;
+  const fl = playerFloor(), sh = floorOff(fl) * T;
   const plx = G.player.x - sh, cmx = G.camX - sh;
-  const rlist = f2 ? F2_ROOMS : ROOMS, ropen = f2 ? f2Open : roomOpen;
-  const hall = f2 ? 'Upper Hall' : 'Main store';
+  const rlist = fl === 'f2' ? F2_ROOMS : fl === 'b' ? B_ROOMS : ROOMS;
+  const ropen = fl === 'f2' ? f2Open : fl === 'b' ? bOpen : roomOpen;
+  const hall = fl === 'f2' ? 'Upper Hall' : fl === 'b' ? 'The Cellar' : 'Main store';
   const eastOpen = rlist.some((Rm, i) => Rm.area[0] > 23 && ropen(i));
   if (eastOpen && cmx < W - VW - 20 && plx >= 0 && plx < 24 * T) {
     ctx.fillStyle = `rgba(20,11,28,${0.75})`;
@@ -9044,11 +9674,11 @@ function draw() {
     ctx.textAlign = 'center';
     ctx.fillText(`${hall} ➡️`, VW - 66, H / 2);
   }
-  if (f2) {
+  if (fl !== 'g') {
     ctx.fillStyle = 'rgba(20,11,28,0.8)';
     rrect(ctx, VW / 2 - 70, H - 30, 140, 22, 11); ctx.fill();
     ctx.fillStyle = '#ffd98a'; ctx.textAlign = 'center';
-    ctx.fillText('🪜 Second floor', VW / 2, H - 19);
+    ctx.fillText(fl === 'f2' ? '🪜 Second floor' : '🔽 Basement', VW / 2, H - 19);
   }
   if (G.fade > 0) { ctx.fillStyle = `rgba(0,0,0,${G.fade})`; ctx.fillRect(0, 0, VW, H); }
 }
@@ -9102,7 +9732,7 @@ function updateHUD() {
   $('hud-sandbox').classList.toggle('hidden', !S.sandbox);
 
   let ptxt = '';
-  if (G.placing && FIXTURE_TYPES[G.placing].f2 && !onUpstairs()) ptxt = `🪜 Your ${FIXTURE_TYPES[G.placing].name} goes upstairs. Take the stairs next to the computer.`;
+  if (G.placing && fixFloor(FIXTURE_TYPES[G.placing]) !== playerFloor()) ptxt = `${FIXTURE_TYPES[G.placing].b ? '🔽' : '🪜'} Your ${FIXTURE_TYPES[G.placing].name} goes ${FLOOR_NAME[fixFloor(FIXTURE_TYPES[G.placing])]}. Take the stairs in the back wall.`;
   else if (G.placing) ptxt = isTouch ? `🔨 Tap a glowing spot to place your ${FIXTURE_TYPES[G.placing].name} (🔨 button to cancel)` : `🔨 Click a glowing spot to place your ${FIXTURE_TYPES[G.placing].name}   (Esc to finish later, P to resume)`;
   else if (G.info) ptxt = G.info.none ? G.info.text : `${isTouch ? '✋' : '[E]'} ${G.info.text}`;
   else if (S.pendingFixtures.length) ptxt = `You have ${S.pendingFixtures.length} fixture(s) to place. ${isTouch ? 'Tap 🔨' : 'Press P'}.`;
